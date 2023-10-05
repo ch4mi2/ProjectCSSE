@@ -1,7 +1,20 @@
-export const Home = 'Home';
+const Home = 'Home';
+const Profile = 'Profile';
+const Login = 'Login';
+const Register = 'Register';
 
-export const Profile = 'Profile';
+const SiteManager = 'Site Manager';
+const ProcurementManager = 'Procurement Manager';
+const Supplier = 'Supplier';
+const Management = 'Management';
 
-export const Login = 'Login';
-
-export const Register = 'Register';
+export {
+  Home,
+  Profile,
+  Login,
+  Register,
+  SiteManager,
+  ProcurementManager,
+  Supplier,
+  Management,
+};

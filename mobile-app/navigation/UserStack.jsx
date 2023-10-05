@@ -1,69 +1,25 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import ProfileScreen from '../screens/ProfileScreen';
-import ProfileIcon from 'react-native-vector-icons/EvilIcons';
-import LeaderBoardIcon from 'react-native-vector-icons/SimpleLineIcons';
+import React, { useState, useEffect } from 'react';
+import { SiteManager, Supplier } from '../constants/RouteConstants';
+import SiteManagerStack from './SiteManagerStack';
+import SupplierStack from './SupplierStack';
 
-const Tab = createBottomTabNavigator();
+const UserStack = ({ user }) => {
+  const uid = user.uid;
+  const [occupation, setOccupation] = useState(null);
 
-const UserStack = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarStyle: {
-            backgroundColor: '#0284C7',
-            height: 70,
-            paddingBottom: 10,
-            borderTopLeftRadius: 40,
-            borderTopRightRadius: 40,
-            borderTopWidth: 3,
-            borderLeftWidth: 3,
-            borderRightWidth: 3,
-            borderBottomWidth: 0,
-            borderColor: '#000',
-          },
-          tabBarLabelStyle: {
-            fontWeight: 'bold',
-            color: '#000',
-            fontSize: 14,
-          },
-          tabBarHideOnKeyboard: true,
-        })}
-        sceneContainerStyle={{ backgroundColor: '#F0F9FF' }}
-      >
-        <Tab.Screen
-          name={''}
-          component={''}
-          options={{
-            tabBarIcon: () => <LeaderBoardIcon name="chart" size={30} />,
-          }}
-        />
-        <Tab.Screen
-          name={''}
-          component={''}
-          options={{
-            tabBarIcon: () => <ProfileIcon name="user" size={48} />,
-          }}
-        />
-        <Tab.Screen
-          name={''}
-          component={''}
-          options={{
-            tabBarIcon: () => <ProfileIcon name="user" size={48} />,
-          }}
-        />
-        <Tab.Screen
-          name={''}
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: () => <ProfileIcon name="user" size={48} />,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+  useEffect(() => {
+    // fetch users occupation
+    const fetchOccupation = async () => {
+      setOccupation(SiteManager);
+    };
+
+    fetchOccupation();
+  }, []);
+
+  return occupation === SiteManager ? (
+    <SiteManagerStack />
+  ) : occupation === Supplier ? (
+    <SupplierStack />
+  ) : null;
 };
-
 export default UserStack;

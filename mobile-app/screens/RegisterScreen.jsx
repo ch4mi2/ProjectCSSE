@@ -6,7 +6,12 @@ import MainButton from '../components/common/buttons/MainButton';
 import SecondaryButton from '../components/common/buttons/SecondaryButton';
 import DismissibleAlert from '../components/common/alerts/DismissibleAlert';
 import { Picker } from '@react-native-picker/picker';
-import data from '../assets/data/occupation';
+import {
+  SiteManager,
+  ProcurementManager,
+  Supplier,
+  Management,
+} from '../constants/RouteConstants';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -22,6 +27,12 @@ const RegisterScreen = ({ navigation }) => {
     messageStyles: 'text-red-600 font-bold',
   });
   const [occupation, setOccupation] = useState();
+  const occupationList = [
+    SiteManager,
+    ProcurementManager,
+    Supplier,
+    Management,
+  ];
 
   const handleSignUp = () => {
     if (!email || !password || !fullName || !rePassword) {
@@ -104,7 +115,7 @@ const RegisterScreen = ({ navigation }) => {
             selectionColor={'#0284C7'}
             onValueChange={(itemValue) => setOccupation(itemValue)}
           >
-            {data.occupation.map((occupation, index) => (
+            {occupationList.map((occupation, index) => (
               <Picker.Item key={index} label={occupation} value={occupation} />
             ))}
           </Picker>

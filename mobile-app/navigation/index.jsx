@@ -19,5 +19,5 @@ export default function RootNavigation() {
     return unsubscribeFromAuthStateChanged;
   }, []);
 
-  return user ? <UserStack /> : <GuestStack />;
+  return user ? <UserStack user={user} /> : <GuestStack />;
 }
