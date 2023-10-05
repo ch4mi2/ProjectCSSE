@@ -2,12 +2,12 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import ProfileScreen from '../screens/ProfileScreen';
-import ProfileIcon from 'react-native-vector-icons/EvilIcons';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import OrderIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from '../screens/SiteManager/Home';
 import { View } from 'react-native';
 import SiteManagerHeader from '../components/header/SIteManagerHeader';
-
+import NotificationIcon from 'react-native-vector-icons/Ionicons';
 const Tab = createBottomTabNavigator();
 
 const SiteManagerView = ({ user }) => {
@@ -23,6 +23,7 @@ const SiteManagerView = ({ user }) => {
             fontWeight: 'bold',
             color: '#000',
             fontSize: 14,
+            paddingBottom: 10,
           },
           header: () => <SiteManagerHeader user={user} />,
           tabBarHideOnKeyboard: true,
@@ -33,21 +34,25 @@ const SiteManagerView = ({ user }) => {
           name={'home'}
           component={Home}
           options={{
-            tabBarIcon: () => <Icon name="home" size={30} />,
+            tabBarIcon: () => <Icon name="home" size={38} />,
           }}
         />
         <Tab.Screen
           name={'orders'}
           component={Home}
           options={{
-            tabBarIcon: () => <ProfileIcon name="user" size={48} />,
+            tabBarIcon: () => (
+              <OrderIcon name="clipboard-text-clock" size={35} />
+            ),
           }}
         />
         <Tab.Screen
           name={'notifications'}
           component={Home}
           options={{
-            tabBarIcon: () => <ProfileIcon name="user" size={48} />,
+            tabBarIcon: () => (
+              <NotificationIcon name="notifications" size={35} />
+            ),
           }}
         />
         <Tab.Screen
