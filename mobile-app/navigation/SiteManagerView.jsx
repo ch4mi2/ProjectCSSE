@@ -5,9 +5,10 @@ import ProfileScreen from '../screens/ProfileScreen';
 import OrderIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from '../screens/SiteManager/Home';
-import { View } from 'react-native';
+import Orders from '../screens/SiteManager/Orders';
 import SiteManagerHeader from '../components/header/SIteManagerHeader';
 import NotificationIcon from 'react-native-vector-icons/Ionicons';
+
 const Tab = createBottomTabNavigator();
 
 const SiteManagerView = ({ user }) => {
@@ -39,7 +40,7 @@ const SiteManagerView = ({ user }) => {
         />
         <Tab.Screen
           name={'orders'}
-          component={Home}
+          component={Orders}
           options={{
             tabBarIcon: () => (
               <OrderIcon name="clipboard-text-clock" size={35} />
