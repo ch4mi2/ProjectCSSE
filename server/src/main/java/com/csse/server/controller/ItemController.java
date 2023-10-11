@@ -1,6 +1,6 @@
 package com.csse.server.controller;
 
-import com.csse.server.ItemRepository;
+import com.csse.server.repository.ItemRepository;
 import com.csse.server.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
