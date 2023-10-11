@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { SiteManager, Supplier } from '../constants/RouteConstants';
-import SiteManagerStack from './SiteManagerStack';
-import SupplierStack from './SupplierStack';
+import SiteManagerView from './SiteManagerView';
+import SupplierView from './SupplierView';
 
 const UserStack = ({ user }) => {
   const uid = user.uid;
-  const [occupation, setOccupation] = useState(null);
+  const [userDetails, setUserDetails] = useState({
+    name: null,
+    occupation: null,
+    email: null,
+    img: null,
+  });
 
   useEffect(() => {
     // fetch users occupation
     const fetchOccupation = async () => {
-      setOccupation(SiteManager);
+      setUserDetails({
+        name: 'John Doe',
+        occupation: SiteManager,
+        email: 'john@example.com',
+        img: require('../assets/images/DefaultUser.png'),
+      });
     };
 
     fetchOccupation();
   }, []);
 
-  return occupation === SiteManager ? (
-    <SiteManagerStack />
-  ) : occupation === Supplier ? (
-    <SupplierStack />
+  return userDetails.occupation === SiteManager ? (
+    <SiteManagerView user={userDetails} />
+  ) : userDetails.occupation === Supplier ? (
+    <SupplierView />
   ) : null;
 };
 export default UserStack;

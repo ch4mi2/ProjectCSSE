@@ -7,7 +7,7 @@ import ProfileIcon from 'react-native-vector-icons/EvilIcons';
 // edit this code. This is added only as a placeholder
 const Tab = createBottomTabNavigator();
 
-const SiteManagerStack = () => {
+const SupplierView = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -45,4 +45,4 @@ const SiteManagerStack = () => {
   );
 };
 
-export default SiteManagerStack;
+export default SupplierView;

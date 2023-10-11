@@ -1,14 +1,10 @@
 package com.csse.server.service;
-
 import com.csse.server.model.Item;
 import com.csse.server.model.PolicyAndProcedure;
 import com.csse.server.repository.PolicyAndProcedureRepository;
-import jakarta.annotation.PostConstruct;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
