@@ -20,7 +20,7 @@ public class PolicyAndProcedureService {
 
     public PolicyAndProcedureService() {
     }
-    @Autowired
+
     public PolicyAndProcedureService(AddPolicy addPolicy) {
         this.addPolicy = addPolicy;
     }
