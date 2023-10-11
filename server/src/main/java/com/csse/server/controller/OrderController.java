@@ -47,7 +47,7 @@ public class OrderController {
         return new ResponseEntity<Optional<Order>>(orderService.singleOrder(id), HttpStatus.OK);
     }
 
-    @PostMapping("/item")
+    @PostMapping
     public ResponseEntity<Order> createOrder(@RequestParam Order payload) {
         return new ResponseEntity<Order>(orderService.addOrder(payload), HttpStatus.valueOf(201));
     }

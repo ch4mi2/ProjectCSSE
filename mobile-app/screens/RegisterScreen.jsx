@@ -12,6 +12,12 @@ import {
   Supplier,
   Management,
 } from '../constants/RouteConstants';
+import {
+  CreateManagementURI,
+  CreateProcurementManagerURI,
+  CreateSiteManagerURI,
+  CreateSupplierURI,
+} from '../constants/URI';
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -53,8 +59,47 @@ const RegisterScreen = ({ navigation }) => {
       return;
     } else {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
+
+          try {
+            const uid = auth.currentUser.uid;
+
+            //crete user mongodb
+            const empId =
+              occupation === SiteManager
+                ? `MGR-${uid}`
+                : occupation === Supplier
+                ? `SUP-${uid}`
+                : occupation === ProcurementManager
+                ? `PM-${uid}`
+                : `MGT-${uid}`;
+            const user = { fullName, empId, email };
+
+            const response = await fetch(
+              occupation === SiteManager
+                ? CreateSiteManagerURI
+                : occupation === ProcurementManager
+                ? CreateProcurementManagerURI
+                : occupation === Supplier
+                ? CreateSupplierURI
+                : CreateManagementURI,
+              {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+              }
+            );
+
+            if (response.ok) {
+              console.log(`${occupation} Added`);
+            }
+          } catch (error) {
+            console.log(error);
+          }
           console.log('Registered user: ' + user.email);
         })
         .catch((error) => {
