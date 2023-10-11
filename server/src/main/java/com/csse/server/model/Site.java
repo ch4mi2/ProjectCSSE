@@ -1,16 +1,29 @@
 package com.csse.server.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "sites")
 public class Site {
+    @Id
+    private ObjectId id;
+
     private String name;
     private String address;
     private float orderLimit;
-    private String siteManager;
+    
+    @DBRef
+    private SiteManager siteManager;
 
-    public Site() {
+    public Site(String name, String address, float orderLimit, SiteManager siteManager) {
+        this.name = name;
+        this.address = address;
+        this.orderLimit = orderLimit;
+        this.siteManager = siteManager;
     }
+    
 
     // setters
     public void setName(String name) {
@@ -25,7 +38,7 @@ public class Site {
         this.address = address;
     }
 
-    public void setSiteManager(String siteManager) {
+    public void setSiteManager(SiteManager siteManager) {
         this.siteManager = siteManager;
     }
 
@@ -42,7 +55,7 @@ public class Site {
         return address;
     }
 
-    public String getSiteManager() {
+    public SiteManager getSiteManager() {
         return siteManager;
     }
 
