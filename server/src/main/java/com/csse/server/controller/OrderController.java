@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/orders/")
 public class OrderController {
-
+    
     @Autowired
     OrderService orderService;
-
+    
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        System.out.println("Get all Orders");
+        return new ResponseEntity<List<Order>>(orderService.allOrders(), HttpStatus.OK);
+    }
     //Changed this . why? idk
     //@PostMapping("/changeState")
     @PostMapping("/{id}{changeState}")
@@ -35,11 +40,6 @@ public class OrderController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        System.out.println("Get all Orders");
-        return new ResponseEntity<List<Order>>(orderService.allOrders(), HttpStatus.OK);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Order>> getSingleOrder(@PathVariable ObjectId id) {

@@ -2,6 +2,7 @@ package com.csse.server.model;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.csse.server.states.OrderState;
 import com.csse.server.states.PendingState;
@@ -12,12 +13,20 @@ public class Order {
     private ObjectId id;
 
     private OrderState state;
-    private Map<Item, Integer> items;
     private float total;
+    
+    @DBRef
+    private Site site;
+    @DBRef
+    private Map<Item, Integer> items;
+    @DBRef
+    private SiteManager siteManager;
 
 
-    public Order(Map<Item, Integer> items, float total) {
+    public Order(Map<Item, Integer> items, float total, Site site, SiteManager siteManager) {
         this.total = total;
+        this.site = site;
+        this.siteManager = siteManager;
         this.items = items;
         state = new PendingState();
     }
@@ -45,4 +54,31 @@ public class Order {
     public float getTotal() {
         return total;
     }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public SiteManager getSiteManager() {
+        return siteManager;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public void setSiteManager(SiteManager siteManager) {
+        this.siteManager = siteManager;
+    }
+
+
+
 }
