@@ -13,11 +13,11 @@ public class SiteManager {
     private String empId;
     private String email;
 
-    public SiteManager(String name, String empId, String email) {
+    public SiteManager(ObjectId id,String name, String empId, String email) {
         this.name = name;
         this.empId = empId;
         this.email = email;
-
+        this.id = id;
     }
 
     //setters

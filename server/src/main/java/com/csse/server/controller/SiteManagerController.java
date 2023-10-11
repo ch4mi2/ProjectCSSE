@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/siteManagers")
+@RequestMapping("/api/siteManagers/")
 public class SiteManagerController {
     
     @Autowired
