@@ -1,7 +1,6 @@
 package com.csse.server.service;
 
-import com.csse.server.ItemRepository;
-import com.csse.server.repository.PolicyAndProcedureRepository;
+import com.csse.server.repository.ItemRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 

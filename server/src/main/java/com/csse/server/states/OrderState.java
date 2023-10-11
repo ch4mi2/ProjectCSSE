@@ -1,4 +1,4 @@
-package com.csse.server.service;
+package com.csse.server.states;
 
 public interface OrderState {
     public String getState();
