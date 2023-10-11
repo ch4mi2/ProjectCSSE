@@ -1,9 +1,13 @@
 package com.csse.server.service;
 
 public class ReflectPolicyAndProcedure {
-    public AddPolicy contextPolicy;
+    public AddPolicy addPolicyContext;
+    public RemovePolicy removePolicyContext;
+    public ReflectPolicyAndProcedure(AddPolicy addPolicyContext) {
+        this.addPolicyContext = addPolicyContext;
+    }
 
-    public ReflectPolicyAndProcedure(AddPolicy contextPolicy) {
-        this.contextPolicy = contextPolicy;
+    public ReflectPolicyAndProcedure(RemovePolicy removePolicyContext) {
+        this.removePolicyContext = removePolicyContext;
     }
 }
