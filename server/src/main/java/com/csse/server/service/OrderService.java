@@ -1,22 +1,22 @@
 package com.csse.server.service;
-
 import com.csse.server.model.Order;
 import com.csse.server.repository.OrderRepository;
 import com.csse.server.states.*;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
 
     @Autowired
-    OrderRepository repo;
+    private OrderRepository repo;
 
-    public String changeOrderState(String orderId, String newState) {
+    public String changeOrderState(ObjectId orderId, String newState) {
         try {
             // Retrieve the order from the repository using the orderId.
             Optional<Order> optionalOrder = repo.findById(orderId);
@@ -65,5 +65,20 @@ public class OrderService {
         } else {
             return null; // Return null for an invalid state request.
         }
+    }
+
+    public OrderService() {
+    }
+
+    public List<Order> allOrders() {
+        return repo.findAll();
+    }
+
+    public Optional<Order> singleOrder(ObjectId id) {
+        return repo.findById(id);
+    }
+
+    public Order addOrder(Order payload) {
+        return repo.insert(payload);
     }
 }

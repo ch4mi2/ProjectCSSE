@@ -17,4 +17,13 @@ Uses firebase Auth for mobile app
 <br/>
 
 <h2> How to Run </h2>
-`yarn install` and `yarn start` Open Virtual mobile and press `a`
+<ul>
+    <li>
+        <h3>Server</h3>
+    </li>
+        `mvn spring-boot:run`
+    <li>
+        <h3>Mobile App</h3>
+    </li>
+        `yarn install` and `yarn start` Open Virtual mobile and press `a`
+</ul>
