@@ -8,7 +8,7 @@ public class AddItem implements AddPolicy{
     @Autowired
     private ItemRepository itemRepository;
     @Override
-    public void recordPolicy(ObjectId id, float amount) {
-
+    public void reflectPolicy(ObjectId id, float amount) {
+        System.out.println("Fires Item");
     }
 }

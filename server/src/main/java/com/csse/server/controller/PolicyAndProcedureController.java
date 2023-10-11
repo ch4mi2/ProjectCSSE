@@ -30,7 +30,8 @@ public class PolicyAndProcedureController {
     }
     @PostMapping("/item")
     public ResponseEntity<PolicyAndProcedure> createPolicy(@RequestBody PolicyAndProcedure payload) {
-//        PolicyAndProcedureService contextPolicy = new PolicyAndProcedureService(new AddItem());
-        return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.recordRequisitionPolicy(payload), HttpStatusCode.valueOf(201));
+        return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.recordPolicy(payload), HttpStatusCode.valueOf(201));
     }
+
+
 }
