@@ -7,14 +7,8 @@ import Icon from 'react-native-vector-icons/Entypo';
 const SiteManagerHeader = ({ user, route }) => {
   const navigation = useNavigation();
   const [profileImg, setProfileImg] = useState(null);
-  const [bool, setBool] = useState(true);
 
-  useEffect(() => {
-    route.name.includes('stack') ? false : true;
-    console.log(route);
-  }, [route]);
-
-  return bool ? (
+  return (
     <View className="bg-primary-color  font-bold h-[18vh] px-8 py-4">
       <SafeAreaView className="flex flex-row flex-wrap">
         <TouchableOpacity onPress={() => navigation.navigate('profile')}>
@@ -34,7 +28,7 @@ const SiteManagerHeader = ({ user, route }) => {
         </View>
       </SafeAreaView>
     </View>
-  ) : null;
+  );
 };
 
 export default SiteManagerHeader;
