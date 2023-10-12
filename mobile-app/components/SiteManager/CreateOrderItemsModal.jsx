@@ -52,7 +52,55 @@ const CreateOrderItemsModal = ({ visibility }) => {
   return (
     <View>
       <Modal isVisible={visibility}>
-        <View className="flex-1">{items && sites && <></>}</View>
+        <View className="flex-1">
+          {items && sites && (
+            <>
+              <Text>Item Name</Text>
+              <Picker
+                className="border border-4 px-4 py-2"
+                placeholder="Select Item"
+                selectedValue={name}
+                dropdownIconColor={'black'}
+                dropdownIconRippleColor={'#0284C7'}
+                selectionColor={'#0284C7'}
+                onValueChange={(itemValue) => handleSelectItem(itemValue)}
+              >
+                {items &&
+                  items.map((item, index) => (
+                    <Picker.Item key={index} label={item.name} value={item} />
+                  ))}
+              </Picker>
+
+              <Text>Supplier</Text>
+              <Input value={supplier.name} disabled={true} />
+
+              <Text>Select Site Address</Text>
+              <Picker
+                className="border border-4 px-4 py-2"
+                placeholder="Select Site Address"
+                selectedValue={address}
+                dropdownIconColor={'black'}
+                dropdownIconRippleColor={'#0284C7'}
+                selectionColor={'#0284C7'}
+                onValueChange={(itemValue) => setAddress(itemValue)}
+              >
+                {sites &&
+                  sites.map((site) => (
+                    <Picker.Item key={site} label={site.address} value={site} />
+                  ))}
+              </Picker>
+
+              <Text>Quantity</Text>
+              <Input
+                placeholder="Enter Quantity"
+                value={qty}
+                onValueChange={(val) => setQty(val)}
+              />
+
+              <Text>Requested Date</Text>
+            </>
+          )}
+        </View>
       </Modal>
     </View>
   );
