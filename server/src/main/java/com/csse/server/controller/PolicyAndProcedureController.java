@@ -25,9 +25,16 @@ public class PolicyAndProcedureController {
         System.out.println("Get single Policy");
         return new ResponseEntity<Optional<PolicyAndProcedure>>(policyAndProcedureService.singlePolicy(id), HttpStatus.OK);
     }
-    @PostMapping("/item")
+    @PostMapping("/")
     public ResponseEntity<PolicyAndProcedure> createPolicy(@RequestBody PolicyAndProcedure payload) {
-//        PolicyAndProcedureService contextPolicy = new PolicyAndProcedureService(new AddItem());
-        return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.recordRequisitionPolicy(payload), HttpStatusCode.valueOf(201));
+        System.out.println("Create Policy");
+        return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.recordPolicy(payload), HttpStatusCode.valueOf(201));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PolicyAndProcedure> removePolicy(@PathVariable ObjectId id) {
+        System.out.println("Delete Policy");
+        return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.removePolicy(id), HttpStatus.OK);
+    }
+
 }

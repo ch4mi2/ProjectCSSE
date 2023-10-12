@@ -13,6 +13,7 @@ public class Item {
     private int quantity;
     private String supplier;
     private String description;
+    private boolean restricted;
 
     public Item() {
     }
@@ -61,6 +62,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isRestricted() {
+        return restricted;
+    }
+
+    public void setRestricted(boolean restricted) {
+        this.restricted = restricted;
     }
 
     @Override
