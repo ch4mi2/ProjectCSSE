@@ -1,14 +1,20 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const SiteManagerHeader = ({ user }) => {
+const SiteManagerHeader = ({ user, route }) => {
   const navigation = useNavigation();
   const [profileImg, setProfileImg] = useState(null);
+  const [bool, setBool] = useState(true);
 
-  return (
+  useEffect(() => {
+    route.name.includes('stack') ? false : true;
+    console.log(route);
+  }, [route]);
+
+  return bool ? (
     <View className="bg-primary-color  font-bold h-[18vh] px-8 py-4">
       <SafeAreaView className="flex flex-row flex-wrap">
         <TouchableOpacity onPress={() => navigation.navigate('profile')}>
@@ -28,7 +34,7 @@ const SiteManagerHeader = ({ user }) => {
         </View>
       </SafeAreaView>
     </View>
-  );
+  ) : null;
 };
 
 export default SiteManagerHeader;

@@ -1,4 +1,4 @@
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Swiper from 'react-native-swiper';
 import { useEffect, useState } from 'react';
@@ -26,12 +26,25 @@ const SwiperComponent = () => {
     <Swiper
       style={styles.wrapper}
       showsButtons={false}
-      activeDotColor={'black'}
+      showsPagination={false}
+      height={100}
     >
       {sites &&
         sites.map((site) => (
-          <View style={styles.slide1} key={site}>
-            <Text style={styles.text}>{site.name}</Text>
+          <View
+            className={'bg-primary-color p-4 flex  flex-row gap-6 shadow '}
+            style={styles.slide}
+            key={site}
+          >
+            <Image
+              source={site.img ?? require('../../assets/images/noImg.jpg')}
+              className={'w-[80px] h-[80px] rounded-3xl'}
+              style={styles.shadow}
+            />
+            <View className={'flex flex-col'}>
+              <Text className="text-grey-400">{site.name}</Text>
+              <Text className="text-grey-400 mt-4">{site.address}</Text>
+            </View>
           </View>
         ))}
     </Swiper>
@@ -45,15 +58,6 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   wrapper: {},
-  slide1: {
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    backgroundColor: '#92BBD9',
-  },
   text: {
     color: '#fff',
     fontSize: 30,
