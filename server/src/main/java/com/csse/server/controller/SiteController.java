@@ -35,7 +35,7 @@ public class SiteController {
         return new ResponseEntity<Optional<Site>>(service.singleSite(id), HttpStatus.OK);
     }
 
-    @PostMapping("/item")
+    @PostMapping
     public ResponseEntity<Site> newSite(@RequestBody Site payload){
         return new ResponseEntity<Site>(service.createSite(payload), HttpStatusCode.valueOf(201));
     }

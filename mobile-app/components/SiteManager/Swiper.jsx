@@ -2,35 +2,38 @@ import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import Swiper from 'react-native-swiper';
 import { useEffect, useState } from 'react';
+import { GetAllSites } from '../../constants/URI';
 
 const SwiperComponent = () => {
+  const [sites, setSites] = useState([]);
+
   useEffect(() => {
     const fetchSites = async () => {
-      const response = await fetch('/getAllSites');
-
-      if (response.ok) {
-        setSites(response.json());
+      try {
+        const response = await fetch(GetAllSites);
+        const json = await response.json();
+        if (response.ok) {
+          setSites(json);
+        }
+      } catch (err) {
+        console.log(err);
       }
     };
     fetchSites();
   }, []);
 
-  const [sites, setSites] = useState(null);
   return (
     <Swiper
       style={styles.wrapper}
       showsButtons={false}
       activeDotColor={'black'}
     >
-      <View style={styles.slide1}>
-        <Text style={styles.text}>Hello Swiper</Text>
-      </View>
-      <View style={styles.slide2}>
-        <Text style={styles.text}>Beautiful</Text>
-      </View>
-      <View style={styles.slide3}>
-        <Text style={styles.text}>And simple</Text>
-      </View>
+      {sites &&
+        sites.map((site) => (
+          <View style={styles.slide1} key={site}>
+            <Text style={styles.text}>{site.name}</Text>
+          </View>
+        ))}
     </Swiper>
   );
 };

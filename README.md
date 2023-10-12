@@ -25,5 +25,6 @@ Uses firebase Auth for mobile app
     <li>
         <h3>Mobile App</h3>
     </li>
-        `yarn install` and `yarn start` Open Virtual mobile and press `a`
+        `yarn install` and `yarn start` Open Virtual mobile and press `a` <br />
+        Replace ServerURI with your pc's ip address in mobile-app\constants\URI.js
 </ul>
