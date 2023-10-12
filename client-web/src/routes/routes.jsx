@@ -3,6 +3,8 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Page2 from "../pages/Page2";
 import SideNav from "../components/SideNav";
+import Procurement from "../pages/Procurement";
+import Comments from "../pages/Comments";
 
 const AppRoutes = () => {
   return (
@@ -10,6 +12,7 @@ const AppRoutes = () => {
         <Routes>
         <Route exact path="/" element={<Login />} />
         </Routes>
+       
       <div className="flex">
         {/* SideNav */}
         <div className="w-64 md:shadow ">
@@ -24,6 +27,8 @@ const AppRoutes = () => {
             
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/page2" element={<Page2 />} />
+            <Route path="/procurement" element={<Procurement />}/>
+            <Route path="/comments" element={<Comments />}/>
           </Routes>
         </div>
       </div>
