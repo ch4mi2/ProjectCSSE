@@ -1,8 +1,7 @@
 package com.csse.server.model;
-
+import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "items")
@@ -10,16 +9,18 @@ public class Item {
     @Id
     private ObjectId id;
     private String name;
-    private float price;
-    private int quantity;
-    @DBRef
-    private String supplier;
+    private Map<String,Float> supplier;
+    private String chosenOne;
+    private String chosenOnesPrice;
+
     private String description;
     private boolean restricted;
     private float restrictedAmount;
 
     public Item() {
     }
+
+
 
     public ObjectId getId() {
         return id;
@@ -34,28 +35,12 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getSupplier() {
+    
+    public Map<String,Float> getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(String supplier) {
+    public void setSupplier(Map<String,Float> supplier) {
         this.supplier = supplier;
     }
 
@@ -82,6 +67,24 @@ public class Item {
     public void setRestrictedAmount(float restrictedAmount) {
         this.restrictedAmount = restrictedAmount;
     }
+
+    public String getChosenOne() {
+        return chosenOne;
+    }
+
+    public void setChosenOne(String chosenOne) {
+        this.chosenOne = chosenOne;
+    }
+
+    public String getChosenOnesPrice() {
+        return chosenOnesPrice;
+    }
+
+    public void setChosenOnesPrice(String chosenOnesPrice) {
+        this.chosenOnesPrice = chosenOnesPrice;
+    }
+
+
 
     @Override
     public String toString() {
