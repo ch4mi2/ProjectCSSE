@@ -11,7 +11,7 @@ import com.csse.server.states.PendingState;
 public class Order {
     @Id
     private ObjectId id;
-    private OrderState state;
+    private String state;
     private float total;
     
     @DBRef
@@ -28,14 +28,14 @@ public class Order {
         this.site = site;
         this.siteManager = siteManager;
         this.items = items;
-        state = new PendingState();
+        state = "pending";
     }
 
     public String getState() {
-        return state.getState();
+        return state;
     }
 
-    public void setState(OrderState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
