@@ -14,6 +14,7 @@ public class Item {
     private String supplier;
     private String description;
     private boolean restricted;
+    private float restrictedAmount;
 
     public Item() {
     }
@@ -70,6 +71,14 @@ public class Item {
 
     public void setRestricted(boolean restricted) {
         this.restricted = restricted;
+    }
+
+    public float getRestrictedAmount() {
+        return restrictedAmount;
+    }
+
+    public void setRestrictedAmount(float restrictedAmount) {
+        this.restrictedAmount = restrictedAmount;
     }
 
     @Override

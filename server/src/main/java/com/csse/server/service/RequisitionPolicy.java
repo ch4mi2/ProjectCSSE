@@ -1,5 +1,6 @@
 package com.csse.server.service;
 
+import com.csse.server.exception.CreatedSiteNotFoundException;
 import com.csse.server.model.Site;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +14,13 @@ public class RequisitionPolicy implements AddPolicy, RemovePolicy, UpdatePolicy{
     @Override
     public void addPolicy(ObjectId id, float amount, @NotNull MongoTemplate mongoTemplate) {
         Site site = mongoTemplate.findById(id, Site.class, "sites");
-        Objects.requireNonNull(site).setOrderLimit(amount);
-        mongoTemplate.save(site, "sites");
+        if (site != null) {
+            Objects.requireNonNull(site).setOrderLimit(amount);
+            mongoTemplate.save(site, "sites");
+        } else {
+            throw new CreatedSiteNotFoundException("The construction site the policy was created on could not be found");
+        }
+
     }
 
     @Override

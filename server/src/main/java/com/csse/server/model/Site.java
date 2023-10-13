@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class Site {
     @Id
     private ObjectId id;
-
     private String name;
     private String address;
     private float orderLimit;
@@ -43,6 +42,7 @@ public class Site {
     }
 
     // getters
+    public ObjectId getId() { return id; }
     public String getName() {
         return name;
     }

@@ -1,5 +1,6 @@
 package com.csse.server.model;
 
+import lombok.Getter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -11,16 +12,20 @@ public class PolicyAndProcedure {
     @Id
     private ObjectId id;
     private String createdBy;
+    @Getter
     private String type;
     private float amount;
     @DBRef
     private Item createdItem;
+    @DBRef
+    private Site createdSite;
 
-    public PolicyAndProcedure(String createdBy, String type, float amount, Item createdItem) {
+    public PolicyAndProcedure(String createdBy, String type, float amount, Item createdItem, Site createdSite) {
         this.createdBy = createdBy;
         this.type = type;
         this.amount = amount;
         this.createdItem = createdItem;
+        this.createdSite = createdSite;
     }
 
     public ObjectId getId() {
@@ -49,7 +54,6 @@ public class PolicyAndProcedure {
     public String getType() {
         return type;
     }
-
     public void setType(String type) {
         this.type = type;
     }
@@ -60,5 +64,13 @@ public class PolicyAndProcedure {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Site getCreatedSite() {
+        return createdSite;
+    }
+
+    public void setCreatedSite(Site createdSite) {
+        this.createdSite = createdSite;
     }
 }
