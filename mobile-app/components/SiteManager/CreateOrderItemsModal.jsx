@@ -1,32 +1,21 @@
-import { View, Text, Input } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
 import { GetAllItemsURI, GetAllSitesURI } from '../../constants/URI';
+import CloseIcon from 'react-native-vector-icons/FontAwesome';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const CreateOrderItemsModal = ({ visibility }) => {
+const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState();
   const [sites, setSites] = useState([]);
   const [address, setAddress] = useState();
-  const [supplier, setSupplier] = useState(null);
+  const [supplier, setSupplier] = useState();
   const [qty, setQty] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useState(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(GetAllItemsURI);
-        const json = await response.json();
-        if (response.ok) {
-          setItems(json);
-          setName(json[0]);
-          console.log(json);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
     const fetchSites = async () => {
       try {
         const response = await fetch(GetAllSitesURI);
@@ -40,8 +29,25 @@ const CreateOrderItemsModal = ({ visibility }) => {
         console.log(err);
       }
     };
-    fetchItems();
+
     fetchSites();
+  }, []);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(GetAllItemsURI);
+        const json = await response.json();
+        if (response.ok) {
+          setItems(json);
+          setName(json[0]);
+          console.log(json);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchItems();
   }, []);
 
   const handleSelectItem = (val) => {
@@ -49,57 +55,108 @@ const CreateOrderItemsModal = ({ visibility }) => {
     setSupplier(val.supplier);
   };
 
+  useEffect(() => {
+    if (name) var tot = name.price * qty;
+    else var tot = 0;
+    setTotal(tot);
+  }, [name, qty]);
   return (
     <View>
-      <Modal isVisible={visibility}>
-        <View className="flex-1">
+      <Modal
+        isVisible={visibility}
+        onBackdropPress={this.close}
+        backdropColor="#fff"
+        backdropOpacity={1}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={600}
+        propagateSwipe
+        animationOutTiming={600}
+        backdropTransitionInTiming={600}
+        backdropTransitionOutTiming={600}
+        style={{
+          backgroundColor: 'white',
+          padding: 30,
+        }}
+        coverScreen={true}
+      >
+        <CloseIcon
+          size={48}
+          name="close"
+          onPress={() => setVisibility(false)}
+          style={{ position: 'absolute', top: 0, right: 0, color: '#facc15' }}
+        />
+        <ScrollView className=" flex-1">
           {items && sites && (
             <>
-              <Text>Item Name</Text>
-              <Picker
-                className="border border-4 px-4 py-2"
-                placeholder="Select Item"
-                selectedValue={name}
-                dropdownIconColor={'black'}
-                dropdownIconRippleColor={'#0284C7'}
-                selectionColor={'#0284C7'}
-                onValueChange={(itemValue) => handleSelectItem(itemValue)}
-              >
-                {items &&
-                  items.map((item, index) => (
-                    <Picker.Item key={index} label={item.name} value={item} />
-                  ))}
-              </Picker>
+              <Text className="text-lg mt-6  mb-2 font-bold">Item Name</Text>
+              <View className="border border-1 rounded-xl">
+                <Picker
+                  className=""
+                  placeholder="Select Item"
+                  selectedValue={name}
+                  dropdownIconColor={'black'}
+                  dropdownIconRippleColor={'#0284C7'}
+                  selectionColor={'#0284C7'}
+                  onValueChange={(itemValue) => handleSelectItem(itemValue)}
+                  style={{ borderWidth: 4, borderColor: '#000' }}
+                >
+                  {items &&
+                    items.map((item, index) => (
+                      <Picker.Item key={index} label={item.name} value={item} />
+                    ))}
+                </Picker>
+              </View>
 
-              <Text>Supplier</Text>
-              <Input value={supplier.name} disabled={true} />
-
-              <Text>Select Site Address</Text>
-              <Picker
-                className="border border-4 px-4 py-2"
-                placeholder="Select Site Address"
-                selectedValue={address}
-                dropdownIconColor={'black'}
-                dropdownIconRippleColor={'#0284C7'}
-                selectionColor={'#0284C7'}
-                onValueChange={(itemValue) => setAddress(itemValue)}
-              >
-                {sites &&
-                  sites.map((site) => (
-                    <Picker.Item key={site} label={site.address} value={site} />
-                  ))}
-              </Picker>
-
-              <Text>Quantity</Text>
-              <Input
-                placeholder="Enter Quantity"
-                value={qty}
-                onValueChange={(val) => setQty(val)}
+              <Text className={'text-lg  mb-2 mt-6 font-bold'}>Supplier</Text>
+              <TextInput
+                value={supplier && supplier.name}
+                readOnly={true}
+                className={'border border-1 rounded-xl p-[12px] '}
               />
 
-              <Text>Requested Date</Text>
+              <Text className={'text-lg mt-6 mb-2  font-bold'}>
+                Select Site Address
+              </Text>
+              <View className="border border-1 rounded-xl">
+                <Picker
+                  className="border border-4 px-4 py-2"
+                  placeholder="Select Site Address"
+                  selectedValue={address}
+                  dropdownIconColor={'black'}
+                  dropdownIconRippleColor={'#0284C7'}
+                  selectionColor={'#0284C7'}
+                  onValueChange={(itemValue) => setAddress(itemValue)}
+                >
+                  {sites &&
+                    sites.map((site) => (
+                      <Picker.Item
+                        key={site}
+                        label={site.address}
+                        value={site}
+                      />
+                    ))}
+                </Picker>
+              </View>
+
+              <Text className={'text-lg mt-6  mb-2 font-bold'}>Quantity</Text>
+              <TextInput
+                placeholder="Enter Quantity"
+                value={qty.toString()}
+                onValueChange={(val) => setQty(val)}
+                className={'border border-1 rounded-xl p-[12px] '}
+                keyboardType="numeric"
+                inputMode="numeric"
+              />
             </>
           )}
+        </ScrollView>
+        <View className="flex m-0 p-0 w-full h-[150px] justify-center">
+          <View className="absolute bottom-0 bg-primary-color w-[1000%] top-0 right-0 mr-[-300px] mt-[50px] h-[1000%]"></View>
+          <View className="flex flex-row">
+            <Text className="mt-4 text-xl font-bold">Total : </Text>
+            <Text className="mt-4 text-xl font-bold ml-auto">Rs.{total}</Text>
+          </View>
         </View>
       </Modal>
     </View>
