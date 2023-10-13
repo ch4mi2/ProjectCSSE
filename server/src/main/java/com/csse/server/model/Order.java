@@ -13,17 +13,11 @@ public class Order {
     private ObjectId id;
     private String state;
     private float total;
-    
-    @DBRef
-    private Site site;
-
+    private String site;
     private Map<String, Integer> items;
-    
-    @DBRef
-    private SiteManager siteManager;
+    private String siteManager;
 
-
-    public Order(Map<String, Integer> items, float total, Site site, SiteManager siteManager) {
+    public Order(Map<String, Integer> items, float total, String site, String siteManager) {
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
@@ -59,11 +53,11 @@ public class Order {
         return id;
     }
 
-    public Site getSite() {
+    public String getSite() {
         return site;
     }
 
-    public SiteManager getSiteManager() {
+    public String getSiteManager() {
         return siteManager;
     }
 
@@ -71,11 +65,11 @@ public class Order {
         this.id = id;
     }
 
-    public void setSite(Site site) {
+    public void setSite(String site) {
         this.site = site;
     }
 
-    public void setSiteManager(SiteManager siteManager) {
+    public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
     }
 
