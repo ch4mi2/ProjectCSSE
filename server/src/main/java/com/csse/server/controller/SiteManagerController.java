@@ -30,7 +30,7 @@ public class SiteManagerController {
             return new ResponseEntity<Optional<SiteManager>>(siteManagerService.singleSiteManager(id), HttpStatus.OK);
     }
 
-    @PostMapping("/item")
+    @PostMapping
     public ResponseEntity<SiteManager> createSiteManager(@RequestBody SiteManager sm){
         return new ResponseEntity<SiteManager>(siteManagerService.addSiteManager(sm), HttpStatusCode.valueOf(201));
     }

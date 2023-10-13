@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import man from '../assets/man.png'
+import man from '../assets/man.png';
+import dashboard from '../assets/dashboard.png';
+import policy from '../assets/policy.png';
+import setting from '../assets/settings.png';
+import procurement from '../assets/procurement.png';
+
+
 const SideNav = () => {
   const location = useLocation();
   const [activeNavItem, setActiveNavItem] = useState(location.pathname);
+
+  console.log(man)
+  console.log(dashboard)
+  console.log(setting)
+  // console.log(procurement)
 
   const handleNavItemClick = (path) => {
     setActiveNavItem(path);
@@ -44,6 +55,7 @@ const SideNav = () => {
                 }`}
                 onClick={() => handleNavItemClick('/dashboard')}
               >
+                <img src={dashboard} className="w-8 h-8"/>
                 <span className={`ml-3 ${activeNavItem === '/dashboard' ? 'text-black' : ''}`}>
                   Dashboard
                 </span>
@@ -57,8 +69,23 @@ const SideNav = () => {
                 }`}
                 onClick={() => handleNavItemClick('/page2')}
               >
+                <img src={policy} className="w-8 h-8"/>
                 <span className={`ml-3 ${activeNavItem === '/page2' ? 'text-black' : ''}`}>
-                  Page 2
+                Policies
+                </span>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/procurement"
+                className={`flex flex-row items-center h-10 px-3 rounded-lg text-black ${
+                  activeNavItem === '/procurement' ? 'bg-[#ffefbb]' : ''
+                }`}
+                onClick={() => handleNavItemClick('/procurement')}
+              >
+                <img src={procurement} className="w-8 h-8"/>
+                <span className={`ml-3 ${activeNavItem === '/procurement' ? 'text-black' : ''}`}>
+                  Procurement
                 </span>
               </Link>
             </li>
@@ -71,8 +98,9 @@ const SideNav = () => {
                 }`}
                 onClick={() => handleNavItemClick('/page3')}
               >
+                <img src={setting} className="w-8 h-8"/>
                 <span className={`ml-3 ${activeNavItem === '/page3' ? 'text-black' : ''}`}>
-                  Log Out
+                  Settings
                 </span>
               </Link>
             </li>
