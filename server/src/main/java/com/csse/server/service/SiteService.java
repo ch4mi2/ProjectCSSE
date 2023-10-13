@@ -27,11 +27,7 @@ public class SiteService {
         return siteRepository.findById(id);
     }
 
-    public Site addSite(String name, String address, float orderLimit, SiteManager manager) { 
-        Site site = new Site(name, address, orderLimit, manager);
-        return siteRepository.insert(site);
-    }
-
+   
     public Site createSite(Site payload) {
         return siteRepository.insert(payload);
     }
