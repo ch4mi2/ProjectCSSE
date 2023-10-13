@@ -2,7 +2,6 @@ package com.csse.server.model;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "items")
@@ -13,6 +12,7 @@ public class Item {
     private Map<String,Float> supplier;
     private String chosenOne;
     private String chosenOnesPrice;
+
     private String description;
     private boolean restricted;
     private float restrictedAmount;
