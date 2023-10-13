@@ -17,10 +17,13 @@ public class Item {
     private boolean restricted;
     private float restrictedAmount;
 
-    public Item() {
+    public Item(String name, Map<String,Float> supplier, String description, boolean restricted, float restrictedAmount) {
+        this.name = name;
+        this.supplier = supplier;
+        this.description = description;
+        this.restricted = restricted;
+        this.restrictedAmount = restrictedAmount;
     }
-
-
 
     public ObjectId getId() {
         return id;
