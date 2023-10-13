@@ -90,8 +90,7 @@ public class Item {
     public String toString() {
         return "Item{" +
                 "name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
+               
                 ", supplier='" + supplier + '\'' +
                 ", description='" + description + '\'' +
                 '}';
