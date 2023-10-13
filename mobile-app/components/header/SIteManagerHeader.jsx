@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const SiteManagerHeader = ({ user }) => {
+const SiteManagerHeader = ({ user, route }) => {
   const navigation = useNavigation();
   const [profileImg, setProfileImg] = useState(null);
 

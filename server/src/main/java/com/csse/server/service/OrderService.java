@@ -17,7 +17,7 @@ public class OrderService {
     private OrderRepository repo;
 
     public String changeOrderState(ObjectId orderId, String newState) {
-        try {
+        //try {
             // Retrieve the order from the repository using the orderId.
             Optional<Order> optionalOrder = repo.findById(orderId);
 
@@ -34,33 +34,40 @@ public class OrderService {
             } else {
                 return null; // Return null for not found.
             }
-        } catch (Exception e) {
-            return "An error occurred.";
-        }
+//        } catch (Exception e) {
+//            return "An error occurred.";
+//        }
     }
 
     public String changeState(Order order, String newState) {
 
         if ("pending".equalsIgnoreCase(newState)) {
-            order.setState(new PendingState());
+            OrderState state = new PendingState();
+            order.setState(state.getState());
             return "Order state changed to Pending.";
         } else if ("approved".equalsIgnoreCase(newState)) {
-            order.setState(new ApprovedState());
+            OrderState state = new ApprovedState();
+            order.setState(state.getState());
             return "Order state changed to Approved.";
         } else if ("declined".equalsIgnoreCase(newState)) {
-            order.setState(new DeclinedState());
+            OrderState state = new DeclinedState();
+            order.setState(state.getState());
             return "Order state changed to Declined.";
         } else if ("placed".equalsIgnoreCase(newState)) {
-            order.setState(new PlacedState());
+            OrderState state = new PlacedState();
+            order.setState(state.getState());
             return "Order state changed to Placed.";
         } else if ("complete".equalsIgnoreCase(newState)) {
-            order.setState(new CompleteState());
+            OrderState state = new CompleteState();
+            order.setState(state.getState());
             return "Order state changed to Complete.";
         } else if ("processing".equalsIgnoreCase(newState)) {
-            order.setState(new ProcessingState());
+            OrderState state = new ProcessingState();
+            order.setState(state.getState());
             return "Order state changed to Processing.";
         } else if ("delivering".equalsIgnoreCase(newState)) {
-            order.setState(new DeliveringState());
+            OrderState state = new DeliveringState();
+            order.setState(state.getState());
             return "Order state changed to Delivering.";
         } else {
             return null; // Return null for an invalid state request.

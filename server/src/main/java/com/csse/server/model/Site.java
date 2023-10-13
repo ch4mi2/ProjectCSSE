@@ -1,9 +1,7 @@
 package com.csse.server.model;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "sites")
 public class Site {
@@ -11,12 +9,10 @@ public class Site {
     private ObjectId id;
     private String name;
     private String address;
-    private float orderLimit;
-    
-    @DBRef
-    private SiteManager siteManager;
+    private double orderLimit;
+    private String siteManager;
 
-    public Site(String name, String address, float orderLimit, SiteManager siteManager) {
+    public Site(String name, String address, double orderLimit, String siteManager) {
         this.name = name;
         this.address = address;
         this.orderLimit = orderLimit;
@@ -29,7 +25,7 @@ public class Site {
         this.name = name;
     }
 
-    public void setOrderLimit(float orderLimit) {
+    public void setOrderLimit(double orderLimit) {
         this.orderLimit = orderLimit;
     }
 
@@ -37,7 +33,7 @@ public class Site {
         this.address = address;
     }
 
-    public void setSiteManager(SiteManager siteManager) {
+    public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
     }
 
@@ -47,7 +43,7 @@ public class Site {
         return name;
     }
 
-    public float getOrderLimit() {
+    public double getOrderLimit() {
         return orderLimit;
     }
 
@@ -55,7 +51,7 @@ public class Site {
         return address;
     }
 
-    public SiteManager getSiteManager() {
+    public String getSiteManager() {
         return siteManager;
     }
 

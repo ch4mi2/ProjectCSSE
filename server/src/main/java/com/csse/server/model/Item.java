@@ -1,5 +1,5 @@
 package com.csse.server.model;
-
+import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,14 +9,20 @@ public class Item {
     @Id
     private ObjectId id;
     private String name;
-    private float price;
-    private int quantity;
-    private String supplier;
+    private Map<String,Double> supplier;
+    private String chosenOne;
+    private String chosenOnesPrice;
+
     private String description;
     private boolean restricted;
-    private float restrictedAmount;
+    private double restrictedAmount;
 
-    public Item() {
+    public Item(String name, Map<String,Double> supplier, String description, boolean restricted, double restrictedAmount) {
+        this.name = name;
+        this.supplier = supplier;
+        this.description = description;
+        this.restricted = restricted;
+        this.restrictedAmount = restrictedAmount;
     }
 
     public ObjectId getId() {
@@ -32,28 +38,12 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getSupplier() {
+    
+    public Map<String,Double> getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(String supplier) {
+    public void setSupplier(Map<String,Double> supplier) {
         this.supplier = supplier;
     }
 
@@ -73,20 +63,37 @@ public class Item {
         this.restricted = restricted;
     }
 
-    public float getRestrictedAmount() {
+    public double getRestrictedAmount() {
         return restrictedAmount;
     }
 
-    public void setRestrictedAmount(float restrictedAmount) {
+    public void setRestrictedAmount(double restrictedAmount) {
         this.restrictedAmount = restrictedAmount;
     }
+
+    public String getChosenOne() {
+        return chosenOne;
+    }
+
+    public void setChosenOne(String chosenOne) {
+        this.chosenOne = chosenOne;
+    }
+
+    public String getChosenOnesPrice() {
+        return chosenOnesPrice;
+    }
+
+    public void setChosenOnesPrice(String chosenOnesPrice) {
+        this.chosenOnesPrice = chosenOnesPrice;
+    }
+
+
 
     @Override
     public String toString() {
         return "Item{" +
                 "name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
+               
                 ", supplier='" + supplier + '\'' +
                 ", description='" + description + '\'' +
                 '}';

@@ -2,56 +2,47 @@ package com.csse.server.model;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.csse.server.states.OrderState;
-import com.csse.server.states.PendingState;
 
 @Document(collection = "orders")
 public class Order {
     @Id
     private ObjectId id;
+    private String state;
+    private double total;
+    private String site;
+    private Map<String, Integer> items;
+    private String siteManager;
 
-    private OrderState state;
-    private float total;
-    
-    @DBRef
-    private Site site;
-    @DBRef
-    private Map<Item, Integer> items;
-    @DBRef
-    private SiteManager siteManager;
-
-
-    public Order(Map<Item, Integer> items, float total, Site site, SiteManager siteManager) {
+    public Order(Map<String, Integer> items, double total, String site, String siteManager) {
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
         this.items = items;
-        state = new PendingState();
+        state = "pending";
     }
 
     public String getState() {
-        return state.getState();
+        return state;
     }
 
-    public void setState(OrderState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public void setItems(Map<Item, Integer> items) {
+    public void setItems(Map<String, Integer> items) {
         this.items = items;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 
-    public Map<Item, Integer> getItems() {
+    public Map<String, Integer> getItems() {
         return items;
     }
 
-    public float getTotal() {
+    public double getTotal() {
         return total;
     }
 
@@ -59,11 +50,11 @@ public class Order {
         return id;
     }
 
-    public Site getSite() {
+    public String getSite() {
         return site;
     }
 
-    public SiteManager getSiteManager() {
+    public String getSiteManager() {
         return siteManager;
     }
 
@@ -71,11 +62,11 @@ public class Order {
         this.id = id;
     }
 
-    public void setSite(Site site) {
+    public void setSite(String site) {
         this.site = site;
     }
 
-    public void setSiteManager(SiteManager siteManager) {
+    public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
     }
 
