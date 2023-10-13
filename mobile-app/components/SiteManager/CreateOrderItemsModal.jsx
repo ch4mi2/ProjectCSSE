@@ -1,4 +1,4 @@
-import { View, Text, Input } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
@@ -6,10 +6,10 @@ import { GetAllItemsURI, GetAllSitesURI } from '../../constants/URI';
 
 const CreateOrderItemsModal = ({ visibility }) => {
   const [items, setItems] = useState([]);
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [sites, setSites] = useState([]);
   const [address, setAddress] = useState();
-  const [supplier, setSupplier] = useState(null);
+  const [supplier, setSupplier] = useState();
   const [qty, setQty] = useState(0);
 
   useState(() => {
@@ -72,7 +72,7 @@ const CreateOrderItemsModal = ({ visibility }) => {
               </Picker>
 
               <Text>Supplier</Text>
-              <Input value={supplier.name} disabled={true} />
+              <TextInput value={supplier && supplier.name} disabled={true} />
 
               <Text>Select Site Address</Text>
               <Picker
@@ -91,7 +91,7 @@ const CreateOrderItemsModal = ({ visibility }) => {
               </Picker>
 
               <Text>Quantity</Text>
-              <Input
+              <TextInput
                 placeholder="Enter Quantity"
                 value={qty}
                 onValueChange={(val) => setQty(val)}

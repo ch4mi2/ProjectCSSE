@@ -10,6 +10,11 @@ const PlaceOrders = () => {
   const [items, setItems] = useState([]);
   const [modalIsVisible, setModalIsVisible] = useState(false);
 
+  const handleVisibility = () => {
+    console.log(modalIsVisible);
+    setModalIsVisible(true);
+  };
+
   const item = ({ item }) => {
     return (
       <View className="flex flex-row bg-primary-color p-4">
@@ -35,11 +40,12 @@ const PlaceOrders = () => {
   return (
     <View>
       <CreateOrderItemsModal visibility={modalIsVisible} />
-      <View style={styles.addButton} onClick={() => setModalIsVisible(true)}>
+      <View style={styles.addButton}>
         <MainButtonWithIcon
           icon={<PlusIcon name="plus-circle-outline" size={40} />}
           text="Add items"
           iconBeforeText={true}
+          onPress={handleVisibility}
         />
       </View>
       {items.map((item) => item(item))}
