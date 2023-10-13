@@ -1,5 +1,8 @@
 package com.csse.server.service;
+
+import com.csse.server.exception.CreatedItemNotFoundException;
 import com.csse.server.exception.CreatedSiteNotFoundException;
+import com.csse.server.exception.InvalidFormatException;
 import com.csse.server.exception.PolicyNotFoundException;
 import com.csse.server.model.PolicyAndProcedure;
 import com.csse.server.repository.PolicyAndProcedureRepository;
@@ -15,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class PolicyAndProcedureService {
@@ -45,10 +47,12 @@ public class PolicyAndProcedureService {
             }
             return policyRepo.insert(payload);
         } catch (NullPointerException e) {
-            if (payload.getType().equals("Item")) {
-                throw new CreatedSiteNotFoundException("The createdItem field is empty");
-            } else {
+            if (payload.getType() == null) {
+                throw new InvalidFormatException("Type field is needed");
+            } else if(payload.getType().equals("Site")){
                 throw new CreatedSiteNotFoundException("The createdSite field is empty");
+            } else {
+                throw new CreatedItemNotFoundException("The createdItem field is empty");
             }
         }
     }
@@ -61,12 +65,15 @@ public class PolicyAndProcedureService {
         Optional<PolicyAndProcedure> optionalPolicyAndProcedure = policyRepo.findById(id);
         if (optionalPolicyAndProcedure.isPresent()) {
             policyAndProcedure = optionalPolicyAndProcedure.get();
-            if (Objects.requireNonNull(policyAndProcedure).getType().equals("Item")) {
+            if (Objects.requireNonNull(policyAndProcedure).getType().equals("Item") &&
+                    policyAndProcedure.getCreatedItem() != null) {
                 reflectPolicyAndProcedure = new ReflectPolicyAndProcedure((RemovePolicy) new ItemPolicy());
-            } else {
+                reflectPolicyAndProcedure.removePolicyContext.removePolicy(policyAndProcedure.getCreatedItem().getId(), mongoTemplate);
+            } else if (Objects.requireNonNull(policyAndProcedure).getType().equals("Site") &&
+                    policyAndProcedure.getCreatedSite() != null){
                 reflectPolicyAndProcedure = new ReflectPolicyAndProcedure((RemovePolicy) new RequisitionPolicy());
+                reflectPolicyAndProcedure.removePolicyContext.removePolicy(policyAndProcedure.getCreatedSite().getId(), mongoTemplate);
             }
-            reflectPolicyAndProcedure.removePolicyContext.removePolicy(policyAndProcedure.getCreatedItem().getId(), mongoTemplate);
             policyRepo.deleteById(id);
             return policyAndProcedure;
         } else {
