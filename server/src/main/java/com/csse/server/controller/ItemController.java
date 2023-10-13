@@ -1,8 +1,6 @@
 package com.csse.server.controller;
 import com.csse.server.model.Item;
-import com.csse.server.repository.ItemRepository;
 import com.csse.server.service.ItemService;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api/items/")
 public class ItemController {
 
     @Autowired
