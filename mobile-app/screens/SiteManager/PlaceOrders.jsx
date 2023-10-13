@@ -39,7 +39,10 @@ const PlaceOrders = () => {
   };
   return (
     <View>
-      <CreateOrderItemsModal visibility={modalIsVisible} />
+      <CreateOrderItemsModal
+        visibility={modalIsVisible}
+        setVisibility={setModalIsVisible}
+      />
       <View style={styles.addButton}>
         <MainButtonWithIcon
           icon={<PlusIcon name="plus-circle-outline" size={40} />}
