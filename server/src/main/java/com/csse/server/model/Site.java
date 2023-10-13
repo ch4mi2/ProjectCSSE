@@ -1,9 +1,7 @@
 package com.csse.server.model;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Document(collection = "sites")
 public class Site {
