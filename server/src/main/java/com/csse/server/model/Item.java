@@ -2,6 +2,7 @@ package com.csse.server.model;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "items")
@@ -11,6 +12,7 @@ public class Item {
     private String name;
     private float price;
     private int quantity;
+    @DBRef
     private String supplier;
     private String description;
     private boolean restricted;

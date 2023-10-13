@@ -11,7 +11,6 @@ import com.csse.server.states.PendingState;
 public class Order {
     @Id
     private ObjectId id;
-
     private OrderState state;
     private float total;
     
