@@ -12,11 +12,9 @@ public class Site {
     private String name;
     private String address;
     private float orderLimit;
-    
-    @DBRef
-    private SiteManager siteManager;
+    private String siteManager;
 
-    public Site(String name, String address, float orderLimit, SiteManager siteManager) {
+    public Site(String name, String address, float orderLimit, String siteManager) {
         this.name = name;
         this.address = address;
         this.orderLimit = orderLimit;
@@ -37,7 +35,7 @@ public class Site {
         this.address = address;
     }
 
-    public void setSiteManager(SiteManager siteManager) {
+    public void setSiteManager(String siteManager) {
         this.siteManager = siteManager;
     }
 
@@ -55,7 +53,7 @@ public class Site {
         return address;
     }
 
-    public SiteManager getSiteManager() {
+    public String getSiteManager() {
         return siteManager;
     }
 
