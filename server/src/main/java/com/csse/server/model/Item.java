@@ -12,7 +12,6 @@ public class Item {
     private Map<String,Double> supplier;
     private String chosenOne;
     private String chosenOnesPrice;
-
     private String description;
     private boolean restricted;
     private double restrictedAmount;
@@ -93,7 +92,6 @@ public class Item {
     public String toString() {
         return "Item{" +
                 "name='" + name + '\'' +
-               
                 ", supplier='" + supplier + '\'' +
                 ", description='" + description + '\'' +
                 '}';

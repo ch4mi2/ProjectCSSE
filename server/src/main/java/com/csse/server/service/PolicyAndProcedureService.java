@@ -99,11 +99,11 @@ public class PolicyAndProcedureService {
                 policyAndProcedure = policyRepo.save(policyAndProcedure);
 
                 if (fields.containsKey("amount")) {
-                    if (policyAndProcedure.getType().equals("Item")) {
+                    if (fields.containsKey("createdItem") && policyAndProcedure.getType().equals("Item")) {
                         reflectPolicyAndProcedure = new ReflectPolicyAndProcedure((UpdatePolicy) new ItemPolicy());
                         reflectPolicyAndProcedure.updatePolicyContext.updatePolicy(policyAndProcedure.getCreatedItem().getId(),
                                 policyAndProcedure.getAmount(), mongoTemplate);
-                    } else {
+                    } else if(fields.containsKey("createdSite") && policyAndProcedure.getType().equals("Site")) {
                         reflectPolicyAndProcedure = new ReflectPolicyAndProcedure((UpdatePolicy) new RequisitionPolicy());
                         reflectPolicyAndProcedure.updatePolicyContext.updatePolicy(policyAndProcedure.getCreatedSite().getId(),
                                 policyAndProcedure.getAmount(), mongoTemplate);

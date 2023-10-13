@@ -10,6 +10,8 @@ const PoliciesDetails = () => {
   const [updatePopup, setUpdatePopup] = useState(false);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [amount, setAmount] = useState(selectedPolicy?.amount);
+  const [description, setDescription] = useState(selectedPolicy?.description);
 
   useEffect(() => {
     const fetchPolicies = async () => {
@@ -38,6 +40,29 @@ const PoliciesDetails = () => {
     if (response.ok) {
       console.log(data);
       dispatch({ type: 'DELETE_POLICY', payload: data });
+      setLoading(false);
+    } else {
+      console.log('error');
+      setLoading(false);
+    }
+  };
+
+  const handleUpdate = (id) => async () => {
+    setLoading(true);
+    setUpdatePopup(false);
+    const payload = { amount, description };
+    const response = await fetch(`/api/policies/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log(data);
+      dispatch({ type: 'UPDATE_POLICY', payload: data });
       setLoading(false);
     } else {
       console.log('error');
@@ -206,8 +231,8 @@ const PoliciesDetails = () => {
             text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 grid justify-items-center">
-                <div className="sm:flex grid justify-items-center">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <div className="sm:flex w-auto">
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left min-w-min">
                     <h3
                       className="text-base font-semibold leading-6 text-gray-900 
                       grid justify-items-center"
@@ -218,16 +243,70 @@ const PoliciesDetails = () => {
                     <div className="mt-2">
                       <form className="w-full max-w-lg">
                         <div className="mb-6">
+                          <label className="block mb-2 text-sm font-medium text-gray-900">
+                            {selectedPolicy?.type === 'Site'
+                              ? 'Created Item'
+                              : 'Created Site'}
+                          </label>
+                          <input
+                            type="text'"
+                            id="createdOn"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={
+                              selectedPolicy.type === 'Item'
+                                ? selectedPolicy?.createdItem?.name
+                                : selectedPolicy?.createdSite?.name
+                            }
+                            disabled
+                          />
+                        </div>
+                        <div className="mb-6">
                           <label
-                            htmlFor="large-input"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            htmlFor="type"
+                            className="block mb-2 text-sm font-medium text-gray-900"
                           >
-                            Large input
+                            Type
                           </label>
                           <input
                             type="text"
-                            id="large-input"
-                            className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            id="type"
+                            value={selectedPolicy?.type}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            disabled
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="type"
+                            className="block mb-2 text-sm font-medium text-gray-900"
+                          >
+                            {selectedPolicy?.type === 'Site'
+                              ? 'Amount(Rs)'
+                              : 'Quantity'}
+                          </label>
+                          <input
+                            type="number"
+                            id="amount"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <label
+                            htmlFor="type"
+                            className="block mb-2 text-sm font-medium text-gray-900"
+                          >
+                            Description
+                          </label>
+                          <input
+                            type="text"
+                            id="description"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
                           />
                         </div>
                       </form>
@@ -238,10 +317,10 @@ const PoliciesDetails = () => {
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                  onClick={handleDelete(selectedPolicy.id)}
+                  className="inline-flex w-full justify-center rounded-md bg-[#0DB6FF] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                  onClick={handleUpdate(selectedPolicy?.id)}
                 >
-                  Delete
+                  Submit
                 </button>
                 <button
                   type="button"

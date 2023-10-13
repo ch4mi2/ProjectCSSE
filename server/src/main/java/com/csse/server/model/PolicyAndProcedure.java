@@ -17,6 +17,7 @@ public class PolicyAndProcedure {
     private String createdBy;
     private String type;
     private float amount;
+    private String description;
     @DBRef
     private Item createdItem;
     @DBRef
@@ -74,5 +75,13 @@ public class PolicyAndProcedure {
 
     public void setCreatedSite(Site createdSite) {
         this.createdSite = createdSite;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
