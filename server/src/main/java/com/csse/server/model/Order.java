@@ -17,13 +17,14 @@ public class Order {
     
     @DBRef
     private Site site;
-    @DBRef
-    private Map<Item, Integer> items;
+
+    private Map<String, Integer> items;
+    
     @DBRef
     private SiteManager siteManager;
 
 
-    public Order(Map<Item, Integer> items, float total, Site site, SiteManager siteManager) {
+    public Order(Map<String, Integer> items, float total, Site site, SiteManager siteManager) {
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
@@ -39,7 +40,7 @@ public class Order {
         this.state = state;
     }
 
-    public void setItems(Map<Item, Integer> items) {
+    public void setItems(Map<String, Integer> items) {
         this.items = items;
     }
 
@@ -47,7 +48,7 @@ public class Order {
         this.total = total;
     }
 
-    public Map<Item, Integer> getItems() {
+    public Map<String, Integer> getItems() {
         return items;
     }
 
