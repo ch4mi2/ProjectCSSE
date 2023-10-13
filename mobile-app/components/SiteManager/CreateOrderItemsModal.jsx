@@ -1,5 +1,5 @@
 import { View, Text, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
 import { GetAllItemsURI, GetAllSitesURI } from '../../constants/URI';
@@ -8,27 +8,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
   const [items, setItems] = useState([]);
-  const [name, setName] = useState('');
+  const [name, setName] = useState();
   const [sites, setSites] = useState([]);
   const [address, setAddress] = useState();
   const [supplier, setSupplier] = useState();
   const [qty, setQty] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useState(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(GetAllItemsURI);
-        const json = await response.json();
-        if (response.ok) {
-          setItems(json);
-          setName(json[0]);
-          console.log(json);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
     const fetchSites = async () => {
       try {
         const response = await fetch(GetAllSitesURI);
@@ -42,8 +29,25 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
         console.log(err);
       }
     };
-    fetchItems();
+
     fetchSites();
+  }, []);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(GetAllItemsURI);
+        const json = await response.json();
+        if (response.ok) {
+          setItems(json);
+          setName(json[0]);
+          console.log(json);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchItems();
   }, []);
 
   const handleSelectItem = (val) => {
@@ -51,6 +55,11 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
     setSupplier(val.supplier);
   };
 
+  useEffect(() => {
+    if (name) var tot = name.price * qty;
+    else var tot = 0;
+    setTotal(tot);
+  }, [name, qty]);
   return (
     <View>
       <Modal
@@ -133,19 +142,22 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
               <Text className={'text-lg mt-6  mb-2 font-bold'}>Quantity</Text>
               <TextInput
                 placeholder="Enter Quantity"
-                value={qty}
+                value={qty.toString()}
                 onValueChange={(val) => setQty(val)}
                 className={'border border-1 rounded-xl p-[12px] '}
                 keyboardType="numeric"
                 inputMode="numeric"
               />
-
-              <Text className={'text-lg mt-8 mb-2  font-bold'}>
-                Requested Date
-              </Text>
             </>
           )}
         </ScrollView>
+        <View className="flex m-0 p-0 w-full h-[150px] justify-center">
+          <View className="absolute bottom-0 bg-primary-color w-[1000%] top-0 right-0 mr-[-300px] mt-[50px] h-[1000%]"></View>
+          <View className="flex flex-row">
+            <Text className="mt-4 text-xl font-bold">Total : </Text>
+            <Text className="mt-4 text-xl font-bold ml-auto">Rs.{total}</Text>
+          </View>
+        </View>
       </Modal>
     </View>
   );

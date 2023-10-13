@@ -9,10 +9,10 @@ public class Site {
     private ObjectId id;
     private String name;
     private String address;
-    private float orderLimit;
+    private double orderLimit;
     private String siteManager;
 
-    public Site(String name, String address, float orderLimit, String siteManager) {
+    public Site(String name, String address, double orderLimit, String siteManager) {
         this.name = name;
         this.address = address;
         this.orderLimit = orderLimit;
@@ -25,7 +25,7 @@ public class Site {
         this.name = name;
     }
 
-    public void setOrderLimit(float orderLimit) {
+    public void setOrderLimit(double orderLimit) {
         this.orderLimit = orderLimit;
     }
 
@@ -43,7 +43,7 @@ public class Site {
         return name;
     }
 
-    public float getOrderLimit() {
+    public double getOrderLimit() {
         return orderLimit;
     }
 
