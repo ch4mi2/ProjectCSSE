@@ -8,6 +8,7 @@ import Home from '../screens/SiteManager/Home';
 import Orders from '../screens/SiteManager/Orders';
 import SiteManagerHeader from '../components/header/SIteManagerHeader';
 import NotificationIcon from 'react-native-vector-icons/Ionicons';
+import SiteManagerHomeStack from './SiteManagerHomeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,14 +27,14 @@ const SiteManagerView = ({ user }) => {
             fontSize: 14,
             paddingBottom: 10,
           },
-          header: () => <SiteManagerHeader user={user} />,
+          header: () => <SiteManagerHeader user={user} route={route} />,
           tabBarHideOnKeyboard: true,
         })}
         sceneContainerStyle={{ backgroundColor: 'white' }}
       >
         <Tab.Screen
           name={'home'}
-          component={Home}
+          component={SiteManagerHomeStack}
           options={{
             tabBarIcon: () => <Icon name="home" size={38} />,
           }}

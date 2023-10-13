@@ -7,12 +7,14 @@ const CreateManagementURI = `${ServerURI}/api/management/`;
 const CreateSupplierURI = `${ServerURI}/api/suppliers/`;
 
 const GetAllSiteManagersURI = `${ServerURI}/api/siteManagers/`;
-const GetAllSites = `${ServerURI}/api/sites/`;
+const GetAllSitesURI = `${ServerURI}/api/sites/`;
+const GetAllItemsURI = `${ServerURI}/api/items/`;
 
 export {
   ServerURI,
   CreateSiteManagerURI,
-  GetAllSites,
+  GetAllSitesURI,
+  GetAllItemsURI,
   GetAllSiteManagersURI,
   CreateProcurementManagerURI,
   CreateManagementURI,
