@@ -16,10 +16,6 @@ export const policiesReducer = (state, action) => {
       return {
         policies: state.policies.filter((p) => p.id !== action.payload.id),
       };
-    case 'UPDATE_POLICY':
-      return {
-        policies: state.policies.replace((p) => p.id === action.payload.id),
-      };
     case 'FILTER_POLICIES': {
       return {
         policies: state.policies.filter((w) => w.Category === action.cat),

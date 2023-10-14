@@ -10,6 +10,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (username === 'user' && password === 'pass') {
+      localStorage.setItem('username', username);
       navigate('/dashboard');
     } else {
       alert('Wrong username or password');

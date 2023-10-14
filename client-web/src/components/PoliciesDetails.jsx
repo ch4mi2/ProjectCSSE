@@ -3,31 +3,41 @@ import { usePoliciesContext } from '../hooks/usePoliciesContext';
 import editIcon from '../assets/edit.png';
 import deleteIcon from '../assets/delete.png';
 import LoadingScreen from './LoadingScreen';
+import { useNavigate } from 'react-router-dom';
 
 const PoliciesDetails = () => {
   const { policies, dispatch } = usePoliciesContext();
   const [deletePopup, setDeletePopup] = useState(false);
   const [updatePopup, setUpdatePopup] = useState(false);
+  const [selectPopup, setSelectPopup] = useState(false);
   const [selectedPolicy, setSelectedPolicy] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [amount, setAmount] = useState(selectedPolicy?.amount);
-  const [description, setDescription] = useState(selectedPolicy?.description);
+  const [amount, setAmount] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [fetchNeeded, setFetchNeeded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPolicies = async () => {
+      setLoading(true);
       const response = await fetch('/api/policies');
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
+        // console.log(data);
         dispatch({ type: 'SET_POLICIES', payload: data });
-        setLoading(false);
       } else {
         console.log('error');
       }
+      setLoading(false);
     };
 
     fetchPolicies();
-  }, [dispatch]);
+  }, [dispatch, fetchNeeded]);
+
+  useEffect(() => {
+    setAmount(parseFloat(selectedPolicy?.amount));
+    setDescription(selectedPolicy?.description);
+  }, [selectedPolicy]);
 
   const handleDelete = (id) => async () => {
     setLoading(true);
@@ -58,16 +68,23 @@ const PoliciesDetails = () => {
       },
       body: JSON.stringify(payload),
     });
-    const data = await response.json();
+    await response.json();
 
     if (response.ok) {
-      console.log(data);
-      dispatch({ type: 'UPDATE_POLICY', payload: data });
-      setLoading(false);
+      // console.log(data);
+      setFetchNeeded(!fetchNeeded);
     } else {
       console.log('error');
       setLoading(false);
     }
+  };
+
+  const handleItemNavigation = () => {
+    navigate('/page2', { state: { type: 'Item' } });
+  };
+
+  const handleSiteNavigation = () => {
+    navigate('/page2', { state: { type: 'Site' } });
   };
 
   return (
@@ -154,6 +171,7 @@ const PoliciesDetails = () => {
         <button
           className="bg-[#f4ca40] text-black font-bold 
             py-2 px-4 rounded-full absolute -bottom-20 right-10"
+          onClick={() => setSelectPopup(true)}
         >
           + Add New Policy
         </button>
@@ -220,7 +238,7 @@ const PoliciesDetails = () => {
           </div>
         </div>
       )}
-      {updatePopup && (
+      {updatePopup && selectedPolicy && (
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div
             className="flex min-h-full items-end justify-center p-4 text-center 
@@ -244,7 +262,7 @@ const PoliciesDetails = () => {
                       <form className="w-full max-w-lg">
                         <div className="mb-6">
                           <label className="block mb-2 text-sm font-medium text-gray-900">
-                            {selectedPolicy?.type === 'Site'
+                            {selectedPolicy?.type === 'Item'
                               ? 'Created Item'
                               : 'Created Site'}
                           </label>
@@ -289,7 +307,9 @@ const PoliciesDetails = () => {
                             id="amount"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            onChange={(e) =>
+                              setAmount(parseFloat(e.target.value))
+                            }
                             required
                           />
                         </div>
@@ -328,6 +348,42 @@ const PoliciesDetails = () => {
                   onClick={() => setUpdatePopup(false)}
                 >
                   Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {selectPopup && (
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3
+                      className="text-base font-semibold leading-6 text-gray-900"
+                      id="modal-title"
+                    >
+                      Create Policy for
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 flex-row grid grid-cols-2 gap-3 ">
+                <button
+                  type="button"
+                  className="inline-flex w-full justify-center rounded-md bg-[#f4ca40] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm sm:w-auto"
+                  onClick={handleItemNavigation}
+                >
+                  Item
+                </button>
+                <button
+                  type="button"
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-[#f4ca40] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
+                  onClick={handleSiteNavigation}
+                >
+                  Site
                 </button>
               </div>
             </div>
