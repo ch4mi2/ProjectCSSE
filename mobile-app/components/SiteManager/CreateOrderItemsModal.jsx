@@ -39,9 +39,14 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
         const response = await fetch(GetAllItemsURI);
         const json = await response.json();
         if (response.ok) {
-          setItems(json);
-          setName(json[0]);
-          console.log(json);
+          let arr = json.filter(
+            (item) =>
+              item.chosenOnesPrice !== null &&
+              item.chosenOnesPrice !== undefined
+          );
+          console.log(...arr);
+          setItems(arr);
+          setName(arr[0]);
         }
       } catch (err) {
         console.log(err);
@@ -56,10 +61,14 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
   };
 
   useEffect(() => {
-    if (name) var tot = name.price * qty;
-    else var tot = 0;
-    setTotal(tot);
+    if (name !== undefined && !isNaN(qty)) {
+      var tot = parseFloat(name.chosenOnesPrice) * parseFloat(qty);
+      setTotal(tot);
+    } else {
+      setTotal(0);
+    }
   }, [name, qty]);
+
   return (
     <View>
       <Modal
@@ -143,7 +152,7 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
               <TextInput
                 placeholder="Enter Quantity"
                 value={qty.toString()}
-                onValueChange={(val) => setQty(val)}
+                onChangeText={(val) => setQty(parseInt(val) || 0)}
                 className={'border border-1 rounded-xl p-[12px] '}
                 keyboardType="numeric"
                 inputMode="numeric"
