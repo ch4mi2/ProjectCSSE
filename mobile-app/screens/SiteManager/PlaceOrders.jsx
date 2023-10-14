@@ -9,6 +9,7 @@ import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItems
 const PlaceOrders = () => {
   const [items, setItems] = useState([]);
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [grandTotal, setGrandTotal] = useState(0);
 
   const handleVisibility = () => {
     console.log(modalIsVisible);
@@ -42,6 +43,8 @@ const PlaceOrders = () => {
       <CreateOrderItemsModal
         visibility={modalIsVisible}
         setVisibility={setModalIsVisible}
+        setGrandItems={setItems}
+        setGrandTotal={setGrandTotal}
       />
       <View style={styles.addButton}>
         <MainButtonWithIcon

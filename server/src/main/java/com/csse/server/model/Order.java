@@ -11,15 +11,35 @@ public class Order {
     private String state;
     private double total;
     private String site;
-    private Map<String, Integer> items;
+    private Map<String, Integer> itemsAndQty;
+    private Map<String, String> itemsAndSupplier;
     private String siteManager;
+    private Map<String, Double> restrictedItemsAndQty;
 
-    public Order(Map<String, Integer> items, double total, String site, String siteManager) {
+    public Order(Map<String, Integer> items, double total, String site, String siteManager, Map<String, String> itemsAndSupplier, Map<String, Double> restrictedItemsAndQty) {
+        this.itemsAndSupplier = itemsAndSupplier;
+        this.restrictedItemsAndQty = restrictedItemsAndQty;
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
-        this.items = items;
+        this.itemsAndQty = items;
         state = "pending";
+    }
+
+    public Map<String, String> getItemsAndSupplier() {
+        return itemsAndSupplier;
+    }
+
+    public Map<String, Double> getRestrictedItemsAndQty() {
+        return restrictedItemsAndQty;
+    }
+
+    public void setRestrictedItemsAndQty(Map<String, Double> restrictedItemsAndQty) {
+        this.restrictedItemsAndQty = restrictedItemsAndQty;
+    }
+
+    public void setItemsAndSupplier(Map<String, String> itemsAndSupplier) {
+        this.itemsAndSupplier = itemsAndSupplier;
     }
 
     public String getState() {
@@ -31,7 +51,7 @@ public class Order {
     }
 
     public void setItems(Map<String, Integer> items) {
-        this.items = items;
+        this.itemsAndQty = items;
     }
 
     public void setTotal(double total) {
@@ -39,7 +59,7 @@ public class Order {
     }
 
     public Map<String, Integer> getItems() {
-        return items;
+        return itemsAndQty;
     }
 
     public double getTotal() {
