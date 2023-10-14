@@ -9,6 +9,7 @@ const CreateSupplierURI = `${ServerURI}/api/suppliers/`;
 const GetAllSiteManagersURI = `${ServerURI}/api/siteManagers/`;
 const GetAllSitesURI = `${ServerURI}/api/sites/`;
 const GetAllItemsURI = `${ServerURI}/api/items/`;
+const GetAllSuppliersURI = `${ServerURI}/api/suppliers/`;
 
 export {
   ServerURI,
@@ -19,4 +20,5 @@ export {
   CreateProcurementManagerURI,
   CreateManagementURI,
   CreateSupplierURI,
+  GetAllSuppliersURI,
 };
