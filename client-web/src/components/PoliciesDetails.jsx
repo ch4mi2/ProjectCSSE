@@ -134,7 +134,9 @@ const PoliciesDetails = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">{policy.createdBy}</td>
+                      <td className="px-6 py-4">
+                        {policy.createdBy ?? 'Not recorded'}
+                      </td>
                       <td className="px-6 py-4">{policy.amount}</td>
                       <td className="px-6 py-4">
                         <button

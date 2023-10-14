@@ -41,7 +41,7 @@ const SiteDetails = () => {
     setLoading(true);
 
     const policy = {
-      created_by: user,
+      createdBy: user,
       amount,
       description,
       type: 'Site',
