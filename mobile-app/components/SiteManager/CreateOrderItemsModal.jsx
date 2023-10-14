@@ -2,9 +2,14 @@ import { View, Text, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
-import { GetAllItemsURI, GetAllSitesURI } from '../../constants/URI';
+import {
+  GetAllItemsURI,
+  GetAllSitesURI,
+  GetAllSuppliersURI,
+} from '../../constants/URI';
 import CloseIcon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
+import MainButton from '../common/buttons/MainButton';
 
 const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
   const [items, setItems] = useState([]);
@@ -44,7 +49,7 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
               item.chosenOnesPrice !== null &&
               item.chosenOnesPrice !== undefined
           );
-          console.log(...arr);
+
           setItems(arr);
           setName(arr[0]);
         }
@@ -57,7 +62,20 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
 
   const handleSelectItem = (val) => {
     setName(val);
-    setSupplier(val.supplier);
+
+    const fetchSupplierName = async (val) => {
+      try {
+        const res = await fetch(`${GetAllSuppliersURI}/${val.chosenOne}`);
+        if (res.ok) {
+          const json = await res.json();
+          setSupplier(json.name);
+        }
+      } catch (err) {
+        console.log(err);
+        setSupplier(val.chosenOne);
+      }
+    };
+    fetchSupplierName(val);
   };
 
   useEffect(() => {
@@ -68,6 +86,8 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
       setTotal(0);
     }
   }, [name, qty]);
+
+  const handleAddItem = () => {};
 
   return (
     <View>
@@ -119,7 +139,7 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
 
               <Text className={'text-lg  mb-2 mt-6 font-bold'}>Supplier</Text>
               <TextInput
-                value={supplier && supplier.name}
+                value={supplier && supplier}
                 readOnly={true}
                 className={'border border-1 rounded-xl p-[12px] '}
               />
@@ -162,10 +182,18 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
         </ScrollView>
         <View className="flex m-0 p-0 w-full h-[150px] justify-center">
           <View className="absolute bottom-0 bg-primary-color w-[1000%] top-0 right-0 mr-[-300px] mt-[50px] h-[1000%]"></View>
-          <View className="flex flex-row">
+          <View className="flex flex-row mt-20">
             <Text className="mt-4 text-xl font-bold">Total : </Text>
-            <Text className="mt-4 text-xl font-bold ml-auto">Rs.{total}</Text>
+            <Text className="mt-4 text-xl font-bold ml-auto">
+              Rs. {total.toFixed(2)}
+            </Text>
           </View>
+          <MainButton
+            text="Add Item"
+            containerStyles="mt-8 ml-[-10px] bg-custom-black"
+            textStyles={'text-white'}
+            onPress={handleAddItem}
+          />
         </View>
       </Modal>
     </View>
