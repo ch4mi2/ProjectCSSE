@@ -11,7 +11,12 @@ import CloseIcon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
 import MainButton from '../common/buttons/MainButton';
 
-const CreateOrderItemsModal = ({ visibility, setVisibility, setOrder }) => {
+const CreateOrderItemsModal = ({
+  visibility,
+  setVisibility,
+  setOrder,
+  orders,
+}) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState();
   const [sites, setSites] = useState([]);
@@ -28,7 +33,6 @@ const CreateOrderItemsModal = ({ visibility, setVisibility, setOrder }) => {
         if (response.ok) {
           setSites(json);
           setAddress(json[0]);
-          console.log(json);
         }
       } catch (err) {
         console.log(err);
@@ -49,7 +53,8 @@ const CreateOrderItemsModal = ({ visibility, setVisibility, setOrder }) => {
               item.chosenOnesPrice !== null &&
               item.chosenOnesPrice !== undefined
           );
-
+          const orderIds = orders.map((order) => order.id);
+          arr = arr.filter((item) => !orderIds.includes(item.id));
           setItems(arr);
           setName(arr[0]);
         }
@@ -92,8 +97,10 @@ const CreateOrderItemsModal = ({ visibility, setVisibility, setOrder }) => {
     setOrder((prev) => [
       ...prev,
       {
+        id: name.id,
         itemName: name.name,
         qty: qty,
+        price: parseFloat(name.chosenOnesPrice),
         total: total,
         site: address,
         supplierName: supplier,

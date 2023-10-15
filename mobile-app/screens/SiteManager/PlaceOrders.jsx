@@ -1,5 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Alert,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PlusIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIcon';
@@ -7,56 +15,110 @@ import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIc
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
 
 const PlaceOrders = () => {
-  const [items, setItems] = useState([]);
+  const [order, setOrder] = useState();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [grandTotal, setGrandTotal] = useState(0);
-  const [order, setOrder] = useState([
-    {
-      itemName: null,
-      qty: 0,
-      total: 0,
-      site: null,
-      supplierName: null,
-      requestedDate: null,
-      restricted: false,
-    },
-  ]);
+  const [items, setItems] = useState([]);
 
   const handleVisibility = () => {
-    console.log(modalIsVisible);
     setModalIsVisible(true);
   };
 
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
+  const handleQtyChange = (item, val) => {
+    const quantity = parseInt(val, 10) || 0; // Parse input as an integer with base 10
+    // Check if quantity is a valid number
+    if (!isNaN(quantity) && quantity >= 0) {
+      const price = parseFloat(item.price) * quantity;
+
+      const updatedItem = { ...item, qty: quantity, total: price.toFixed(2) };
+      const updatedItems = items.map((item) =>
+        item.id === updatedItem.id ? updatedItem : item
+      );
+      setItems(updatedItems);
+    } else {
+      // Handle invalid input (e.g., when quantity is not a valid number)
+      Alert('Invalid quantity input');
+    }
+  };
   const Item = ({ item }) => {
     return (
-      <View className="flex flex-row bg-primary-color p-4">
-        <Icon name="close" className="absolute top-0 right-0" />
+      <View
+        style={{
+          display: 'flex',
+          margin: 20,
+          backgroundColor: '#facc15',
+          padding: 20,
+          borderRadius: 20,
+          flexDirection: 'row',
+          gap: 20,
+          elevation: 10, // Add this line to create a drop shadow
+          shadowColor: '#000', // Shadow color
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.5,
+          shadowRadius: 3.84,
+        }}
+      >
+        <Icon
+          name="close"
+          style={{ position: 'absolute', top: 20, right: 20 }}
+          size={30}
+        />
         <Image
           source={item.url ?? require('../../assets/images/noImg.jpg')}
-          className="w-[80px] h-[80px]"
+          style={{ width: 100, height: 100 }}
         />
         <View className="flex flex-col">
-          <Text>{item.name}</Text>
-          <Text>Qty</Text> <Input />
-          {item.extra &&
-            item.extra.map((extra) => (
-              <>
-                <Text>{extra.name}</Text>
-                <input />
-              </>
-            ))}
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+            {item.itemName}
+          </Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10,
+              marginTop: 10,
+            }}
+          >
+            {console.log(item.qty)}
+            <Text>Qty</Text>
+            <TextInput
+              style={{
+                paddingHorizontal: 10,
+                width: 100,
+                backgroundColor: 'white',
+                borderRadius: 5,
+                color: 'black',
+              }}
+              value={item.qty.toString()}
+              onChangeText={(val) => handleQtyChange(item, val)}
+              keyboardType="numeric"
+              inputMode="numeric"
+            />
+          </View>
+
+          <Text style={{ marginTop: 15, fontWeight: 'bold', fontSize: 16 }}>
+            Price : Rs. {parseFloat(item.total).toFixed(2)}
+          </Text>
         </View>
       </View>
     );
   };
   return (
-    <View>
+    <ScrollView>
       <CreateOrderItemsModal
         visibility={modalIsVisible}
         setVisibility={setModalIsVisible}
-        setGrandItems={setItems}
+        setOrder={setItems}
         setGrandTotal={setGrandTotal}
-        setOrder={setOrder}
+        orders={items}
       />
       <View style={styles.addButton}>
         <MainButtonWithIcon
@@ -66,10 +128,10 @@ const PlaceOrders = () => {
           onPress={handleVisibility}
         />
       </View>
-      {items.map((item) => (
-        <Item item={item} />
+      {items.map((item, index) => (
+        <Item key={index} item={item} />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
