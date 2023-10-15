@@ -94,6 +94,7 @@ const CreateOrderItemsModal = ({
   }, [name, qty]);
 
   const handleAddItem = () => {
+    console.log(address);
     if (qty === 0) return alert('Please enter a valid quantity');
     setOrder((prev) => [
       ...prev,

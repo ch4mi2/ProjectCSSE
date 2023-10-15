@@ -15,8 +15,10 @@ import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIc
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
 import MainButton from '../../components/common/buttons/MainButton';
 import Modal from 'react-native-modal';
+import { CreateOrderURI } from '../../constants/URI';
+import { auth } from '../../firebase';
 
-const PlaceOrders = () => {
+const PlaceOrders = ({ navigation }) => {
   const [order, setOrder] = useState();
   const [needApproval, setNeedApproval] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -78,6 +80,49 @@ const PlaceOrders = () => {
 
     setNeedApproval(approvalNeeded);
     setPlaceOrderIsVisible(true);
+  };
+
+  const handleSendOrder = async () => {
+    try {
+      const orderedItems = {};
+      const orderedSites = {};
+
+      for (let index = 0; index < items.length; index++) {
+        orderedItems[items[index].id] = items[index].qty;
+        orderedSites[items[index].id] = items[index].site.id;
+      }
+
+      const orderPayload = {
+        total: grandTotal,
+        site: orderedSites,
+        items: orderedItems,
+        siteManager: auth.currentUser.uid,
+        draft: isSelected,
+        comments: Comments,
+      };
+
+      if (needApproval) {
+        orderPayload.state = 'pending';
+      }
+
+      const res = await fetch(CreateOrderURI, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (res.ok) {
+        Alert.alert('Order Placed Successfully');
+      } else {
+        Alert.alert('Failed to place order');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Alert.alert('An error occurred while placing the order');
+    }
   };
 
   const PlaceOrderModal = ({ isVisible }) => {
@@ -173,14 +218,15 @@ const PlaceOrders = () => {
           >
             Grand Total : Rs. {grandTotal.toFixed(2)}
           </Text>
-
-          <View style={{ marginTop: 20, flex: 1 }}>
-            <MainButton
-              text="Place Order"
-              containerStyles="w-full"
-              onPress={() => {}}
-            />
-          </View>
+          {grandTotal > 0 && (
+            <View style={{ marginTop: 20, flex: 1 }}>
+              <MainButton
+                text="Place Order"
+                containerStyles="w-full"
+                onPress={handleSendOrder}
+              />
+            </View>
+          )}
         </View>
       </Modal>
     );

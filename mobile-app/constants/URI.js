@@ -5,6 +5,7 @@ const CreateSiteManagerURI = `${ServerURI}/api/siteManagers/`;
 const CreateProcurementManagerURI = `${ServerURI}/api/procurementManagers/`;
 const CreateManagementURI = `${ServerURI}/api/management/`;
 const CreateSupplierURI = `${ServerURI}/api/suppliers/`;
+const CreateOrderURI = `${ServerURI}/api/orders/`;
 
 const GetAllSiteManagersURI = `${ServerURI}/api/siteManagers/`;
 const GetAllSitesURI = `${ServerURI}/api/sites/`;
@@ -21,4 +22,5 @@ export {
   CreateManagementURI,
   CreateSupplierURI,
   GetAllSuppliersURI,
+  CreateOrderURI,
 };
