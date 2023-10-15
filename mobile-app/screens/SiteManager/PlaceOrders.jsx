@@ -26,7 +26,11 @@ const PlaceOrders = () => {
   };
 
   useEffect(() => {
-    console.log(items);
+    let total = 0;
+    items.forEach((item) => {
+      total += parseFloat(item.total);
+    });
+    setGrandTotal(total);
   }, [items]);
 
   const handleQtyChange = (item, val) => {
