@@ -45,6 +45,11 @@ const PlaceOrders = () => {
       Alert('Invalid quantity input');
     }
   };
+
+  const handleDeleteItem = (item) => {
+    setItems(items.filter((i) => i.id !== item.id));
+  };
+
   const Item = ({ item }) => {
     return (
       <View
@@ -70,6 +75,7 @@ const PlaceOrders = () => {
           name="close"
           style={{ position: 'absolute', top: 20, right: 20 }}
           size={30}
+          onPress={() => handleDeleteItem(item)}
         />
         <Image
           source={item.url ?? require('../../assets/images/noImg.jpg')}
@@ -113,8 +119,8 @@ const PlaceOrders = () => {
     );
   };
   return (
-    <View>
-      <ScrollView style={{ minHeight: '78%' }}>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ paddingBottom: 150, marginBottom: 150 }}>
         <CreateOrderItemsModal
           visibility={modalIsVisible}
           setVisibility={setModalIsVisible}
@@ -141,7 +147,7 @@ const PlaceOrders = () => {
           width: '100%',
           zIndex: 100,
           position: 'absolute',
-          top: '100%',
+          bottom: 0,
         }}
       >
         <View style={{ flexDirection: 'row', margin: 20 }}>

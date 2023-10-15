@@ -54,6 +54,7 @@ const CreateOrderItemsModal = ({
               item.chosenOnesPrice !== undefined
           );
           const orderIds = orders.map((order) => order.id);
+          console.log(orderIds);
           arr = arr.filter((item) => !orderIds.includes(item.id));
           setItems(arr);
           setName(arr[0]);
@@ -63,7 +64,7 @@ const CreateOrderItemsModal = ({
       }
     };
     fetchItems();
-  }, []);
+  }, [orders]);
 
   const handleSelectItem = (val) => {
     setName(val);
@@ -138,71 +139,81 @@ const CreateOrderItemsModal = ({
           onPress={() => setVisibility(false)}
           style={{ position: 'absolute', top: 0, right: 0, color: '#facc15' }}
         />
-        <ScrollView className=" flex-1">
-          {items && sites && (
-            <>
-              <Text className="text-lg mt-6  mb-2 font-bold">Item Name</Text>
-              <View className="border border-1 rounded-xl">
-                <Picker
-                  className=""
-                  placeholder="Select Item"
-                  selectedValue={name}
-                  dropdownIconColor={'black'}
-                  dropdownIconRippleColor={'#0284C7'}
-                  selectionColor={'#0284C7'}
-                  onValueChange={(itemValue) => handleSelectItem(itemValue)}
-                  style={{ borderWidth: 4, borderColor: '#000' }}
-                >
-                  {items &&
-                    items.map((item, index) => (
-                      <Picker.Item key={index} label={item.name} value={item} />
-                    ))}
-                </Picker>
-              </View>
+        {items.length > 0 ? (
+          <ScrollView className=" flex-1">
+            {items && sites && (
+              <>
+                <Text className="text-lg mt-6  mb-2 font-bold">Item Name</Text>
+                <View className="border border-1 rounded-xl">
+                  <Picker
+                    className=""
+                    placeholder="Select Item"
+                    selectedValue={name}
+                    dropdownIconColor={'black'}
+                    dropdownIconRippleColor={'#0284C7'}
+                    selectionColor={'#0284C7'}
+                    onValueChange={(itemValue) => handleSelectItem(itemValue)}
+                    style={{ borderWidth: 4, borderColor: '#000' }}
+                  >
+                    {items &&
+                      items.map((item, index) => (
+                        <Picker.Item
+                          key={index}
+                          label={item.name}
+                          value={item}
+                        />
+                      ))}
+                  </Picker>
+                </View>
 
-              <Text className={'text-lg  mb-2 mt-6 font-bold'}>Supplier</Text>
-              <TextInput
-                value={supplier && supplier}
-                readOnly={true}
-                className={'border border-1 rounded-xl p-[12px] '}
-              />
+                <Text className={'text-lg  mb-2 mt-6 font-bold'}>Supplier</Text>
+                <TextInput
+                  value={supplier && supplier}
+                  readOnly={true}
+                  className={'border border-1 rounded-xl p-[12px] '}
+                />
 
-              <Text className={'text-lg mt-6 mb-2  font-bold'}>
-                Select Site Address
-              </Text>
-              <View className="border border-1 rounded-xl">
-                <Picker
-                  className="border border-4 px-4 py-2"
-                  placeholder="Select Site Address"
-                  selectedValue={address}
-                  dropdownIconColor={'black'}
-                  dropdownIconRippleColor={'#0284C7'}
-                  selectionColor={'#0284C7'}
-                  onValueChange={(itemValue) => setAddress(itemValue)}
-                >
-                  {sites &&
-                    sites.map((site) => (
-                      <Picker.Item
-                        key={site}
-                        label={site.address}
-                        value={site}
-                      />
-                    ))}
-                </Picker>
-              </View>
+                <Text className={'text-lg mt-6 mb-2  font-bold'}>
+                  Select Site Address
+                </Text>
+                <View className="border border-1 rounded-xl">
+                  <Picker
+                    className="border border-4 px-4 py-2"
+                    placeholder="Select Site Address"
+                    selectedValue={address}
+                    dropdownIconColor={'black'}
+                    dropdownIconRippleColor={'#0284C7'}
+                    selectionColor={'#0284C7'}
+                    onValueChange={(itemValue) => setAddress(itemValue)}
+                  >
+                    {sites &&
+                      sites.map((site) => (
+                        <Picker.Item
+                          key={site}
+                          label={site.address}
+                          value={site}
+                        />
+                      ))}
+                  </Picker>
+                </View>
 
-              <Text className={'text-lg mt-6  mb-2 font-bold'}>Quantity</Text>
-              <TextInput
-                placeholder="Enter Quantity"
-                value={qty.toString()}
-                onChangeText={(val) => setQty(parseInt(val) || 0)}
-                className={'border border-1 rounded-xl p-[12px] '}
-                keyboardType="numeric"
-                inputMode="numeric"
-              />
-            </>
-          )}
-        </ScrollView>
+                <Text className={'text-lg mt-6  mb-2 font-bold'}>Quantity</Text>
+                <TextInput
+                  placeholder="Enter Quantity"
+                  value={qty.toString()}
+                  onChangeText={(val) => setQty(parseInt(val) || 0)}
+                  className={'border border-1 rounded-xl p-[12px] '}
+                  keyboardType="numeric"
+                  inputMode="numeric"
+                />
+              </>
+            )}
+          </ScrollView>
+        ) : (
+          <View className="flex-1 justify-center items-center ">
+            <Text className="">No More Items to Add !</Text>
+          </View>
+        )}
         <View className="flex m-0 p-0 w-full h-[150px] justify-center">
           <View className="absolute bottom-0 bg-primary-color w-[1000%] top-0 right-0 mr-[-300px] mt-[50px] h-[1000%]"></View>
           <View className="flex flex-row mt-20">
