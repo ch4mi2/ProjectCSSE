@@ -1,4 +1,5 @@
 package com.csse.server.controller;
+
 import com.csse.server.model.PolicyAndProcedure;
 import com.csse.server.service.PolicyAndProcedureService;
 import org.bson.types.ObjectId;
@@ -7,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
-@RequestMapping("/api/policies")
+@RequestMapping("/policies")
 public class PolicyAndProcedureController {
     @Autowired
     private PolicyAndProcedureService policyAndProcedureService;
@@ -42,5 +45,4 @@ public class PolicyAndProcedureController {
         System.out.println("Update Policy");
         return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.updatePolicy(id, fields), HttpStatus.OK);
     }
-
 }

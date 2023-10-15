@@ -2,22 +2,19 @@ package com.csse.server.model;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.csse.server.states.OrderState;
-import com.csse.server.states.PendingState;
 
 @Document(collection = "orders")
 public class Order {
     @Id
     private ObjectId id;
     private String state;
-    private float total;
+    private double total;
     private String site;
     private Map<String, Integer> items;
     private String siteManager;
 
-    public Order(Map<String, Integer> items, float total, String site, String siteManager) {
+    public Order(Map<String, Integer> items, double total, String site, String siteManager) {
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
@@ -37,7 +34,7 @@ public class Order {
         this.items = items;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 
@@ -45,7 +42,7 @@ public class Order {
         return items;
     }
 
-    public float getTotal() {
+    public double getTotal() {
         return total;
     }
 

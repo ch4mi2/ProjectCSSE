@@ -1,4 +1,6 @@
 package com.csse.server.model;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -6,18 +8,19 @@ import org.springframework.data.annotation.Id;
 @Document(collection = "sites")
 public class Site {
     @Id
+    @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
     private String name;
     private String address;
-    private float orderLimit;
+    private double orderLimit;
     private String siteManager;
 
-    public Site(String name, String address, float orderLimit, String siteManager) {
-        this.name = name;
-        this.address = address;
-        this.orderLimit = orderLimit;
-        this.siteManager = siteManager;
-    }
+//    public Site(String name, String address, double orderLimit, String siteManager) {
+//        this.name = name;
+//        this.address = address;
+//        this.orderLimit = orderLimit;
+//        this.siteManager = siteManager;
+//    }
     
 
     // setters
@@ -25,7 +28,7 @@ public class Site {
         this.name = name;
     }
 
-    public void setOrderLimit(float orderLimit) {
+    public void setOrderLimit(double orderLimit) {
         this.orderLimit = orderLimit;
     }
 
@@ -43,7 +46,7 @@ public class Site {
         return name;
     }
 
-    public float getOrderLimit() {
+    public double getOrderLimit() {
         return orderLimit;
     }
 

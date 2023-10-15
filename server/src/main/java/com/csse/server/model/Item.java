@@ -1,5 +1,8 @@
 package com.csse.server.model;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,17 +10,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "items")
 public class Item {
     @Id
+    @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
     private String name;
-    private Map<String,Float> supplier;
+    private Map<String,Double> supplier;
     private String chosenOne;
     private String chosenOnesPrice;
-
     private String description;
     private boolean restricted;
-    private float restrictedAmount;
+    private double restrictedAmount;
 
-    public Item(String name, Map<String,Float> supplier, String description, boolean restricted, float restrictedAmount) {
+    public Item(String name, Map<String,Double> supplier, String description, boolean restricted, double restrictedAmount) {
         this.name = name;
         this.supplier = supplier;
         this.description = description;
@@ -39,11 +42,11 @@ public class Item {
         this.name = name;
     }
     
-    public Map<String,Float> getSupplier() {
+    public Map<String,Double> getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Map<String,Float> supplier) {
+    public void setSupplier(Map<String,Double> supplier) {
         this.supplier = supplier;
     }
 
@@ -63,11 +66,11 @@ public class Item {
         this.restricted = restricted;
     }
 
-    public float getRestrictedAmount() {
+    public double getRestrictedAmount() {
         return restrictedAmount;
     }
 
-    public void setRestrictedAmount(float restrictedAmount) {
+    public void setRestrictedAmount(double restrictedAmount) {
         this.restrictedAmount = restrictedAmount;
     }
 
@@ -93,7 +96,6 @@ public class Item {
     public String toString() {
         return "Item{" +
                 "name='" + name + '\'' +
-               
                 ", supplier='" + supplier + '\'' +
                 ", description='" + description + '\'' +
                 '}';

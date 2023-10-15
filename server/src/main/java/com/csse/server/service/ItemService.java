@@ -2,10 +2,12 @@ package com.csse.server.service;
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.csse.server.model.Item;
 import com.csse.server.repository.ItemRepository;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Service
 public class ItemService {
@@ -23,7 +25,13 @@ public class ItemService {
         return itemRepository.findById(id);
     }
 
-    public Item addItem(Item payload) {
+    public Item addItem(@NotNull Item payload) {
+
         return itemRepository.insert(payload);
     }
+
+//    @PutMapping
+//    public Item updateItem(ObjectId id){
+//        return itemRepository.update
+//    }
 }

@@ -1,22 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-   
-    if (username === "user" && password === "pass") {
-      navigate("/dashboard");
-      
+    if (username === 'user' && password === 'pass') {
+      localStorage.setItem('username', username);
+      navigate('/dashboard');
     } else {
-    
-      alert("Wrong username or password");
+      alert('Wrong username or password');
     }
   };
 
