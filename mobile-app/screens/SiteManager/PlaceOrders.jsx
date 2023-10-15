@@ -17,8 +17,9 @@ import MainButton from '../../components/common/buttons/MainButton';
 import Modal from 'react-native-modal';
 import { CreateOrderURI } from '../../constants/URI';
 import { auth } from '../../firebase';
+import { useNavigation } from '@react-navigation/native';
 
-const PlaceOrders = ({ navigation }) => {
+const PlaceOrders = () => {
   const [order, setOrder] = useState();
   const [needApproval, setNeedApproval] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
@@ -28,6 +29,7 @@ const PlaceOrders = ({ navigation }) => {
   const [placeOrderIsVisible, setPlaceOrderIsVisible] = useState(false);
   const [Comments, setComments] = useState('');
   const [isSelected, setSelection] = useState(false);
+  const navigation = useNavigation();
 
   const handleVisibility = () => {
     setModalIsVisible(true);
@@ -119,6 +121,8 @@ const PlaceOrders = ({ navigation }) => {
       } else {
         Alert.alert('Failed to place order');
       }
+
+      navigation.navigate('home-stack');
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('An error occurred while placing the order');
