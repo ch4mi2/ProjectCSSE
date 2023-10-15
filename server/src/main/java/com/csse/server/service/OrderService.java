@@ -90,4 +90,25 @@ public class OrderService {
         return repo.insert(payload);
     }
 
+    public Order updateOrder(Order order) {
+        // Find the order to be updated.
+        Order existingOrder = repo.findById(order.getId()).orElse(null);
+    
+        // If the order does not exist, return null.
+        if (existingOrder == null) {
+            return null;
+        }
+    
+        // Update the order fields.
+        existingOrder.setTotal(order.getTotal());
+        existingOrder.setSiteManager(order.getSiteManager());
+        existingOrder.setComments(order.getComments());
+        existingOrder.setDraft(order.isDraft());
+    
+        // Save the updated order to the database.
+        repo.save(existingOrder);
+    
+        // Return the updated order.
+        return existingOrder;
+    }
 }
