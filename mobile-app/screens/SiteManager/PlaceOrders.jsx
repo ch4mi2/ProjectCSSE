@@ -10,13 +10,24 @@ const PlaceOrders = () => {
   const [items, setItems] = useState([]);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [grandTotal, setGrandTotal] = useState(0);
+  const [order, setOrder] = useState([
+    {
+      itemName: null,
+      qty: 0,
+      total: 0,
+      site: null,
+      supplierName: null,
+      requestedDate: null,
+      restricted: false,
+    },
+  ]);
 
   const handleVisibility = () => {
     console.log(modalIsVisible);
     setModalIsVisible(true);
   };
 
-  const item = ({ item }) => {
+  const Item = ({ item }) => {
     return (
       <View className="flex flex-row bg-primary-color p-4">
         <Icon name="close" className="absolute top-0 right-0" />
@@ -45,6 +56,7 @@ const PlaceOrders = () => {
         setVisibility={setModalIsVisible}
         setGrandItems={setItems}
         setGrandTotal={setGrandTotal}
+        setOrder={setOrder}
       />
       <View style={styles.addButton}>
         <MainButtonWithIcon
@@ -54,7 +66,9 @@ const PlaceOrders = () => {
           onPress={handleVisibility}
         />
       </View>
-      {items.map((item) => item(item))}
+      {items.map((item) => (
+        <Item item={item} />
+      ))}
     </View>
   );
 };
