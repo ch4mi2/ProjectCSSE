@@ -6,9 +6,11 @@ import com.csse.server.states.*;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -100,14 +102,23 @@ public class OrderService {
 
     public List<AnalyticsDTO>  groupBySite() {
         TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
-                Aggregation.group("site").sum("total").as("totalAmount"),
-                Aggregation.project("totalAmount", "site"));
-
-        System.out.println(orderTypedAggregation);
+                Aggregation.group("site").addToSet("site").as("site")
+                        .sum("total").as("totalAmount"),
+                Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
 
         AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
 
         return results.getMappedResults();
+    }
+
+    public AnalyticsDTO  getTotal() {
+        TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
+                Aggregation.group()
+                        .sum("total").as("totalAmount"));
+
+        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+
+        return results.getUniqueMappedResult();
     }
 
 }

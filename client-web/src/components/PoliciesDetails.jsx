@@ -6,7 +6,7 @@ import LoadingScreen from './LoadingScreen';
 import { useNavigate } from 'react-router-dom';
 
 const PoliciesDetails = () => {
-  const { policies, dispatch } = usePoliciesContext();
+  const { policies, filteredPolicies, dispatch } = usePoliciesContext();
   const [deletePopup, setDeletePopup] = useState(false);
   const [updatePopup, setUpdatePopup] = useState(false);
   const [selectPopup, setSelectPopup] = useState(false);
@@ -113,7 +113,63 @@ const PoliciesDetails = () => {
               </thead>
               <tbody>
                 {policies &&
+                  !filteredPolicies &&
                   policies.map((policy, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        index % 2 === 0
+                          ? 'border text-s text-black bg-[#ffefbb] border-[#f4ca40] '
+                          : 'border text-s text-black bg-[#ffffff] border-[#f4ca40] '
+                      }
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex flex-row">
+                          <div className="basis-2/3">
+                            {policy.type === 'Item'
+                              ? policy.createdItem?.name
+                              : policy.createdSite?.name}
+                          </div>
+                          <div className="basis-1/3 grid justify-items-center">
+                            {policy.type}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        {policy.createdBy ?? 'Not recorded'}
+                      </td>
+                      <td className="px-6 py-4">{policy.amount}</td>
+                      <td className="px-6 py-4">
+                        <button
+                          className="w-auto bg-[#0DB6FF] px-2 py-2 border rounded-md grid justify-items-center"
+                          onClick={() => {
+                            setUpdatePopup(true), setSelectedPolicy(policy);
+                          }}
+                        >
+                          <img
+                            src={editIcon}
+                            className="object-scale-down h-4 w-4"
+                          />
+                        </button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          className="w-auto bg-red-400 px-2 py-2 border rounded-md grid justify-items-center"
+                          onClick={() => {
+                            setDeletePopup(true), setSelectedPolicy(policy);
+                          }}
+                        >
+                          <img
+                            src={deleteIcon}
+                            className="object-scale-down h-4 w-4"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                {policies &&
+                  filteredPolicies &&
+                  filteredPolicies.map((policy, index) => (
                     <tr
                       key={index}
                       className={

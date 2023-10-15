@@ -53,4 +53,10 @@ public class  OrderController {
     public ResponseEntity<List<AnalyticsDTO>> getAnalytics() {
         return new ResponseEntity<List<AnalyticsDTO>>(orderService.groupBySite(), HttpStatus.OK);
     }
+
+    @GetMapping("total/")
+    public ResponseEntity<AnalyticsDTO> getTotal() {
+        return new ResponseEntity<AnalyticsDTO>(orderService.getTotal(), HttpStatus.OK);
+    }
+
 }

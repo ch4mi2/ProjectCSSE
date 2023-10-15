@@ -17,9 +17,12 @@ export const policiesReducer = (state, action) => {
         policies: state.policies.filter((p) => p.id !== action.payload.id),
       };
     case 'FILTER_POLICIES': {
-      return {
-        policies: state.policies.filter((w) => w.Category === action.cat),
-      };
+      const filteredPolicies = state.policies?.filter(
+        (p) =>
+          p?.createdItem?.name.includes(action?.name) ||
+          p?.createdSite?.name.includes(action?.name)
+      );
+      return { ...state, filteredPolicies };
     }
     default:
       return state;
