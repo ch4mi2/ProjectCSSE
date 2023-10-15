@@ -7,19 +7,21 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PlusIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIcon';
-
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
 import MainButton from '../../components/common/buttons/MainButton';
+import Modal from 'react-native-modal';
 
 const PlaceOrders = () => {
   const [order, setOrder] = useState();
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [grandTotal, setGrandTotal] = useState(0);
   const [items, setItems] = useState([]);
+  const [placeOrderIsVisible, setPlaceOrderIsVisible] = useState(false);
 
   const handleVisibility = () => {
     setModalIsVisible(true);
@@ -52,6 +54,39 @@ const PlaceOrders = () => {
 
   const handleDeleteItem = (item) => {
     setItems(items.filter((i) => i.id !== item.id));
+  };
+
+  const PlaceOrderModal = ({ isVisible }) => {
+    const [isSelected, setSelection] = useState(false);
+    return (
+      <Modal
+        isVisible={isVisible}
+        onBackdropPress={this.close}
+        backdropColor="#fff"
+        backdropOpacity={1}
+        animationIn="zoomInDown"
+        animationOut="zoomOutUp"
+        animationInTiming={600}
+        propagateSwipe
+        animationOutTiming={600}
+        backdropTransitionInTiming={600}
+        backdropTransitionOutTiming={600}
+        style={{
+          backgroundColor: 'white',
+          padding: 30,
+        }}
+        coverScreen={true}
+      >
+        <View style={{ flex: 1 }}>
+          <Checkbox
+            value={isSelected}
+            onValueChange={setSelection}
+            style={{}}
+          />
+          <Text style={{}}>Draft Order</Text>
+        </View>
+      </Modal>
+    );
   };
 
   const Item = ({ item }) => {
@@ -154,6 +189,7 @@ const PlaceOrders = () => {
           bottom: 0,
         }}
       >
+        <PlaceOrderModal isVisible={placeOrderIsVisible} />
         <View style={{ flexDirection: 'row', margin: 20 }}>
           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
             Grand Total :
@@ -169,6 +205,7 @@ const PlaceOrders = () => {
             containerStyles="w-full bg-custom-black"
             textStyles={'text-white'}
             text="Place Order"
+            onPress={() => setPlaceOrderIsVisible(true)}
           />
         </View>
       </View>
