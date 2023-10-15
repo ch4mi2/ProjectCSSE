@@ -1,10 +1,18 @@
 package com.csse.server.service;
+import com.csse.server.dtos.AnalyticsDTO;
 import com.csse.server.model.Order;
 import com.csse.server.repository.OrderRepository;
 import com.csse.server.states.*;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.Fields;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +24,8 @@ public class OrderService {
 
     @Autowired
     private OrderRepository repo;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
      public String changeOrderState(ObjectId orderId, String newState) {
          //try {
@@ -88,6 +98,27 @@ public class OrderService {
 
     public Order addOrder(Order payload) {
         return repo.insert(payload);
+    }
+
+    public List<AnalyticsDTO>  groupBySite() {
+        TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
+                Aggregation.group("site").addToSet("site").as("site")
+                        .sum("total").as("totalAmount"),
+                Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
+
+        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+
+        return results.getMappedResults();
+    }
+
+    public AnalyticsDTO  getTotal() {
+        TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
+                Aggregation.group()
+                        .sum("total").as("totalAmount"));
+
+        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+
+        return results.getUniqueMappedResult();
     }
 
     public Order updateOrder(Order order) {
