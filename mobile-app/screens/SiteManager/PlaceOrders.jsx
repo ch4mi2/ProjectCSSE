@@ -13,6 +13,7 @@ import PlusIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIcon';
 
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
+import MainButton from '../../components/common/buttons/MainButton';
 
 const PlaceOrders = () => {
   const [order, setOrder] = useState();
@@ -112,30 +113,61 @@ const PlaceOrders = () => {
     );
   };
   return (
-    <ScrollView>
-      <CreateOrderItemsModal
-        visibility={modalIsVisible}
-        setVisibility={setModalIsVisible}
-        setOrder={setItems}
-        setGrandTotal={setGrandTotal}
-        orders={items}
-      />
-      <View style={styles.addButton}>
-        <MainButtonWithIcon
-          icon={<PlusIcon name="plus-circle-outline" size={40} />}
-          text="Add items"
-          iconBeforeText={true}
-          onPress={handleVisibility}
+    <View>
+      <ScrollView style={{ minHeight: '78%' }}>
+        <CreateOrderItemsModal
+          visibility={modalIsVisible}
+          setVisibility={setModalIsVisible}
+          setOrder={setItems}
+          setGrandTotal={setGrandTotal}
+          orders={items}
         />
+        <View style={styles.addButton}>
+          <MainButtonWithIcon
+            icon={<PlusIcon name="plus-circle-outline" size={40} />}
+            text="Add items"
+            iconBeforeText={true}
+            onPress={handleVisibility}
+          />
+        </View>
+        {items.map((item, index) => (
+          <Item key={index} item={item} />
+        ))}
+      </ScrollView>
+      <View
+        style={{
+          backgroundColor: '#facc15',
+          height: 150,
+          width: '100%',
+          zIndex: 100,
+          position: 'absolute',
+          top: '100%',
+        }}
+      >
+        <View style={{ flexDirection: 'row', margin: 20 }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+            Grand Total :
+          </Text>
+          <Text
+            style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 'auto' }}
+          >
+            Rs. {grandTotal.toFixed(2)}
+          </Text>
+        </View>
+        <View style={{ marginHorizontal: 20 }}>
+          <MainButton
+            containerStyles="w-full bg-custom-black"
+            textStyles={'text-white'}
+            text="Place Order"
+          />
+        </View>
       </View>
-      {items.map((item, index) => (
-        <Item key={index} item={item} />
-      ))}
-    </ScrollView>
+    </View>
   );
 };
 
 export default PlaceOrders;
+
 const styles = StyleSheet.create({
   addButton: {
     marginLeft: '50%',
