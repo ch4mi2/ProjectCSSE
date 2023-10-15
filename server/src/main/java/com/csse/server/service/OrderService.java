@@ -27,28 +27,28 @@ public class OrderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public String changeOrderState(ObjectId orderId, String newState) {
-        //try {
-            // Retrieve the order from the repository using the orderId.
-            Optional<Order> optionalOrder = repo.findById(orderId);
+     public String changeOrderState(ObjectId orderId, String newState) {
+         //try {
+             // Retrieve the order from the repository using the orderId.
+             Optional<Order> optionalOrder = repo.findById(orderId);
 
-            if (optionalOrder.isPresent()) {
-                Order order = optionalOrder.get();
+             if (optionalOrder.isPresent()) {
+                 Order order = optionalOrder.get();
 
-                // Change the order state based on the newState parameter.
-                String statusMessage = changeState(order, newState);
+                 // Change the order state based on the newState parameter.
+                 String statusMessage = changeState(order, newState);
 
-                // Save the updated order back to MongoDB.
-                repo.save(order);
+                 // Save the updated order back to MongoDB.
+                 repo.save(order);
 
-                return statusMessage;
-            } else {
-                return null; // Return null for not found.
-            }
-//        } catch (Exception e) {
-//            return "An error occurred.";
-//        }
-    }
+                 return statusMessage;
+             } else {
+                 return null; // Return null for not found.
+             }
+ //        } catch (Exception e) {
+ //            return "An error occurred.";
+ //        }
+     }
 
     public String changeState(Order order, String newState) {
 
@@ -121,4 +121,25 @@ public class OrderService {
         return results.getUniqueMappedResult();
     }
 
+    public Order updateOrder(Order order) {
+        // Find the order to be updated.
+        Order existingOrder = repo.findById(order.getId()).orElse(null);
+    
+        // If the order does not exist, return null.
+        if (existingOrder == null) {
+            return null;
+        }
+    
+        // Update the order fields.
+        existingOrder.setTotal(order.getTotal());
+        existingOrder.setSiteManager(order.getSiteManager());
+        existingOrder.setComments(order.getComments());
+        existingOrder.setDraft(order.isDraft());
+    
+        // Save the updated order to the database.
+        repo.save(existingOrder);
+    
+        // Return the updated order.
+        return existingOrder;
+    }
 }

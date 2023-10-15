@@ -5,11 +5,13 @@ const CreateSiteManagerURI = `${ServerURI}/api/siteManagers/`;
 const CreateProcurementManagerURI = `${ServerURI}/api/procurementManagers/`;
 const CreateManagementURI = `${ServerURI}/api/management/`;
 const CreateSupplierURI = `${ServerURI}/api/suppliers/`;
-
+const CreateOrderURI = `${ServerURI}/api/orders/`;
+const CreateCommentURI = `${ServerURI}/api/comments`;
 const GetAllSiteManagersURI = `${ServerURI}/api/siteManagers/`;
 const GetAllSitesURI = `${ServerURI}/api/sites/`;
 const GetAllItemsURI = `${ServerURI}/api/items/`;
 const GetAllSuppliersURI = `${ServerURI}/api/suppliers/`;
+const GetAllOrdersURI = `${ServerURI}/api/orders/`;
 
 export {
   ServerURI,
@@ -21,4 +23,7 @@ export {
   CreateManagementURI,
   CreateSupplierURI,
   GetAllSuppliersURI,
+  CreateOrderURI,
+  GetAllOrdersURI,
+  CreateCommentURI,
 };

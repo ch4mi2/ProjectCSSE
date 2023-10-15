@@ -24,18 +24,18 @@ public class  OrderController {
         return new ResponseEntity<List<Order>>(orderService.allOrders(), HttpStatus.OK);
     }
 
-    @PatchMapping("/state/{id}")
-    public ResponseEntity<String> changeOrderState(
-            @PathVariable ObjectId id,
-            @RequestBody String newState) {
-        System.out.println(newState);
-        String result = orderService.changeOrderState(id, newState);
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
-        }
-    }
+     @PatchMapping("/state/{id}")
+     public ResponseEntity<String> changeOrderState(
+             @PathVariable ObjectId id,
+             @RequestBody String newState) {
+         System.out.println(newState);
+         String result = orderService.changeOrderState(id, newState);
+         if (result != null) {
+             return new ResponseEntity<>(result, HttpStatus.CREATED);
+         } else {
+             return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
+         }
+     }
 
 
     @GetMapping("/{id}")
@@ -49,6 +49,7 @@ public class  OrderController {
         return new ResponseEntity<Order>(orderService.addOrder(payload), HttpStatus.valueOf(201));
     }
 
+
     @GetMapping("analytics/")
     public ResponseEntity<List<AnalyticsDTO>> getAnalytics() {
         return new ResponseEntity<List<AnalyticsDTO>>(orderService.groupBySite(), HttpStatus.OK);
@@ -57,6 +58,11 @@ public class  OrderController {
     @GetMapping("total/")
     public ResponseEntity<AnalyticsDTO> getTotal() {
         return new ResponseEntity<AnalyticsDTO>(orderService.getTotal(), HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@RequestBody Order payload) {
+        return new ResponseEntity<Order>(orderService.updateOrder(payload), HttpStatus.OK);
     }
 
 }
