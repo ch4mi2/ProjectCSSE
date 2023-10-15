@@ -11,7 +11,7 @@ import CloseIcon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler';
 import MainButton from '../common/buttons/MainButton';
 
-const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
+const CreateOrderItemsModal = ({ visibility, setVisibility, setOrder }) => {
   const [items, setItems] = useState([]);
   const [name, setName] = useState();
   const [sites, setSites] = useState([]);
@@ -87,7 +87,23 @@ const CreateOrderItemsModal = ({ visibility, setVisibility }) => {
     }
   }, [name, qty]);
 
-  const handleAddItem = () => {};
+  const handleAddItem = () => {
+    if (qty === 0) return alert('Please enter a valid quantity');
+    setOrder((prev) => [
+      ...prev,
+      {
+        itemName: name.name,
+        qty: qty,
+        total: total,
+        site: address,
+        supplierName: supplier,
+        restricted: name.restricted,
+      },
+    ]);
+    setQty(0);
+    setName(items[0]);
+    setVisibility(false);
+  };
 
   return (
     <View>
