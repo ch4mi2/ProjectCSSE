@@ -1,16 +1,6 @@
-import ItemDetails from '../components/ItemDetails';
-import { useLocation } from 'react-router-dom';
-import SiteDetails from '../components/SiteDetails';
-import { useEffect, useState } from 'react';
+import PoliciesDetails from '../components/PoliciesDetails';
 
-const Page2 = () => {
-  const location = useLocation();
-  const [activeNavItem, setActiveNavItem] = useState(null);
-
-  useEffect(() => {
-    setActiveNavItem(location.type);
-  }, []);
-
+const Policies = () => {
   return (
     <div>
       <div className="px-10 pt-10 flex flex-row">
@@ -18,9 +8,6 @@ const Page2 = () => {
           <h1 className="font-sans font-bold text-2xl leading-7">
             Policies and Procedures
           </h1>
-          <h2 className="font-sans font-bold text-2xl leading-7 text-slate-500">
-            Item List
-          </h2>
         </div>
         <div className="mx-60 basis-1/2">
           <div className="relative flex items-end w-full h-12 rounded-lg focus-within:shadow-lg bg-[#e5e7eb] overflow-hidden">
@@ -49,9 +36,10 @@ const Page2 = () => {
           </div>
         </div>
       </div>
-      {activeNavItem === 'item' ? <ItemDetails /> : <SiteDetails />}
+      <br />
+      <PoliciesDetails />
     </div>
   );
 };
 
-export default Page2;
+export default Policies;

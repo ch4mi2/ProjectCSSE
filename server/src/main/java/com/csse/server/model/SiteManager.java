@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 public class SiteManager {
     @Id
     private ObjectId id;
-
     private String name;
     private String empId;
     private String email;

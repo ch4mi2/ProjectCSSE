@@ -29,4 +29,11 @@ public class GlobalExceptionHandler {
         System.out.println(exception.getMessage());
         return new ErrorResponse(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleInvalidFormatException(InvalidFormatException exception) {
+        System.out.println(exception.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    }
 }
