@@ -1,33 +1,17 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Swiper from 'react-native-swiper';
-import { useEffect, useState } from 'react';
-import { GetAllSites } from '../../constants/URI';
 
-const SwiperComponent = () => {
-  const [sites, setSites] = useState([]);
-
-  useEffect(() => {
-    const fetchSites = async () => {
-      try {
-        const response = await fetch(GetAllSites);
-        const json = await response.json();
-        if (response.ok) {
-          setSites(json);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchSites();
-  }, []);
-
+const SwiperComponent = ({ sites }) => {
   return (
     <Swiper
       style={styles.wrapper}
       showsButtons={false}
       showsPagination={false}
       height={100}
+      loop={true}
+      autoplay={true}
+      autoplayTimeout={3}
     >
       {sites &&
         sites.map((site) => (
