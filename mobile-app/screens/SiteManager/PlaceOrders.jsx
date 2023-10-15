@@ -15,7 +15,7 @@ import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIc
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
 import MainButton from '../../components/common/buttons/MainButton';
 import Modal from 'react-native-modal';
-import { CreateOrderURI } from '../../constants/URI';
+import { CreateCommentURI, CreateOrderURI } from '../../constants/URI';
 import { auth } from '../../firebase';
 import { useNavigation } from '@react-navigation/native';
 
@@ -117,7 +117,25 @@ const PlaceOrders = () => {
       });
 
       if (res.ok) {
+        console.log(orderPayload);
         Alert.alert('Order Placed Successfully');
+        if (Comments.length > 0) {
+          try {
+            const resp = await fetch(CreateCommentURI, {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                orderId: res.id,
+                texts: [Comments],
+              }),
+            });
+          } catch (error) {
+            Alert.alert(error);
+          }
+        }
       } else {
         Alert.alert('Failed to place order');
       }

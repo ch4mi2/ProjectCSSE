@@ -47,5 +47,8 @@ public class  OrderController {
         return new ResponseEntity<Order>(orderService.addOrder(payload), HttpStatus.valueOf(201));
     }
 
-    
+    @PostMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@RequestBody Order payload) {
+        return new ResponseEntity<Order>(orderService.updateOrder(payload), HttpStatus.OK);
+    }
 }
