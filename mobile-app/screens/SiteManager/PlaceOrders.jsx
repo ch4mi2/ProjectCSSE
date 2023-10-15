@@ -15,13 +15,19 @@ import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIc
 import CreateOrderItemsModal from '../../components/SiteManager/CreateOrderItemsModal';
 import MainButton from '../../components/common/buttons/MainButton';
 import Modal from 'react-native-modal';
+import { CreateOrderURI } from '../../constants/URI';
+import { auth } from '../../firebase';
 
-const PlaceOrders = () => {
+const PlaceOrders = ({ navigation }) => {
   const [order, setOrder] = useState();
+  const [needApproval, setNeedApproval] = useState(false);
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [grandTotal, setGrandTotal] = useState(0);
   const [items, setItems] = useState([]);
+  const [restricted, setRestricted] = useState(false);
   const [placeOrderIsVisible, setPlaceOrderIsVisible] = useState(false);
+  const [Comments, setComments] = useState('');
+  const [isSelected, setSelection] = useState(false);
 
   const handleVisibility = () => {
     setModalIsVisible(true);
@@ -56,8 +62,70 @@ const PlaceOrders = () => {
     setItems(items.filter((i) => i.id !== item.id));
   };
 
+  const handlePlaceOrderClick = () => {
+    let approvalNeeded;
+    for (i in items) {
+      if (i.restricted) {
+        setRestricted(true);
+        approvalNeeded = true;
+        break;
+      } else {
+        approvalNeeded = false;
+      }
+
+      if (grandTotal > 100000) {
+        approvalNeeded = true;
+      }
+    }
+
+    setNeedApproval(approvalNeeded);
+    setPlaceOrderIsVisible(true);
+  };
+
+  const handleSendOrder = async () => {
+    try {
+      const orderedItems = {};
+      const orderedSites = {};
+
+      for (let index = 0; index < items.length; index++) {
+        orderedItems[items[index].id] = items[index].qty;
+        orderedSites[items[index].id] = items[index].site.id;
+      }
+
+      const orderPayload = {
+        total: grandTotal,
+        site: orderedSites,
+        items: orderedItems,
+        siteManager: auth.currentUser.uid,
+        draft: isSelected,
+        comments: Comments,
+      };
+
+      if (needApproval) {
+        orderPayload.state = 'pending';
+      }
+
+      const res = await fetch(CreateOrderURI, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (res.ok) {
+        Alert.alert('Order Placed Successfully');
+      } else {
+        Alert.alert('Failed to place order');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Alert.alert('An error occurred while placing the order');
+    }
+  };
+
   const PlaceOrderModal = ({ isVisible }) => {
-    const [isSelected, setSelection] = useState(false);
     return (
       <Modal
         isVisible={isVisible}
@@ -77,13 +145,88 @@ const PlaceOrders = () => {
         }}
         coverScreen={true}
       >
-        <View style={{ flex: 1 }}>
-          <Checkbox
-            value={isSelected}
-            onValueChange={setSelection}
-            style={{}}
+        <View style={{ flex: 1, display: 'flex' }}>
+          <Icon
+            name="arrow-left"
+            size={30}
+            onPress={() => setPlaceOrderIsVisible(false)}
+            style={{ position: 'absolute', top: 0, left: 0, color: '#facc15' }}
           />
-          <Text style={{}}>Draft Order</Text>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: 40,
+              marginTop: 30,
+            }}
+          >
+            Place order
+          </Text>
+          <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
+            <Checkbox
+              value={isSelected}
+              onValueChange={setSelection}
+              style={{}}
+            />
+            <Text style={{ fontWeight: 'bold' }}>Draft Order</Text>
+          </View>
+
+          <Text style={{ marginTop: 20, marginBottom: 10, fontWeight: 'bold' }}>
+            Comments
+          </Text>
+          <TextInput
+            style={{
+              borderWidth: 1,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              textAlignVertical: 'top',
+            }}
+            multiline={true}
+            placeholder="Add Comments"
+            numberOfLines={10}
+            textAlign="left"
+            onChangeText={(val) => setComments(val)}
+            value={Comments}
+          />
+          {needApproval ? (
+            <Text
+              style={{
+                textAlign: 'center',
+                fontWeight: 'bold',
+                marginTop: 30,
+                color: 'red',
+              }}
+            >
+              Approval Needed
+            </Text>
+          ) : (
+            <Text
+              style={{ textAlign: 'center', fontWeight: 'bold', marginTop: 30 }}
+            >
+              Does Not Need Approval
+            </Text>
+          )}
+
+          <Text
+            style={{
+              fontSize: 19,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginVertical: 30,
+            }}
+          >
+            Grand Total : Rs. {grandTotal.toFixed(2)}
+          </Text>
+          {grandTotal > 0 && (
+            <View style={{ marginTop: 20, flex: 1 }}>
+              <MainButton
+                text="Place Order"
+                containerStyles="w-full"
+                onPress={handleSendOrder}
+              />
+            </View>
+          )}
         </View>
       </Modal>
     );
@@ -205,7 +348,7 @@ const PlaceOrders = () => {
             containerStyles="w-full bg-custom-black"
             textStyles={'text-white'}
             text="Place Order"
-            onPress={() => setPlaceOrderIsVisible(true)}
+            onPress={handlePlaceOrderClick}
           />
         </View>
       </View>
