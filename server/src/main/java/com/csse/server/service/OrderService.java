@@ -17,28 +17,28 @@ public class OrderService {
     @Autowired
     private OrderRepository repo;
 
-//     public String changeOrderState(ObjectId orderId, String newState) {
-//         //try {
-//             // Retrieve the order from the repository using the orderId.
-//             Optional<Order> optionalOrder = repo.findById(orderId);
+     public String changeOrderState(ObjectId orderId, String newState) {
+         //try {
+             // Retrieve the order from the repository using the orderId.
+             Optional<Order> optionalOrder = repo.findById(orderId);
 
-//             if (optionalOrder.isPresent()) {
-//                 Order order = optionalOrder.get();
+             if (optionalOrder.isPresent()) {
+                 Order order = optionalOrder.get();
 
-//                 // Change the order state based on the newState parameter.
-//                 String statusMessage = changeState(order, newState);
+                 // Change the order state based on the newState parameter.
+                 String statusMessage = changeState(order, newState);
 
-//                 // Save the updated order back to MongoDB.
-//                 repo.save(order);
+                 // Save the updated order back to MongoDB.
+                 repo.save(order);
 
-//                 return statusMessage;
-//             } else {
-//                 return null; // Return null for not found.
-//             }
-// //        } catch (Exception e) {
-// //            return "An error occurred.";
-// //        }
-//     }
+                 return statusMessage;
+             } else {
+                 return null; // Return null for not found.
+             }
+ //        } catch (Exception e) {
+ //            return "An error occurred.";
+ //        }
+     }
 
     public String changeState(Order order, String newState) {
 
