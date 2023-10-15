@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { GetAllOrdersURI } from '../../constants/URI';
+import { CreateOrderURI, GetAllOrdersURI } from '../../constants/URI';
 import { auth } from '../../firebase';
 
 const Orders = () => {
@@ -25,6 +25,35 @@ const Orders = () => {
 
     fetchOrders();
   }, []);
+
+  const handlePublish = async (order) => {
+    try {
+      const response = await fetch(`${CreateOrderURI}/${order.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          total: order.total,
+          site: order.site,
+          items: order.items,
+          siteManager: order.siteManager,
+          comments: order,
+          state: order.sate,
+          draft: false,
+        }),
+      });
+
+      if (response.status === 200) {
+        Alert.alert('Successfully Submitted');
+      } else {
+        Alert.alert('An error occurred while updating the order');
+        console.log(order.id);
+      }
+    } catch (error) {
+      Alert.alert('An error occurred', error.toString());
+    }
+  };
 
   return (
     <ScrollView>
@@ -62,6 +91,7 @@ const Orders = () => {
               <Text style={{ fontWeight: 'bold' }}>
                 Draft : {order.draft.toString()}
               </Text>
+
               <Text style={{ fontWeight: 'bold' }}>
                 Order Status : {order.state}
               </Text>
@@ -71,6 +101,22 @@ const Orders = () => {
               <Text style={{ fontWeight: 'bold' }}>
                 Comments : {order.comments}
               </Text>
+              {order.draft ? (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: 'black',
+
+                    marginLeft: 'auto',
+                    borderRadius: 10,
+                    padding: 10,
+                  }}
+                  onPress={() => handlePublish(order)}
+                >
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                    Publish
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
           ))}
       </View>
