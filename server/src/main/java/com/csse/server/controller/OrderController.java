@@ -22,18 +22,18 @@ public class  OrderController {
         return new ResponseEntity<List<Order>>(orderService.allOrders(), HttpStatus.OK);
     }
 
-    // @PatchMapping("/state/{id}")
-    // public ResponseEntity<String> changeOrderState(
-    //         @PathVariable ObjectId id,
-    //         @RequestBody String newState) {
-    //     System.out.println(newState);
-    //     String result = orderService.changeOrderState(id, newState);
-    //     if (result != null) {
-    //         return new ResponseEntity<>(result, HttpStatus.CREATED);
-    //     } else {
-    //         return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
-    //     }
-    // }
+     @PatchMapping("/state/{id}")
+     public ResponseEntity<String> changeOrderState(
+             @PathVariable ObjectId id,
+             @RequestBody String newState) {
+         System.out.println(newState);
+         String result = orderService.changeOrderState(id, newState);
+         if (result != null) {
+             return new ResponseEntity<>(result, HttpStatus.CREATED);
+         } else {
+             return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
+         }
+     }
 
 
     @GetMapping("/{id}")
