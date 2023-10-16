@@ -4,12 +4,13 @@ import SiteDetails from '../components/SiteDetails';
 import { useEffect, useState } from 'react';
 
 const Page2 = () => {
-  const location = useLocation();
+  const { state } = useLocation();
   const [activeNavItem, setActiveNavItem] = useState(null);
 
   useEffect(() => {
-    setActiveNavItem(location.type);
-  }, []);
+    setActiveNavItem(localStorage.getItem('type'));
+    console.log(state);
+  }, [activeNavItem, state]);
 
   return (
     <div>
@@ -19,7 +20,7 @@ const Page2 = () => {
             Policies and Procedures
           </h1>
           <h2 className="font-sans font-bold text-2xl leading-7 text-slate-500">
-            Item List
+            {activeNavItem === 'Item' ? 'Item List' : 'Site List'}
           </h2>
         </div>
         <div className="mx-60 basis-1/2">
@@ -49,7 +50,7 @@ const Page2 = () => {
           </div>
         </div>
       </div>
-      {activeNavItem === 'item' ? <ItemDetails /> : <SiteDetails />}
+      {activeNavItem === 'Item' ? <ItemDetails /> : <SiteDetails />}
     </div>
   );
 };

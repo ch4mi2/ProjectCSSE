@@ -25,14 +25,21 @@ public class PolicyAndProcedureService {
     private PolicyAndProcedureRepository policyRepo;
     @Autowired
     private MongoTemplate mongoTemplate;
+
     public List<PolicyAndProcedure> allPolicies() {
         return policyRepo.findAll();
     }
-
-    public PolicyAndProcedure singlePolicy(ObjectId id) {
-        return policyRepo.findById(id).orElseThrow(
-                () -> new PolicyNotFoundException("No Policy with id: " + id)
-        );
+    public PolicyAndProcedure singlePolicy(ObjectId id) throws PolicyNotFoundException{
+        try {
+            PolicyAndProcedure fetchedPolicy = policyRepo.findById(id).orElse(null);
+            if( fetchedPolicy == null ) {
+                throw new NullPointerException();
+            } else {
+                return fetchedPolicy;
+            }
+        } catch (NullPointerException ex) {
+            throw new PolicyNotFoundException("No Policy with id: " + id);
+        }
     }
 
     public PolicyAndProcedure recordPolicy(@NotNull PolicyAndProcedure payload) {
@@ -81,8 +88,8 @@ public class PolicyAndProcedureService {
         }
     }
 
-
-    public PolicyAndProcedure updatePolicy(ObjectId id, Map<String,Object> fields) {
+    public PolicyAndProcedure updatePolicy(ObjectId id, Map<String,Object> fields) throws NullPointerException,
+            CreatedSiteNotFoundException , CreatedItemNotFoundException{
         ReflectPolicyAndProcedure reflectPolicyAndProcedure;
 
         PolicyAndProcedure policyAndProcedure = null;
@@ -116,7 +123,7 @@ public class PolicyAndProcedureService {
             }
         } catch (NullPointerException e) {
             if (Objects.requireNonNull(policyAndProcedure).getType().equals("Item")) {
-                throw new CreatedSiteNotFoundException("The createdItem field is empty");
+                throw new CreatedItemNotFoundException("The createdItem field is empty");
             } else {
                 throw new CreatedSiteNotFoundException("The createdSite field is empty");
             }

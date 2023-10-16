@@ -1,5 +1,4 @@
 package com.csse.server.model;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -7,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Map;
 @Document(collection = "items")
 public class Item {
     @Id
@@ -26,6 +26,9 @@ public class Item {
         this.description = description;
         this.restricted = restricted;
         this.restrictedAmount = restrictedAmount;
+    }
+
+    public Item() {
     }
 
     public ObjectId getId() {

@@ -2,12 +2,10 @@ package com.csse.server.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Getter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 
 @Document(collection = "policiesAndProcedures")
 public class PolicyAndProcedure {
@@ -23,13 +21,16 @@ public class PolicyAndProcedure {
     @DBRef
     private Site createdSite;
 
-    public PolicyAndProcedure(String createdBy, String type, float amount, Item createdItem, Site createdSite) {
+    public PolicyAndProcedure(String createdBy, String type, float amount, Item createdItem, Site createdSite, String description) {
         this.createdBy = createdBy;
         this.type = type;
         this.amount = amount;
         this.createdItem = createdItem;
         this.createdSite = createdSite;
+        this.description = description;
     }
+
+    public PolicyAndProcedure() {}
 
     public ObjectId getId() {
         return id;
