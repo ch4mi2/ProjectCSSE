@@ -33,8 +33,10 @@ public class OrderController {
          System.out.println(newState);
          String result = orderService.changeOrderState(id, newState);
          if (result != null) {
+             System.out.println(1);
              return new ResponseEntity<>(result, HttpStatus.CREATED);
          } else {
+             System.out.println(2);
              return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
          }
      }

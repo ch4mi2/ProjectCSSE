@@ -37,14 +37,14 @@ public class CommentService {
     }
 
 
-    public boolean deleteComment(ObjectId id) {
-        try{
-            repo.deleteById(id);
-            return true;
-        } catch (Exception e){
-            return false;
-        }
-    }
+//    public boolean deleteComment(ObjectId id) {
+//        try{
+//            repo.deleteById(id);
+//            return true;
+//        } catch (Exception e){
+//            return false;
+//        }
+//    }
 
     public List<Comment> getCommentsByOrderId(Object orderId) {
         List<Comment> allComments = repo.findAll();
