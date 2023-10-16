@@ -1,43 +1,36 @@
 import viewDetails from '../assets/next.png';
-// import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-const orderList = [
-  {
-    id: 1,
-    site: 'Colombo',
-    site_manager: 'Emily Johnson',
-    amount: 125000.0,
-    status: 'Pending',
-  },
-  {
-    id: 2,
-    site: 'Galle',
-    site_manager: 'Elizabeth Martinez',
-    amount: 375600.0,
-    status: 'Approved',
-  },
-  {
-    id: 3,
-    site: 'Kandy',
-    site_manager: 'Olivia Taylor',
-    amount: 185200.0,
-    status: 'Approved',
-  },
-  {
-    id: 4,
-    site: 'Mathara',
-    site_manager: 'Daniel White',
-    amount: 685000.0,
-    status: 'Declined',
-  },
-];
+import { useEffect,useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import {useOrderContext} from '../hooks/useOrderContext';
+import LoadingScreen from './LoadingScreen';
 
 const ApprovalRequests = () => {
-  // const navigate = useNavigate();
+  const { orders, dispatch } = useOrderContext();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  // const handleRequest =()=>{
-  //     navigate('/comments');
-  // };
+  useEffect(()=>{
+    const fetchOrders = async() =>{
+      setLoading(true);
+      const response = await fetch('/api/api/orders/');
+      console.log(response);
+      const data = await response.json()
+      console.log(data);
+
+      if(response.ok){
+        dispatch({ type: 'SET_ORDERS', payload: data });
+      } else {
+        console.log('error');
+      }
+      setLoading(false);
+    }
+    fetchOrders();
+  },[]);
+
+  const handleRequest =(id)=>{
+    console.log("Navigating to /comments/", id);
+      navigate(`/comments/${id}`);
+  };
 
   return (
     <div>
@@ -46,9 +39,9 @@ const ApprovalRequests = () => {
           <table className="w-11/12 text-sm text-left text-gray-500 dark:text-gray-400 mx-10 my-10">
             <thead className="text-s text-black font-bold uppercase bg-[#f4ca40] ">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   ID
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Site
                 </th>
@@ -65,7 +58,7 @@ const ApprovalRequests = () => {
               </tr>
             </thead>
             <tbody>
-              {orderList.map((order, index) => (
+              {orders.map((order, index) => (
                 <tr
                   key={index}
                   className={
@@ -74,18 +67,17 @@ const ApprovalRequests = () => {
                       : 'border text-s text-black bg-[#ffffff] border-[#f4ca40] '
                   }
                 >
-                  <td className="px-6 py-4">{order.id}</td>
-                  <td className="px-6 py-4">{order.site}</td>
-                  <td className="px-6 py-4">{order.site_manager}</td>
-                  <td className="px-6 py-4">{order.amount}</td>
-                  <td className="px-6 py-4">{order.status}</td>
+                  {/* <td className="px-6 py-4">{order.id}</td> */}
+                  <td className="px-6 py-4">{order.mainSite.name}</td>
+                  <td className="px-6 py-4">{order.mainSite.siteManager}</td>
+                  <td className="px-6 py-4">{order.total.toFixed(2)}</td>
+                  <td className="px-6 py-4">{order.state}</td>
                   <td className="px-6 py-4">
-                    <Link to="/comments">
-                      <img
-                        src={viewDetails}
-                        className="object-scale-down h-4 w-4"
-                      ></img>
-                    </Link>
+                    <img
+                      src={viewDetails}
+                      className="object-scale-down h-4 w-4"
+                      onClick = {() => handleRequest(order.id)}
+                    ></img>
                   </td>
                 </tr>
               ))}
@@ -93,6 +85,7 @@ const ApprovalRequests = () => {
           </table>
         </div>
       </div>
+      {loading && <LoadingScreen />}
     </div>
   );
 };
