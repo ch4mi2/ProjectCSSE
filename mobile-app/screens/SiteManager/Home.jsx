@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
   };
 
   const handlePressViewCreditNotes = () => {
-    console.log('View Credit Notes');
+    navigation.navigate('credit-notes-stack');
   };
 
   const [sites, setSites] = useState([]);
