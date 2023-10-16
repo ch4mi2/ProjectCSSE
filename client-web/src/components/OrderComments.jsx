@@ -1,26 +1,44 @@
 import { useState } from "react";
-
-// const detailList = [
-//   {
-//     id: 1,
-//     site: 'Colombo',
-//     site_manager: 'Emily Johnson',
-//     address: '01 Schofield Pl,Colombo 00300',
-//     amount: 125000.0,
-//     status: 'Pending',
-//   },
-// ];
-
-// const itemList = [
-//   { id: 'B#123', name: 'steel', qty: '20pcs' },
-//   { id: 'C#123', name: 'wood', qty: '50pcs' },
-// ];
+import { useNavigate } from "react-router-dom";
 
 const OrderComments= ({order}) => {
 //   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   console.log(order);
   const { items } = order;
+  const navigate = useNavigate();
+  const [comment , setComment] = useState(null);
+
+  // const handleApproveOrder = async (orderId , newState) =>{
+  //   console.log(orderId,newState);
+  //   const response =  await fetch(`api/api/orders/state/${orderId}`,{
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: newState,
+  //   });
+
+  //   // navigate(`/procurement`);
+  // }
+
+  const handleState = async (orderId , newState) =>{
+    // console.log(orderId,newState);
+    const response =  await fetch(`/api/api/orders/state/${orderId}`,{
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: newState,
+    });
+    console.log(response)
+    if(newState == "placed"){
+      navigate(`/procurement`);
+    }else{
+      setShowForm(true); 
+    }
+   
+  }
 
   return (
     <div>
@@ -31,7 +49,6 @@ const OrderComments= ({order}) => {
           </center>
         </div>
         <div>
-          {/* {detailList.map((data) => ( */}
             <ul>
               <li>Site : {order.mainSite.name}</li>
               <li className="my-2">Site Manager : {order.mainSite.siteManager}</li>
@@ -40,7 +57,6 @@ const OrderComments= ({order}) => {
                 <b>Total amount : Rs.{order.total.toFixed(2)}</b>
               </li>
             </ul>
-          {/* ))} */}
         </div>
         <div>
           <p className="my-4">
@@ -81,13 +97,14 @@ const OrderComments= ({order}) => {
         </div>
         <div className="mr-20">
           <div>
-            <button className="bg-[#1FDF00] text-black font-bold py-2 px-4 rounded-full mx-4 my-4">
+            <button 
+              className="bg-[#1FDF00] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
+              onClick={() => handleState(order.id , 'placed')}>
               Approve
             </button>
             <button class="bg-[#FF3333] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
-             onClick={() => {
-                setShowForm(true);
-              }}>
+             onClick= {() => handleState(order.id , 'declined')}
+              >
                 Decline
             </button>
         </div>
