@@ -1,10 +1,22 @@
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CreateOrderURI, GetAllOrdersURI } from '../../constants/URI';
 import { auth } from '../../firebase';
 
-const Orders = () => {
+const Orders = ({ route }) => {
   const [orders, setOrders] = useState([]);
+  const [componentKey, setComponentKey] = useState(
+    route.params?.key || 'initial-key'
+  );
+
+  const [isLoading, setIsLoading] = useState(true); // State to track loading
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -16,15 +28,23 @@ const Orders = () => {
           let filteredOrders = json.filter(
             (item) => item.siteManager === currentUser
           );
+
+          filteredOrders.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+
           setOrders(filteredOrders);
+          setComponentKey(route.params?.key || 'initial-key');
         }
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false); // Set loading to false once fetching is done
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [componentKey, route.params?.key]);
 
   const handlePublish = async (order) => {
     try {
@@ -68,7 +88,11 @@ const Orders = () => {
         >
           Current Orders
         </Text>
-        {orders &&
+
+        {isLoading ? ( // Display loading component if isLoading is true
+          <ActivityIndicator size="large" color="#facc15" />
+        ) : (
+          orders &&
           orders.map((order) => (
             <View
               key={order.id}
@@ -118,7 +142,8 @@ const Orders = () => {
                 </TouchableOpacity>
               ) : null}
             </View>
-          ))}
+          ))
+        )}
       </View>
     </ScrollView>
   );
