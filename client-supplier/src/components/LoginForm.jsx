@@ -25,13 +25,13 @@ const LoginForm = () => {
           <input
             type="text"
             className="block m-2 p-2 rounded-lg"
-            placeholder="username is user"
+            placeholder="ABC"
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             className="block m-2 p-2 rounded-lg"
-            placeholder="password is pass"
+            placeholder=""
           />
           <button
             type="submit"
