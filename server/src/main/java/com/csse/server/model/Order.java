@@ -1,11 +1,13 @@
 package com.csse.server.model;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Map;
 
 @Document(collection = "orders")
 public class Order {
@@ -19,14 +21,18 @@ public class Order {
     private String siteManager;
     private boolean draft;
     private String comments;
+    @DBRef
+    private Site mainSite;
 
-    public Order(Map<String, Integer> items, double total, Map<String,String> site, String siteManager, String comments, boolean draft) {
+    public Order(Map<String, Integer> items, double total, Map<String,String> site, String siteManager, String comments, boolean draft,
+                 Site mainSite) {
         this.comments = comments;
         this.draft = draft;
         this.total = total;
         this.site = site;
         this.siteManager = siteManager;
         this.items = items;
+        this.mainSite = mainSite;
         state = "pending";
     }
 
@@ -94,6 +100,11 @@ public class Order {
         this.siteManager = siteManager;
     }
 
+    public Site getMainSite() {
+        return mainSite;
+    }
 
-
+    public void setMainSite(Site mainSite) {
+        this.mainSite = mainSite;
+    }
 }
