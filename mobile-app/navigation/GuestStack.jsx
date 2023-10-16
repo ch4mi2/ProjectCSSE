@@ -13,7 +13,7 @@ const GuestStack = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: '#F0F9FF' },
+          cardStyle: { backgroundColor: '#fff' },
         }}
       >
         <Stack.Screen

@@ -139,18 +139,18 @@ const RegisterScreen = ({ navigation }) => {
       {isError.visibility && (
         <DismissibleAlert data={isError} setData={setIsError} />
       )}
-      <Text className="text-3xl text-dark-blue font-bold mb-4 text-center">
+      <Text className="text-3xl text-black font-bold mb-4 text-center">
         Welcome !
       </Text>
       <View className="w-4/5">
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-primary-color rounded-xl"
           placeholder="Full Name"
           value={fullName}
           onChangeText={(text) => setFullName(text)}
           type="text"
         />
-        <View className="border border-4 border-dark-blue bg-white rounded-xl text-black mb-4">
+        <View className="border border-4 border-primary-color bg-white rounded-xl text-black mb-4">
           <Picker
             className="border border-4 px-4 py-2 text-red-300"
             placeholder="Select Occupation"
@@ -166,21 +166,21 @@ const RegisterScreen = ({ navigation }) => {
           </Picker>
         </View>
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-primary-color rounded-xl"
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           type="email"
         />
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-primary-color rounded-xl"
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry
         />
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-primary-color rounded-xl"
           placeholder="Re-enter Password"
           value={rePassword}
           onChangeText={(text) => setRePassword(text)}
@@ -194,9 +194,10 @@ const RegisterScreen = ({ navigation }) => {
           text="Register"
         />
         <SecondaryButton
-          containerStyles={'mt-2'}
+          containerStyles={'mt-2 border-primary-color'}
           onPress={() => navigation.replace('Login')}
           text="Login"
+          textStyles={'text-black'}
         />
       </View>
     </KeyboardAvoidingView>

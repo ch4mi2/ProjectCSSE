@@ -36,27 +36,41 @@ const SiteManagerView = ({ user }) => {
         <Tab.Screen
           name={'home'}
           component={SiteManagerHomeStack}
-          options={{
-            tabBarIcon: () => <Icon name="home" size={38} />,
-          }}
+          options={({ route }) => ({
+            tabBarIcon: ({ focused }) => (
+              <Icon
+                name="home"
+                size={38}
+                color={focused ? '#000000' : '#374151'}
+              />
+            ),
+          })}
         />
         <Tab.Screen
           name={'orders'}
           component={Orders}
-          options={{
-            tabBarIcon: () => (
-              <OrderIcon name="clipboard-text-clock" size={35} />
+          options={({ route }) => ({
+            tabBarIcon: ({ focused }) => (
+              <OrderIcon
+                name="clipboard-text-clock"
+                size={35}
+                color={focused ? '#000000' : '#374151'}
+              />
             ),
-          }}
+          })}
         />
         <Tab.Screen
           name={'notifications'}
           component={Notifications}
-          options={{
-            tabBarIcon: () => (
-              <NotificationIcon name="notifications" size={35} />
+          options={({ route }) => ({
+            tabBarIcon: ({ focused }) => (
+              <NotificationIcon
+                name="notifications"
+                size={35}
+                color={focused ? '#000000' : '#374151'}
+              />
             ),
-          }}
+          })}
         />
         <Tab.Screen
           options={{ tabBarVisible: false, tabBarButton: () => null }}
