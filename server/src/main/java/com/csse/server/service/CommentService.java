@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,6 +45,20 @@ public class CommentService {
             return false;
         }
     }
+
+    public List<Comment> getCommentsByOrderId(Object orderId) {
+        List<Comment> allComments = repo.findAll();
+        List<Comment> filteredComments = new ArrayList<>();
+
+        for (Comment comment : allComments) {
+            if (comment.getOrderId() == orderId) {
+                filteredComments.add(comment);
+            }
+        }
+
+        return filteredComments;
+    }
+
 
 
 

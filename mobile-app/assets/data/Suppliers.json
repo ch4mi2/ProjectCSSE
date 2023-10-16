@@ -1,0 +1,23 @@
+[
+  {
+    "id": "SP-001",
+    "name": "Holcim Cement Supliers",
+    "items": "Cement bags",
+    "price": 3451.6,
+    "rating": "9/10"
+  },
+  {
+    "id": "SP-002",
+    "name": "Abeysena Excavator Supliers",
+    "items": "Excavator",
+    "price": 4545.6,
+    "rating": "7/10"
+  },
+  {
+    "id": "SP-003",
+    "name": "Lanva Steel Cable Supliers",
+    "items": "Steel Cable",
+    "price": 3000.0,
+    "rating": "8/10"
+  }
+]
