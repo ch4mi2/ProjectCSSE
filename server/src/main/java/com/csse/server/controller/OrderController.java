@@ -5,6 +5,8 @@ import com.csse.server.service.OrderService;
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/orders/")
 public class OrderController {
     
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+
     @Autowired
     OrderService orderService;
     
     // Endpoint to get all orders
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
-        System.out.println("Get all Orders");
+        logger.info("Get all Orders");
         return new ResponseEntity<List<Order>>(orderService.allOrders(), HttpStatus.OK);
     }
 
@@ -30,13 +34,13 @@ public class OrderController {
     public ResponseEntity<String> changeOrderState(
              @PathVariable ObjectId id,
              @RequestBody String newState) {
-         System.out.println(newState);
+        logger.info("New state : ", newState);
          String result = orderService.changeOrderState(id, newState);
          if (result != null) {
-             System.out.println(1);
+            logger.info("x:1");
              return new ResponseEntity<>(result, HttpStatus.CREATED);
          } else {
-             System.out.println(2);
+            logger.info("x:2");
              return new ResponseEntity<>("Invalid state request.", HttpStatus.BAD_REQUEST);
          }
      }
@@ -44,7 +48,7 @@ public class OrderController {
     // Endpoint to get a single order by its ID
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Order>> getSingleOrder(@PathVariable ObjectId id) {
-        System.out.println("Get single Order");
+        logger.info("Get a single order");
         return new ResponseEntity<Optional<Order>>(orderService.singleOrder(id), HttpStatus.OK);
     }
 
@@ -69,7 +73,7 @@ public class OrderController {
     // Endpoint to update an existing order
     @PatchMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@RequestBody Order payload) {
-        System.out.println(payload);
+        logger.info("Payload : ", payload);
         return new ResponseEntity<Order>(orderService.updateOrder(payload), HttpStatus.OK);
     }
 }
