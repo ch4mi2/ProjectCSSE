@@ -1,5 +1,4 @@
 package com.csse.server.service;
-
 import com.csse.server.dtos.AnalyticsDTO;
 import com.csse.server.model.Order;
 import com.csse.server.repository.OrderRepository;
@@ -8,21 +7,19 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-<<<<<<< HEAD
-import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.http.ResponseEntity;
-=======
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
->>>>>>> f639277f59ab88018049b832c991a2414f26ca61
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class OrderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     private OrderRepository repo;
@@ -30,9 +27,15 @@ public class OrderService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    // Change the state of an order based on the new state provided
-    public String changeOrderState(ObjectId orderId, String newState) {
-        Optional<Order> optionalOrder = repo.findById(orderId);
+
+     public String changeOrderState(ObjectId orderId, String newState) {
+         //try {
+             // Retrieve the order from the repository using the orderId.
+
+         logger.info("Changing order state for orderId: {} to newState: {}", orderId, newState);
+
+             Optional<Order> optionalOrder = repo.findById(orderId);
+
 
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();
@@ -97,12 +100,7 @@ public class OrderService {
     // Get analytics data by grouping orders by site
     public List<AnalyticsDTO> groupBySite() {
         TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
-<<<<<<< HEAD
-                Aggregation.group("site").addToSet("site").as("site").sum("total").as("totalAmount"),
-                Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
 
-        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
-=======
                 Aggregation.group("mainSite")
                         .sum("total").as("totalAmount").first("$mainSite").as("site"),
                 Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
@@ -110,7 +108,6 @@ public class OrderService {
 
         AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
         System.out.println(results);
->>>>>>> f639277f59ab88018049b832c991a2414f26ca61
         return results.getMappedResults();
     }
 

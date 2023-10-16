@@ -10,22 +10,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/invoice/")
 public class InvoiceController {
+    private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
 
     @Autowired
     InvoiceService invoiceService;
 
     @GetMapping
     public ResponseEntity<List<Invoice>> getAllInvoices() {
-        System.out.println("Get all Invoices");
-        return new ResponseEntity<List<Invoice>>(invoiceService.allInvoices(), HttpStatus.OK);
+        logger.info("Received a request to get all invoices.");
+
+
+        return new ResponseEntity<>(invoiceService.allInvoices(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice payload) {
-        return new ResponseEntity<Invoice>(invoiceService.addInvoice(payload), HttpStatus.valueOf(201));
+        logger.info("Received a request to create an invoice.");
+
+
+        return new ResponseEntity<>(invoiceService.addInvoice(payload), HttpStatus.valueOf(201));
     }
 }
