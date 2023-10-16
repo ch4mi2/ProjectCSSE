@@ -8,8 +8,14 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+<<<<<<< HEAD
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.http.ResponseEntity;
+=======
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
+>>>>>>> f639277f59ab88018049b832c991a2414f26ca61
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,10 +97,20 @@ public class OrderService {
     // Get analytics data by grouping orders by site
     public List<AnalyticsDTO> groupBySite() {
         TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
+<<<<<<< HEAD
                 Aggregation.group("site").addToSet("site").as("site").sum("total").as("totalAmount"),
                 Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
 
         AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+=======
+                Aggregation.group("mainSite")
+                        .sum("total").as("totalAmount").first("$mainSite").as("site"),
+                Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
+
+
+        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+        System.out.println(results);
+>>>>>>> f639277f59ab88018049b832c991a2414f26ca61
         return results.getMappedResults();
     }
 

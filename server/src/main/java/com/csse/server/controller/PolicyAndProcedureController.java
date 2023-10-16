@@ -1,5 +1,6 @@
 package com.csse.server.controller;
 
+import com.csse.server.exception.PolicyNotFoundException;
 import com.csse.server.model.PolicyAndProcedure;
 import com.csse.server.service.PolicyAndProcedureService;
 import org.bson.types.ObjectId;
@@ -24,7 +25,7 @@ public class PolicyAndProcedureController {
         return new ResponseEntity<List<PolicyAndProcedure>>(policyAndProcedureService.allPolicies(), HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<PolicyAndProcedure> getSinglePolicy(@PathVariable ObjectId id) {
+    public ResponseEntity<PolicyAndProcedure> getSinglePolicy(@PathVariable ObjectId id) throws PolicyNotFoundException {
         System.out.println("Get single Policy");
         return new ResponseEntity<PolicyAndProcedure>(policyAndProcedureService.singlePolicy(id), HttpStatus.OK);
     }
