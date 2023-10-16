@@ -90,7 +90,7 @@ const PlaceOrders = () => {
       const orderedSites = {};
 
       for (let index = 0; index < items.length; index++) {
-        orderedItems[items[index].id] = items[index].qty;
+        orderedItems[items[index].itemName] = items[index].qty;
         orderedSites[items[index].id] = items[index].site.id;
       }
 
@@ -101,6 +101,9 @@ const PlaceOrders = () => {
         siteManager: auth.currentUser.uid,
         draft: isSelected,
         comments: Comments,
+        mainSite: {
+          id: items[0].site.id,
+        },
       };
 
       if (needApproval) {
@@ -116,9 +119,8 @@ const PlaceOrders = () => {
         body: JSON.stringify(orderPayload),
       });
 
+      const jsonified = await res.json();
       if (res.ok) {
-        console.log(orderPayload);
-        Alert.alert('Order Placed Successfully');
         if (Comments.length > 0) {
           try {
             const resp = await fetch(CreateCommentURI, {
@@ -128,14 +130,20 @@ const PlaceOrders = () => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                orderId: res.id,
+                orderId: {
+                  id: jsonified.id,
+                },
                 texts: [Comments],
               }),
             });
+            if (resp.ok) {
+              Alert.alert('Comment sent successfully');
+            }
           } catch (error) {
             Alert.alert(error);
           }
         }
+        Alert.alert('Order Placed Successfully');
       } else {
         Alert.alert('Failed to place order');
       }
