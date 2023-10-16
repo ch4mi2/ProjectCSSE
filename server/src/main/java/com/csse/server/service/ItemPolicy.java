@@ -11,34 +11,50 @@ import org.springframework.stereotype.Service;
 public class ItemPolicy implements AddPolicy, RemovePolicy, UpdatePolicy {
 
     @Override
-    public void addPolicy(ObjectId id, float amount, @NotNull MongoTemplate mongoTemplate) {
+    public boolean addPolicy(ObjectId id, float amount, @NotNull MongoTemplate mongoTemplate) {
         Item item = mongoTemplate.findById(id, Item.class, "items");
         if( item != null ) {
             (item).setRestricted(true);
             (item).setRestrictedAmount(amount);
-            mongoTemplate.save(item, "items");
+            item = mongoTemplate.save(item, "items");
+            if( item != null ) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             throw new CreatedItemNotFoundException("The item the policy was created on could not be found");
         }
     }
 
     @Override
-    public void removePolicy(ObjectId id, MongoTemplate mongoTemplate) {
+    public boolean removePolicy(ObjectId id, MongoTemplate mongoTemplate) {
         Item item = mongoTemplate.findById(id, Item.class, "items");
         if( item != null ) {
             item.setRestricted(false);
-            mongoTemplate.save(item, "items");
+            item.setRestrictedAmount(0);
+            item = mongoTemplate.save(item, "items");
+            if( item != null ) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             throw new CreatedItemNotFoundException("The item the policy was created on could not be found");
         }
     }
 
     @Override
-    public void updatePolicy(ObjectId id, float amount, MongoTemplate mongoTemplate) {
+    public boolean updatePolicy(ObjectId id, float amount, MongoTemplate mongoTemplate) {
         Item item = mongoTemplate.findById(id, Item.class, "items");
         if( item != null ) {
             item.setRestrictedAmount(amount);
-            mongoTemplate.save(item, "items");
+            item = mongoTemplate.save(item, "items");
+            if( item != null ) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             throw new CreatedItemNotFoundException("The item the policy was created on could not be found");
         }

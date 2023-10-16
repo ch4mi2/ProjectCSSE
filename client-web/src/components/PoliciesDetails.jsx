@@ -81,10 +81,12 @@ const PoliciesDetails = () => {
 
   const handleItemNavigation = () => {
     navigate('/page2', { state: { type: 'Item' } });
+    localStorage.setItem('type', 'Item');
   };
 
   const handleSiteNavigation = () => {
     navigate('/page2', { state: { type: 'Site' } });
+    localStorage.setItem('type', 'Site');
   };
 
   return (

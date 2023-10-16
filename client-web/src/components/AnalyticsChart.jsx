@@ -18,7 +18,7 @@ const AnalyticsChart = () => {
       const yData = [];
 
       data.forEach((item) => {
-        xData.push(item.site === '' ? 'Others' : item.site);
+        xData.push(item.site.name === '' ? 'Others' : item.site.name);
         yData.push(item.totalAmount);
       });
       setXData(xData.splice(0, 10));

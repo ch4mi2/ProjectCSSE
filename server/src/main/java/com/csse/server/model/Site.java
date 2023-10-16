@@ -28,6 +28,8 @@ public class Site {
         this.name = name;
     }
 
+    public void setId(ObjectId id) {this.id = id;}
+
     public void setOrderLimit(double orderLimit) {
         this.orderLimit = orderLimit;
     }
