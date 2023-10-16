@@ -1,6 +1,14 @@
 import PoliciesDetails from '../components/PoliciesDetails';
+import { useEffect, useState } from 'react';
+import { usePoliciesContext } from '../hooks/usePoliciesContext';
 
 const Policies = () => {
+  const [search, setSearch] = useState('');
+  const { dispatch } = usePoliciesContext();
+
+  useEffect(() => {
+    dispatch({ type: 'FILTER_POLICIES', name: search });
+  }, [search]);
   return (
     <div>
       <div className="px-10 pt-10 flex flex-row">
@@ -32,6 +40,8 @@ const Policies = () => {
               type="text"
               id="search"
               placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </div>

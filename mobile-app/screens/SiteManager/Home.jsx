@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import SwiperComponent from '../../components/SiteManager/Swiper';
 
 import MainButtonWithIcon from '../../components/common/buttons/MainButtonWithIcon';
 import MainButton from '../../components/common/buttons/MainButton';
 import Icon from 'react-native-vector-icons/Octicons';
+import { GetAllSitesURI } from '../../constants/URI';
 
 const Home = ({ navigation }) => {
   const handlePressPlaceOrders = () => {
@@ -17,12 +18,29 @@ const Home = ({ navigation }) => {
   };
 
   const handlePressViewPlacedOrders = () => {
-    console.log('View Placed Orders');
+    navigation.navigate('orders');
   };
 
   const handlePressViewCreditNotes = () => {
     console.log('View Credit Notes');
   };
+
+  const [sites, setSites] = useState([]);
+
+  useEffect(() => {
+    const fetchSites = async () => {
+      try {
+        const response = await fetch(GetAllSitesURI);
+        const json = await response.json();
+        if (response.ok) {
+          setSites(json);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchSites();
+  }, []);
 
   return (
     <View style={styles.screen}>
@@ -34,7 +52,7 @@ const Home = ({ navigation }) => {
         />
       </View>
       <Text style={styles.sitesText}>Sites</Text>
-      <SwiperComponent />
+      <SwiperComponent sites={sites} />
       <View className={'flex flex-col'}>
         <MainButtonWithIcon
           onPress={handlePressViewSuppliers}

@@ -1,33 +1,60 @@
+import { useEffect, useState } from 'react';
+import LoadingScreen from '../components/LoadingScreen';
+import AnalyticsChart from '../components/AnalyticsChart';
+
 const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const fetchPolicies = async () => {
+      setLoading(true);
+      const response = await fetch('/api/api/orders/total/');
+      const data = await response.json();
+      if (response.ok) {
+        // console.log(data);
+        setTotalAmount(data.totalAmount);
+      } else {
+        console.log('error');
+      }
+      setLoading(false);
+    };
+
+    fetchPolicies();
+  }, []);
+
   return (
     <div>
-      <h1>Dashboard</h1>
-      <div className="max-w-md mx-60">
-        <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-[#e5e7eb] overflow-hidden">
-          <div className="grid place-items-center h-full w-12 text-gray-300">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-          <input
-            className="peer h-full w-full outline-none text-sm text-gray-700 pr-2 bg-[#e5e7eb]"
-            type="text"
-            id="search"
-            placeholder="Search..."
-          />
-        </div>
+      <div className="ml-9 mt-5">
+        <h1 className="font-sans font-bold text-3xl leading-7">Dashboard</h1>
       </div>
+      <div className="grid justify-items-center">
+        {totalAmount && (
+          <div className=" mx-10 mt-20 w-6/12">
+            <div className=" bg-[#e5e7eb] relative overflow-x-auto shadow-md py-4 rounded-md">
+              {/* <div className="grid grid-cols-2 gap-6 ">
+                <div className="justify-self-end font-sans font-bold text-xl">
+                  Total Purchases:
+                </div>
+                <div className="justify-self-start font-sans font-bold text-2xl ">
+                  Rs. {totalAmount.toLocaleString('en-UN')}
+                </div>
+              </div> */}
+              <div className="flex flex-row justify-center">
+                <div className="font-sans font-bold text-xl basis-2/5 ml-48">
+                  Total Purchases:
+                </div>
+                <div className="justify-self-start font-sans font-bold text-2xl basis-3/5">
+                  Rs. {totalAmount.toLocaleString('en-UN')}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <AnalyticsChart />
+      </div>
+      {loading && <LoadingScreen />}
     </div>
   );
 };

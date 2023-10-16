@@ -18,6 +18,7 @@ const SiteManagerHomeStack = ({ navigation }) => {
         Options={{
           headerShown: false,
         }}
+        navigation={navigation}
       />
     </Stack.Navigator>
   );
