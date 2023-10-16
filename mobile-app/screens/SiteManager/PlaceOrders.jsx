@@ -90,7 +90,7 @@ const PlaceOrders = () => {
       const orderedSites = {};
 
       for (let index = 0; index < items.length; index++) {
-        orderedItems[items[index].id] = items[index].qty;
+        orderedItems[items[index].itemName] = items[index].qty;
         orderedSites[items[index].id] = items[index].site.id;
       }
 
@@ -101,6 +101,9 @@ const PlaceOrders = () => {
         siteManager: auth.currentUser.uid,
         draft: isSelected,
         comments: Comments,
+        mainSite: {
+          id: items[0].site.id,
+        },
       };
 
       if (needApproval) {
@@ -116,8 +119,9 @@ const PlaceOrders = () => {
         body: JSON.stringify(orderPayload),
       });
 
+      const jsonified = await res.json();
       if (res.ok) {
-        console.log(orderPayload);
+        console.log(jsonified);
         Alert.alert('Order Placed Successfully');
         if (Comments.length > 0) {
           try {
@@ -128,7 +132,7 @@ const PlaceOrders = () => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                orderId: res.id,
+                orderId: jsonified.id,
                 texts: [Comments],
               }),
             });
