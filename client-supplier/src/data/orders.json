@@ -1,0 +1,131 @@
+{
+    "orders": [
+      {
+        "orderid": "ORD12345",
+        "order_date": "2023-10-16",
+        "site_manager": "John Smith",
+        "site": "Site A",
+        "order_items": [
+          {
+            "name": "Laptops",
+            "price": 1200.00,
+            "qty": 10
+          },
+          {
+            "name": "Office Chairs",
+            "price": 150.00,
+            "qty": 20
+          }
+        ],
+        "supplier": "ABC",
+        "comments": "Urgent order, please expedite.",
+        "state": "Placed"
+      },
+      {
+        "orderid": "ORD67890",
+        "order_date": "2023-10-17",
+        "site_manager": "Alice Johnson",
+        "site": "Site B",
+        "order_items": [
+          {
+            "name": "Construction Materials",
+            "price": 2500.00,
+            "qty": 50
+          },
+          {
+            "name": "Power Tools",
+            "price": 1200.00,
+            "qty": 10
+          }
+        ],
+        "supplier": "DEF",
+        "comments": "Standard order, no rush.",
+        "state": "Placed"
+      },
+      {
+        "orderid": "ORD13579",
+        "order_date": "2023-10-18",
+        "site_manager": "Michael Brown",
+        "site": "Site C",
+        "order_items": [
+          {
+            "name": "Desktop Computers",
+            "price": 800.00,
+            "qty": 5
+          },
+          {
+            "name": "Conference Tables",
+            "price": 400.00,
+            "qty": 8
+          }
+        ],
+        "supplier": "ABC",
+        "comments": "Urgent order, need them ASAP.",
+        "state": "Placed"
+      },
+      {
+        "orderid": "ORD24680",
+        "order_date": "2023-10-19",
+        "site_manager": "Emily Davis",
+        "site": "Site D",
+        "order_items": [
+          {
+            "name": "Electrical Supplies",
+            "price": 1200.00,
+            "qty": 15
+          },
+          {
+            "name": "Safety Gear",
+            "price": 300.00,
+            "qty": 30
+          }
+        ],
+        "supplier": "DEF",
+        "comments": "Regular order, no special requirements.",
+        "state": "Placed"
+      },
+      {
+        "orderid": "ORD36912",
+        "order_date": "2023-10-20",
+        "site_manager": "Sarah Wilson",
+        "site": "Site E",
+        "order_items": [
+          {
+            "name": "Printers",
+            "price": 600.00,
+            "qty": 5
+          },
+          {
+            "name": "Desks",
+            "price": 350.00,
+            "qty": 10
+          }
+        ],
+        "supplier": "ABC",
+        "comments": "Urgent order, short on equipment.",
+        "state": "Placed"
+      },
+      {
+        "orderid": "ORD48123",
+        "order_date": "2023-10-21",
+        "site_manager": "David White",
+        "site": "Site F",
+        "order_items": [
+          {
+            "name": "Paints",
+            "price": 400.00,
+            "qty": 20
+          },
+          {
+            "name": "Hand Tools",
+            "price": 150.00,
+            "qty": 15
+          }
+        ],
+        "supplier": "DEF",
+        "comments": "Standard order, no rush.",
+        "state": "Placed"
+      }
+    ]
+  }
+  
