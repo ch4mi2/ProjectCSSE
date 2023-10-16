@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useContext } from "react";
 import SupplierContext from "../context/SupplierContext";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -64,6 +65,7 @@ const Dashboard = () => {
   return (
     <div className="mx-auto mt-4">
       <h1 className="text-2xl font-semibold mb-4 ml-2">Orders</h1>
+
       <div className="shadow overflow-hidden border border-black sm:rounded-lg m-4 p-2">
         <div>
           {/* Add a filter dropdown to select the order state */}
@@ -116,6 +118,19 @@ const Dashboard = () => {
                   <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                     <button onClick={() => toggleRowExpansion(order.id)}>
                       {expandedRow === order.id ? "Hide Items" : "Show Items"}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <Link
+                      to={`/create-invoice/${order.id}`}
+                      className="bg-yellow-300 text-black p-2 rounded-lg"
+                    >
+                      Create Invoice
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <button className="bg-yellow-300 text-black p-2 rounded-lg">
+                      Create Delivery Note
                     </button>
                   </td>
                 </tr>
