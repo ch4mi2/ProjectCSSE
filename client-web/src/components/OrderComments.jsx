@@ -1,24 +1,26 @@
 import { useState } from "react";
 
-const detailList = [
-  {
-    id: 1,
-    site: 'Colombo',
-    site_manager: 'Emily Johnson',
-    address: '01 Schofield Pl,Colombo 00300',
-    amount: 125000.0,
-    status: 'Pending',
-  },
-];
+// const detailList = [
+//   {
+//     id: 1,
+//     site: 'Colombo',
+//     site_manager: 'Emily Johnson',
+//     address: '01 Schofield Pl,Colombo 00300',
+//     amount: 125000.0,
+//     status: 'Pending',
+//   },
+// ];
 
-const itemList = [
-  { id: 'B#123', name: 'steel', qty: '20pcs' },
-  { id: 'C#123', name: 'wood', qty: '50pcs' },
-];
+// const itemList = [
+//   { id: 'B#123', name: 'steel', qty: '20pcs' },
+//   { id: 'C#123', name: 'wood', qty: '50pcs' },
+// ];
 
-const OrderComments= () => {
+const OrderComments= ({order}) => {
 //   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  console.log(order);
+  const { items } = order;
 
   return (
     <div>
@@ -29,20 +31,20 @@ const OrderComments= () => {
           </center>
         </div>
         <div>
-          {detailList.map((data) => (
+          {/* {detailList.map((data) => ( */}
             <ul>
-              <li>Site : {data.site}</li>
-              <li className="my-2">Site Manager : {data.site_manager}</li>
-              <li className="my-2">Address : {data.address}</li>
+              <li>Site : {order.mainSite.name}</li>
+              <li className="my-2">Site Manager : {order.mainSite.siteManager}</li>
+              <li className="my-2">Address : {order.mainSite.address}</li>
               <li className="my-2">
-                <b>Total amount : Rs.{data.amount}</b>
+                <b>Total amount : Rs.{order.total.toFixed(2)}</b>
               </li>
             </ul>
-          ))}
+          {/* ))} */}
         </div>
         <div>
           <p className="my-4">
-            <b>Restricted Items</b>
+            <b>Items</b>
           </p>
         </div>
         <div className="bg-[#FFF0BB] px-3 py-3">
@@ -50,19 +52,19 @@ const OrderComments= () => {
             <table className="min-w-full text-left text-sm font-light">
               <thead className="border-b font-medium dark:border-neutral-500">
                 <tr>
-                  <th>Item Code</th>
+                  {/* <th>Item Code</th> */}
                   <th>Item Name</th>
                   <th>Quantity</th>
                 </tr>
               </thead>
               <tbody>
-                {itemList.map((item) => (
-                  <tr>
-                    <td className="whitespace-nowrap px-2 py-2">{item.id}</td>
-                    <td className="whitespace-nowrap px-2 py-2">{item.name}</td>
-                    <td className="whitespace-nowrap px-2 py-2">{item.qty}</td>
+                {Object.entries(items).map(([name , quantity]) => (
+                  <tr key={name}>
+                    <td className="whitespace-nowrap px-2 py-2">{name}</td>
+                    <td className="whitespace-nowrap px-2 py-2">{quantity}</td>
+                    {/* <td className="whitespace-nowrap px-2 py-2">{item.qty}</td> */}
                   </tr>
-                ))}
+               ))} 
               </tbody>
             </table>
           </div>
@@ -74,8 +76,7 @@ const OrderComments= () => {
         </div>
         <div>
           <p>
-            wrytuytywoeuoq fuygiuoiup sgiquiouw hwuqpwpq huiohiyw joepopoiep
-            wdciubj tuqwbbzkjks
+            {order.comments}
           </p>
         </div>
         <div className="mr-20">
