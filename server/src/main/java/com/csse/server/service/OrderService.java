@@ -16,9 +16,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class OrderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     @Autowired
     private OrderRepository repo;
@@ -28,6 +32,9 @@ public class OrderService {
      public String changeOrderState(ObjectId orderId, String newState) {
          //try {
              // Retrieve the order from the repository using the orderId.
+
+         logger.info("Changing order state for orderId: {} to newState: {}", orderId, newState);
+
              Optional<Order> optionalOrder = repo.findById(orderId);
 
              if (optionalOrder.isPresent()) {
