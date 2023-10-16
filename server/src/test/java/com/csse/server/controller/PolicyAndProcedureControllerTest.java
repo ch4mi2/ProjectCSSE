@@ -3,7 +3,6 @@ package com.csse.server.controller;
 import com.csse.server.model.Item;
 import com.csse.server.model.PolicyAndProcedure;
 import com.csse.server.service.PolicyAndProcedureService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,6 @@ class PolicyAndProcedureControllerTest {
     private PolicyAndProcedureService policyAndProcedureService;
 
     @Autowired
-    private ObjectMapper objectMapper;
     private Item item;
     private PolicyAndProcedure policyAndProcedure;
 
@@ -71,5 +69,5 @@ class PolicyAndProcedureControllerTest {
 
         response.andExpect(MockMvcResultMatchers.status().isOk());
     }
-    
+
 }
