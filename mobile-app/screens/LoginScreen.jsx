@@ -69,12 +69,10 @@ const LoginScreen = ({ navigation }) => {
       {isError.visibility && (
         <DismissibleAlert data={isError} setData={setIsError} />
       )}
-      <Text className="text-3xl text-dark-blue font-bold mb-4 text-center">
-        Welcome !
-      </Text>
+      <Text className="text-3xl  font-bold mb-4 text-center">Welcome !</Text>
       <View className="w-4/5">
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-black rounded-xl"
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -82,7 +80,7 @@ const LoginScreen = ({ navigation }) => {
           required
         />
         <TextInput
-          className="bg-white mb-2 px-4 py-2 border-[3px] border-dark-blue text-dark-blue rounded-xl"
+          className="bg-white mb-2 px-4 py-2 border-[3px] border-black rounded-xl"
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -92,14 +90,16 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View>
         <MainButton
-          containerStyles={'mt-4'}
+          containerStyles={'mt-4 bg-primary-color'}
           onPress={handleLogin}
           text="Login"
+          textStyles="text-black"
         />
         <SecondaryButton
-          containerStyles={'mt-2'}
+          containerStyles={'mt-2 border-primary-color '}
           onPress={() => navigation.replace('Register')}
           text="Register"
+          textStyles={'text-black'}
         />
       </View>
     </KeyboardAvoidingView>
