@@ -27,8 +27,7 @@ const PlaceOrders = () => {
   const [items, setItems] = useState([]);
   const [restricted, setRestricted] = useState(false);
   const [placeOrderIsVisible, setPlaceOrderIsVisible] = useState(false);
-  const [Comments, setComments] = useState('');
-  const [isSelected, setSelection] = useState(false);
+
   const navigation = useNavigation();
 
   const handleVisibility = () => {
@@ -84,82 +83,83 @@ const PlaceOrders = () => {
     setPlaceOrderIsVisible(true);
   };
 
-  const handleSendOrder = async () => {
-    try {
-      const orderedItems = {};
-      const orderedSites = {};
-
-      for (let index = 0; index < items.length; index++) {
-        orderedItems[items[index].itemName] = items[index].qty;
-        orderedSites[items[index].id] = items[index].site.id;
-      }
-
-      const orderPayload = {
-        total: grandTotal,
-        site: orderedSites,
-        items: orderedItems,
-        siteManager: auth.currentUser.uid,
-        draft: isSelected,
-        comments: Comments,
-        mainSite: {
-          id: items[0].site.id,
-        },
-      };
-
-      if (needApproval) {
-        orderPayload.state = 'pending';
-      }
-
-      const res = await fetch(CreateOrderURI, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderPayload),
-      });
-
-      const jsonified = await res.json();
-      if (res.ok) {
-        if (Comments.length > 0) {
-          try {
-            const resp = await fetch(CreateCommentURI, {
-              method: 'POST',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                orderId: {
-                  id: jsonified.id,
-                },
-                texts: [Comments],
-              }),
-            });
-            if (resp.ok) {
-              Alert.alert('Comment sent successfully');
-            }
-          } catch (error) {
-            Alert.alert(error);
-          }
-        }
-        Alert.alert('Order Placed Successfully');
-      } else {
-        Alert.alert('Failed to place order');
-      }
-
-      navigation.navigate('home-stack');
-    } catch (error) {
-      console.error('Error:', error);
-      Alert.alert('An error occurred while placing the order');
-    }
-  };
-
   const PlaceOrderModal = ({ isVisible }) => {
+    const [Comments, setComments] = useState('');
+    const [isSelected, setSelection] = useState(false);
+    const handleSendOrder = async () => {
+      try {
+        const orderedItems = {};
+        const orderedSites = {};
+
+        for (let index = 0; index < items.length; index++) {
+          orderedItems[items[index].itemName] = items[index].qty;
+          orderedSites[items[index].id] = items[index].site.id;
+        }
+
+        const orderPayload = {
+          total: grandTotal,
+          site: orderedSites,
+          items: orderedItems,
+          siteManager: auth.currentUser.uid,
+          draft: isSelected,
+          comments: Comments,
+          mainSite: {
+            id: items[0].site.id,
+          },
+        };
+
+        if (needApproval) {
+          orderPayload.state = 'pending';
+        }
+
+        const res = await fetch(CreateOrderURI, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderPayload),
+        });
+
+        const jsonified = await res.json();
+        if (res.ok) {
+          if (Comments.length > 0) {
+            try {
+              const resp = await fetch(CreateCommentURI, {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  orderId: {
+                    id: jsonified.id,
+                  },
+                  texts: [Comments],
+                }),
+              });
+              if (resp.ok) {
+                Alert.alert('Comment sent successfully');
+              }
+            } catch (error) {
+              Alert.alert(error);
+            }
+          }
+          Alert.alert('Order Placed Successfully');
+        } else {
+          Alert.alert('Failed to place order');
+        }
+
+        navigation.navigate('home-stack');
+      } catch (error) {
+        console.error('Error:', error);
+        Alert.alert('An error occurred while placing the order');
+      }
+    };
+
     return (
       <Modal
         isVisible={isVisible}
-        onBackdropPress={this.close}
         backdropColor="#fff"
         backdropOpacity={1}
         animationIn="zoomInDown"
