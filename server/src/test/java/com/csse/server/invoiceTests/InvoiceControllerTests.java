@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class InvoiceControllerTests {
@@ -36,7 +33,7 @@ public class InvoiceControllerTests {
 
     @Test
     public void testCreateInvoice() {
-        Invoice newInvoice = createSampleInvoice(); // Create a sample invoice for testing
+        Invoice newInvoice = createSampleInvoice();
 
         ResponseEntity<Invoice> response = invoiceController.createInvoice(newInvoice);
 
@@ -51,7 +48,7 @@ public class InvoiceControllerTests {
     }
 
     private Invoice createSampleInvoice() {
-        // Create a sample invoice for testing
+
         Invoice sampleInvoice = new Invoice();
         sampleInvoice.setSiteName("Sample Site");
 
@@ -60,7 +57,7 @@ public class InvoiceControllerTests {
 
     @Test
     public void testCreateInvoiceWithInvalidData() {
-        Invoice invalidInvoice = createInvalidInvoice(); // Create an invoice with invalid data
+        Invoice invalidInvoice = createInvalidInvoice();
 
         ResponseEntity<Invoice> response = invoiceController.createInvoice(invalidInvoice);
 
@@ -71,10 +68,10 @@ public class InvoiceControllerTests {
     }
 
     private Invoice createInvalidInvoice() {
-        // Create and return an invoice with intentionally invalid data for testing
+
         Invoice invalidInvoice = new Invoice();
-        // Set invalid data, for example:
-        invalidInvoice.setSiteName(null); // Set a required field to null
+
+        invalidInvoice.setSiteName(null);
 
         return invalidInvoice;
     }
