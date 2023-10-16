@@ -28,7 +28,7 @@ const AppRoutes = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/policies" element={<Policies />} />
             <Route path="/procurement" element={<Procurement />} />
-            <Route path="/comments" element={<Comments />} />
+            <Route path="/comments/:id" element={<Comments />} />
             <Route path="/page2" element={<Page2 />} />
           </Routes>
         </div>
