@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { CreateOrderURI, GetAllOrdersURI } from '../../constants/URI';
 import { auth } from '../../firebase';
 
-const Orders = ({ route }) => {
+const Orders = ({ navigation: { goBack }, route }) => {
   const [orders, setOrders] = useState([]);
   const [componentKey, setComponentKey] = useState(
     route.params?.key || 'initial-key'
@@ -48,27 +48,23 @@ const Orders = ({ route }) => {
 
   const handlePublish = async (order) => {
     try {
-      const response = await fetch(`${CreateOrderURI}/${order.id}`, {
+      const response = await fetch(`${CreateOrderURI}${order.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          total: order.total,
-          site: order.site,
-          items: order.items,
-          siteManager: order.siteManager,
-          comments: order,
-          state: order.sate,
+          ...order,
           draft: false,
         }),
       });
 
       if (response.status === 200) {
-        Alert.alert('Successfully Submitted');
+        //console.log(navigation);
+        Alert.alert('Successfully Updated');
+        goBack();
       } else {
         Alert.alert('An error occurred while updating the order');
-        console.log(order.id);
       }
     } catch (error) {
       Alert.alert('An error occurred', error.toString());

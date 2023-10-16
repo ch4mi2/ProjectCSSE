@@ -139,7 +139,6 @@ const PlaceOrders = () => {
                 }),
               });
               if (resp.ok) {
-                Alert.alert('Comment sent successfully');
               }
             } catch (error) {
               Alert.alert(error);
