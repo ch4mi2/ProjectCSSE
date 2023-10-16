@@ -8,9 +8,20 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+
+/**
+ * Requisition policy class which implements methods needed to reflect changes in sites according to the policy created
+ */
 @Service
 public class RequisitionPolicy implements AddPolicy, RemovePolicy, UpdatePolicy{
 
+    /**
+     * Fired when a policy is created on a site
+     * @param id
+     * @param amount
+     * @param mongoTemplate
+     * @return
+     */
     @Override
     public boolean addPolicy(ObjectId id, float amount, @NotNull MongoTemplate mongoTemplate) {
         Site site = mongoTemplate.findById(id, Site.class, "sites");
@@ -28,6 +39,12 @@ public class RequisitionPolicy implements AddPolicy, RemovePolicy, UpdatePolicy{
 
     }
 
+    /**
+     * Fired when a policy created on a site is deleted
+     * @param id
+     * @param mongoTemplate
+     * @return
+     */
     @Override
     public boolean removePolicy(ObjectId id, @NotNull MongoTemplate mongoTemplate) {
         Site site = mongoTemplate.findById(id, Site.class, "sites");
@@ -44,6 +61,13 @@ public class RequisitionPolicy implements AddPolicy, RemovePolicy, UpdatePolicy{
         }
     }
 
+    /**
+     * Fired when a policy created on a site is updated in a way it needs to be reflected by the site collection
+     * @param id
+     * @param amount
+     * @param mongoTemplate
+     * @return
+     */
     @Override
     public boolean updatePolicy(ObjectId id, float amount, @NotNull MongoTemplate mongoTemplate) {
         Site site = mongoTemplate.findById(id, Site.class, "sites");

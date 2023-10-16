@@ -7,6 +7,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * PolicyAndProcedure class to store and transfer data
+ */
 @Document(collection = "policiesAndProcedures")
 public class PolicyAndProcedure {
     @Id

@@ -1,5 +1,10 @@
 package com.csse.server.service;
 
+/**
+ * Base class in strategy pattern to initialise according to the behaviour needed
+ *
+ * @version 1
+ */
 public class ReflectPolicyAndProcedure {
     public AddPolicy addPolicyContext;
     public RemovePolicy removePolicyContext;

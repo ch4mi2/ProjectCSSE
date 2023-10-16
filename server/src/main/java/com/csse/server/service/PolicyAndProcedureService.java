@@ -19,6 +19,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ *
+ * Service class which contains the business logic for policies and procedures
+ *
+ * @version 1
+ */
 @Service
 public class PolicyAndProcedureService {
     @Autowired
@@ -26,9 +32,22 @@ public class PolicyAndProcedureService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    /**
+     * Return all policies stored in the database
+     * @return list of model PolicyAndProcedure
+     */
     public List<PolicyAndProcedure> allPolicies() {
         return policyRepo.findAll();
     }
+
+
+    /**
+     *
+     * Return a single policy when the Object id is given
+     * @param id - Object id of the needed policy
+     * @return the fetched policy
+     * @throws PolicyNotFoundException if the policy is not found
+     */
     public PolicyAndProcedure singlePolicy(ObjectId id) throws PolicyNotFoundException{
         try {
             PolicyAndProcedure fetchedPolicy = policyRepo.findById(id).orElse(null);
@@ -42,7 +61,17 @@ public class PolicyAndProcedureService {
         }
     }
 
-    public PolicyAndProcedure recordPolicy(@NotNull PolicyAndProcedure payload) {
+    /**
+     * This method utilizes strategy pattern to create policies and
+     * update needed collection of the database according to the need
+     * @param payload - PolicyAndProcedure type object sent from the controller
+     * @return the created policy
+     * @throws InvalidFormatException - if the type is not present
+     * @throws CreatedSiteNotFoundException - if the site given to create the policy on does not exist
+     * @throws CreatedItemNotFoundException - if the item given to create the policy on does not exist
+     */
+    public PolicyAndProcedure recordPolicy(@NotNull PolicyAndProcedure payload) throws
+            InvalidFormatException, CreatedSiteNotFoundException , CreatedItemNotFoundException {
         ReflectPolicyAndProcedure reflectPolicyAndProcedure;
         try {
             if (payload.getType().equals("Item")) {
@@ -64,7 +93,15 @@ public class PolicyAndProcedureService {
         }
     }
 
-    public PolicyAndProcedure removePolicy(ObjectId id) {
+
+    /**
+     * Used to delete policies when the Object Id is given
+     * Relevant collections will be updated using strategy pattern as well
+     * @param id - Object ID
+     * @return updated object of PolicyAndProcedure
+     * @throws PolicyNotFoundException if policy with given id is not found
+     */
+    public PolicyAndProcedure removePolicy(ObjectId id) throws PolicyNotFoundException{
         ReflectPolicyAndProcedure reflectPolicyAndProcedure;
         PolicyAndProcedure policyAndProcedure;
 
@@ -88,6 +125,15 @@ public class PolicyAndProcedureService {
         }
     }
 
+    /**
+     * This method is used to update policies and relevant collections in the databsae
+     * @param id
+     * @param fields - used to map fields with attributes of PolicyAndProcedure model to patch needed fields
+     * @return deleted PolicyAndProcedure object
+     * @throws NullPointerException
+     * @throws CreatedSiteNotFoundException
+     * @throws CreatedItemNotFoundException
+     */
     public PolicyAndProcedure updatePolicy(ObjectId id, Map<String,Object> fields) throws NullPointerException,
             CreatedSiteNotFoundException , CreatedItemNotFoundException{
         ReflectPolicyAndProcedure reflectPolicyAndProcedure;
@@ -116,7 +162,6 @@ public class PolicyAndProcedureService {
                                 policyAndProcedure.getAmount(), mongoTemplate);
                     }
                 }
-
                 return policyAndProcedure;
             } else {
                 throw new PolicyNotFoundException("No Policy with id: " + id);
