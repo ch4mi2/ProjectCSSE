@@ -14,15 +14,18 @@ const Home = ({ navigation }) => {
   };
 
   const handlePressViewSuppliers = () => {
-    console.log('View Suppliers');
+    navigation.navigate('view-suppliers-stack');
   };
 
   const handlePressViewPlacedOrders = () => {
-    navigation.navigate('orders');
+    navigation.navigate('orders', {
+      // Generate a unique key to force remount of the component
+      key: `orders-${Math.random()}`,
+    });
   };
 
   const handlePressViewCreditNotes = () => {
-    console.log('View Credit Notes');
+    navigation.navigate('credit-notes-stack');
   };
 
   const [sites, setSites] = useState([]);
