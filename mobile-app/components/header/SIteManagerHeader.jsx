@@ -23,9 +23,6 @@ const SiteManagerHeader = ({ user, route }) => {
           <Text className="text-left font-black text-lg">{user.name}</Text>
           <Text className="text-left">{user.occupation}</Text>
         </View>
-        <View className=" ml-auto  border-4 rounded-full">
-          <Icon name="menu" size={47} />
-        </View>
       </SafeAreaView>
     </View>
   );

@@ -42,12 +42,12 @@ public class CommentController {
         return new ResponseEntity<Optional<Comment>>(commentService.singleComment(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteComment(@PathVariable ObjectId id) {
-        System.out.println("Delete Comment");
-        boolean result = commentService.deleteComment(id);
-        return new ResponseEntity<>(result,HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Boolean> deleteComment(@PathVariable ObjectId id) {
+//        System.out.println("Delete Comment");
+//        boolean result = commentService.deleteComment(id);
+//        return new ResponseEntity<>(result,HttpStatus.OK);
+//    }
 
     @GetMapping("/filterByOrderId")
     public ResponseEntity<List<Comment>> getCommentsByOrderId(@RequestParam Object orderId){

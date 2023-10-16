@@ -9,25 +9,49 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 
+// Represents an order entity in the application
 @Document(collection = "orders")
 public class Order {
+
+    // Unique identifier for the order
     @Id
     @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
+
+    // Current state of the order (e.g., pending, processing, completed)
     private String state;
+
+    // Total cost of the order
     private double total;
+
+    // Details about the site associated with the order
     private Map<String, String> site;
+
+    // Items and quantities in the order
     private Map<String, Integer> items;
+
+    // Site manager for the order
     private String siteManager;
+
+    // Indicates if the order is a draft
     private boolean draft;
+
+    // Comments associated with the order
     private String comments;
+
+    // Reference to the main site related to the order
     @DBRef
     private Site mainSite;
 
-    
+    // Constructors
 
-    public Order(Map<String, Integer> items, double total, Map<String,String> site, String siteManager, String comments, boolean draft,
-                 Site mainSite) {
+    // Default constructor
+    public Order() {
+    }
+
+    // Constructor to create an order with specified attributes
+    public Order(Map<String, Integer> items, double total, Map<String, String> site, String siteManager, String comments,
+                 boolean draft, Site mainSite) {
         this.comments = comments;
         this.draft = draft;
         this.total = total;
@@ -37,6 +61,8 @@ public class Order {
         this.mainSite = mainSite;
         state = "pending";
     }
+
+    // Getters and setters for various order attributes
 
     public String getComments() {
         return comments;
@@ -82,7 +108,7 @@ public class Order {
         return id;
     }
 
-    public Map<String,String> getSite() {
+    public Map<String, String> getSite() {
         return site;
     }
 
@@ -94,7 +120,7 @@ public class Order {
         this.id = id;
     }
 
-    public void setSite(Map<String,String> site) {
+    public void setSite(Map<String, String> site) {
         this.site = site;
     }
 
