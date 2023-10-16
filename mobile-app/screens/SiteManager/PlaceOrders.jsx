@@ -121,8 +121,6 @@ const PlaceOrders = () => {
 
       const jsonified = await res.json();
       if (res.ok) {
-        console.log(jsonified);
-        Alert.alert('Order Placed Successfully');
         if (Comments.length > 0) {
           try {
             const resp = await fetch(CreateCommentURI, {
@@ -132,14 +130,20 @@ const PlaceOrders = () => {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                orderId: jsonified.id,
+                orderId: {
+                  id: jsonified.id,
+                },
                 texts: [Comments],
               }),
             });
+            if (resp.ok) {
+              Alert.alert('Comment sent successfully');
+            }
           } catch (error) {
             Alert.alert(error);
           }
         }
+        Alert.alert('Order Placed Successfully');
       } else {
         Alert.alert('Failed to place order');
       }
