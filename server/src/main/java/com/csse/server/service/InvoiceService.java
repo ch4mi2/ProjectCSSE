@@ -1,3 +1,6 @@
+/*
+Description: This the invoice service handles all business logic
+ */
 package com.csse.server.service;
 
 import com.csse.server.model.Invoice;
