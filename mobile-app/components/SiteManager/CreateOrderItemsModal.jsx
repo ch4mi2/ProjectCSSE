@@ -68,20 +68,7 @@ const CreateOrderItemsModal = ({
 
   const handleSelectItem = (val) => {
     setName(val);
-
-    const fetchSupplierName = async (val) => {
-      try {
-        const res = await fetch(`${GetAllSuppliersURI}/${val.chosenOne}`);
-        if (res.ok) {
-          const json = await res.json();
-          setSupplier(json.name);
-        }
-      } catch (err) {
-        console.log(err);
-        setSupplier(val.chosenOne);
-      }
-    };
-    fetchSupplierName(val);
+    setSupplier(val.chosenOne);
   };
 
   useEffect(() => {
