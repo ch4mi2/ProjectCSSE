@@ -9,6 +9,7 @@ import Orders from '../screens/SiteManager/Orders';
 import SiteManagerHeader from '../components/header/SIteManagerHeader';
 import NotificationIcon from 'react-native-vector-icons/Ionicons';
 import SiteManagerHomeStack from './SiteManagerHomeStack';
+import Notifications from '../screens/SiteManager/Notifications';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +51,7 @@ const SiteManagerView = ({ user }) => {
         />
         <Tab.Screen
           name={'notifications'}
-          component={Home}
+          component={Notifications}
           options={{
             tabBarIcon: () => (
               <NotificationIcon name="notifications" size={35} />

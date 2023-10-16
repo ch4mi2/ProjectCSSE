@@ -61,8 +61,9 @@ public class  OrderController {
         return new ResponseEntity<AnalyticsDTO>(orderService.getTotal(), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@RequestBody Order payload) {
+        System.out.println(payload);
         return new ResponseEntity<Order>(orderService.updateOrder(payload), HttpStatus.OK);
     }
 
