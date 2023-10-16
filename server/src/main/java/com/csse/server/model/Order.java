@@ -24,6 +24,8 @@ public class Order {
     @DBRef
     private Site mainSite;
 
+    
+
     public Order(Map<String, Integer> items, double total, Map<String,String> site, String siteManager, String comments, boolean draft,
                  Site mainSite) {
         this.comments = comments;

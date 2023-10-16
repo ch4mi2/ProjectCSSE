@@ -1,5 +1,6 @@
 package com.csse.server.controller;
 import com.csse.server.dtos.AnalyticsDTO;
+import com.csse.server.model.Comment;
 import com.csse.server.model.Order;
 import com.csse.server.service.OrderService;
 import java.util.List;
@@ -60,8 +61,9 @@ public class  OrderController {
         return new ResponseEntity<AnalyticsDTO>(orderService.getTotal(), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@RequestBody Order payload) {
+        System.out.println(payload);
         return new ResponseEntity<Order>(orderService.updateOrder(payload), HttpStatus.OK);
     }
 

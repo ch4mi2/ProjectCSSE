@@ -23,4 +23,8 @@ public class Comment {
         this.orderId = orderId;
         this.texts = texts;
     }
+
+    public Order getOrderId(){
+        return orderId;
+    }
 }
