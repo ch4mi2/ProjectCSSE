@@ -1,14 +1,16 @@
 package com.csse.server.dtos;
 
+import com.csse.server.model.Site;
+
 public class AnalyticsDTO {
-    private String site;
+    private Site site;
     private double totalAmount;
 
-    public String getSite() {
+    public Site getSite() {
         return site;
     }
 
-    public void setSite(String site) {
+    public void setSite(Site site) {
         this.site = site;
     }
 

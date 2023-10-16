@@ -151,7 +151,7 @@ const ItemDetails = () => {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
                   <div>
                     <label
@@ -238,6 +238,7 @@ const ItemDetails = () => {
                 <button
                   type="submit"
                   className="text-black inline-flex items-center bg-[#f4ca40] hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  onClick={handleSubmit}
                 >
                   <svg
                     className="mr-1 -ml-1 w-6 h-6"

@@ -1,22 +1,19 @@
 package com.csse.server.service;
+
 import com.csse.server.dtos.AnalyticsDTO;
 import com.csse.server.model.Comment;
 import com.csse.server.model.Order;
 import com.csse.server.repository.OrderRepository;
 import com.csse.server.states.*;
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,12 +100,13 @@ public class OrderService {
 
     public List<AnalyticsDTO>  groupBySite() {
         TypedAggregation<Order> orderTypedAggregation = Aggregation.newAggregation(Order.class,
-                Aggregation.group("site").addToSet("site").as("site")
-                        .sum("total").as("totalAmount"),
+                Aggregation.group("mainSite")
+                        .sum("total").as("totalAmount").first("$mainSite").as("site"),
                 Aggregation.sort(Sort.Direction.ASC, "totalAmount"));
 
-        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
 
+        AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
+        System.out.println(results);
         return results.getMappedResults();
     }
 
