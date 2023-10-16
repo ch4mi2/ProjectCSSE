@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
   };
 
   const handlePressViewSuppliers = () => {
-    console.log('View Suppliers');
+    navigation.navigate('view-suppliers-stack');
   };
 
   const handlePressViewPlacedOrders = () => {

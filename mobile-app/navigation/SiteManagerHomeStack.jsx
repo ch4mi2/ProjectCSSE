@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../screens/SiteManager/Home';
 import PlaceOrders from '../screens/SiteManager/PlaceOrders';
+import ViewSuppliers from '../screens/SiteManager/ViewSuppliers';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,14 @@ const SiteManagerHomeStack = ({ navigation }) => {
       <Stack.Screen
         name="place-orders-stack"
         component={PlaceOrders}
+        Options={{
+          headerShown: false,
+        }}
+        navigation={navigation}
+      />
+      <Stack.Screen
+        name="view-suppliers-stack"
+        component={ViewSuppliers}
         Options={{
           headerShown: false,
         }}
