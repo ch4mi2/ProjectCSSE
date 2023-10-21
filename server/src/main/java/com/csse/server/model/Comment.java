@@ -17,14 +17,18 @@ public class Comment {
     private ObjectId commentId;
     @DBRef
     private Order orderId;
-    private List<String> texts;
+    private String text;
 
-    public Comment(Order orderId , List<String> texts){
+    public Comment(Order orderId , String text){
         this.orderId = orderId;
-        this.texts = texts;
+        this.text = text;
     }
 
     public Order getOrderId(){
         return orderId;
+    }
+
+    public String getText(){
+        return text;
     }
 }
