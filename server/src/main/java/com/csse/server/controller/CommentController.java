@@ -25,7 +25,7 @@ public class CommentController {
         return new ResponseEntity<Comment>(commentService.createComment(payload.get("CommentBody"),payload.get("Id")), HttpStatus.CREATED);
     }*/
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Comment> createComment(@RequestBody Comment payload) {
         return new ResponseEntity<Comment>(commentService.createComment(payload), HttpStatus.valueOf(201));
     }
@@ -49,7 +49,7 @@ public class CommentController {
 //        return new ResponseEntity<>(result,HttpStatus.OK);
 //    }
 
-    @GetMapping("/filterByOrderId")
+    @GetMapping("/filterByOrderId/{id}")
     public ResponseEntity<List<Comment>> getCommentsByOrderId(@RequestParam Object orderId){
         System.out.println("Filter by Order ID");
         return new ResponseEntity<List<Comment>>(commentService.getCommentsByOrderId(orderId) , HttpStatus.OK);

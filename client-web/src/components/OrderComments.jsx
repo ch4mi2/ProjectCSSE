@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const OrderComments= ({order}) => {
@@ -8,6 +8,8 @@ const OrderComments= ({order}) => {
   const { items } = order;
   const navigate = useNavigate();
   const [comment , setComment] = useState(null);
+  const [orderID , setOrderID] = useState(null);
+  const [commentBody , setCommentBody] = useState(null);
 
   // const handleApproveOrder = async (orderId , newState) =>{
   //   console.log(orderId,newState);
@@ -35,10 +37,37 @@ const OrderComments= ({order}) => {
     if(newState == "placed"){
       navigate(`/procurement`);
     }else{
-      setShowForm(true); 
+      setShowForm(true);
+      setOrderID(orderId);
+      setCommentBody('');
     }
    
   }
+
+  useEffect(()=>{
+    const addComment = async () =>{
+      if(orderID != null && commentBody != null){
+        try{
+          const response = await fetch(`/api/api/comments`,{
+            method : 'POST',
+            headers :{
+              "Content-Type": "application/json"},
+            body :  JSON.stringify({ commentBody }),  
+          });
+
+          if (response.ok){
+            console.log('successful');
+            console.log(response);
+          }else{
+            console.error("Error adding comment:", response.status, response.statusText);
+          }
+  }catch(error){
+      console.log(error);
+    }
+  }
+};
+    addComment();
+  },[orderID,commentBody]);
 
   return (
     <div>
@@ -163,13 +192,14 @@ const OrderComments= ({order}) => {
                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Reason to decline.."
                     //   value={description ?? ''}
-                    //   onChange={(e) => setDescription(e.target.value)}
+                      onChange={(e) => setCommentBody(e.target.value)}
                     ></textarea>
                   </div>
                 </div>
                 <button
                   type="submit"
                   className="text-black inline-flex items-center bg-[#f4ca40] hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  onClick = {() => addComment()}
                 >
                   <svg
                     className="mr-1 -ml-1 w-6 h-6"
