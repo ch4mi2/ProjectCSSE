@@ -51,8 +51,10 @@ const OrderComments= ({order}) => {
     if (response.ok){
       console.log('successful');
       console.log(response);
+      window.location.reload()
     }else{
       console.error("Error adding comment:", response.status, response.statusText);
+      window.location.reload()
     }
   }
 
