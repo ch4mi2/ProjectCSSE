@@ -24,6 +24,10 @@ public class Comment {
         this.text = text;
     }
 
+    public Comment() {
+
+    }
+
     public Order getOrderId(){
         return orderId;
     }
@@ -31,4 +35,13 @@ public class Comment {
     public String getText(){
         return text;
     }
+
+    public void orderId(Order orderId) {
+        this.orderId = orderId;
+    }
+
+    public void text(String text){
+        this.text = text;
+    }
+
 }
