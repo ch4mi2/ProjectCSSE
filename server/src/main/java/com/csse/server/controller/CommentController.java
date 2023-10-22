@@ -49,10 +49,10 @@ public class CommentController {
 //        return new ResponseEntity<>(result,HttpStatus.OK);
 //    }
 
-    @GetMapping("/filterByOrderId/{id}")
-    public ResponseEntity<List<Comment>> getCommentsByOrderId(@RequestParam Object orderId){
-        System.out.println("Filter by Order ID");
-        return new ResponseEntity<List<Comment>>(commentService.getCommentsByOrderId(orderId) , HttpStatus.OK);
-    }
+//    @GetMapping("/filterByOrder/{id}")
+//    public ResponseEntity<List<Comment>> getCommentsByOrderId(@RequestParam Object id){
+//        System.out.println("Filter by Order ID");
+//        return new ResponseEntity<List<Comment>>(commentService.getCommentsByOrderId(id) , HttpStatus.OK);
+//    }
 
 }
