@@ -51,7 +51,7 @@ public class Order {
 
     // Constructor to create an order with specified attributes
     public Order(Map<String, Integer> items, double total, Map<String, String> site, String siteManager, String comments,
-                 boolean draft, Site mainSite) {
+                 boolean draft, Site mainSite, String state) {
         this.comments = comments;
         this.draft = draft;
         this.total = total;
@@ -59,7 +59,7 @@ public class Order {
         this.siteManager = siteManager;
         this.items = items;
         this.mainSite = mainSite;
-        state = "pending";
+        this.state = state;
     }
 
     // Getters and setters for various order attributes

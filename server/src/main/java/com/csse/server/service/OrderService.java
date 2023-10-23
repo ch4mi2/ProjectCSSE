@@ -107,7 +107,7 @@ public class OrderService {
 
 
         AggregationResults<AnalyticsDTO> results = mongoTemplate.aggregate(orderTypedAggregation, AnalyticsDTO.class);
-        System.out.println(results);
+        logger.info("Result is ", results);
         return results.getMappedResults();
     }
 

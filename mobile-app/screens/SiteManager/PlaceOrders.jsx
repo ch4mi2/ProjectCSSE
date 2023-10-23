@@ -108,8 +108,12 @@ const PlaceOrders = () => {
           },
         };
 
-        if (needApproval) {
+        if (isSelected) {
+          orderPayload.state = 'draft';
+        } else if (needApproval) {
           orderPayload.state = 'pending';
+        } else {
+          orderPayload.state = 'placed';
         }
 
         const res = await fetch(CreateOrderURI, {
