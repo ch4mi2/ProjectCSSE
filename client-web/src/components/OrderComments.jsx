@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState  , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 const OrderComments= ({order}) => {
@@ -7,20 +7,9 @@ const OrderComments= ({order}) => {
   console.log(order);
   const { items } = order;
   const navigate = useNavigate();
-  const [comment , setComment] = useState(null);
-
-  // const handleApproveOrder = async (orderId , newState) =>{
-  //   console.log(orderId,newState);
-  //   const response =  await fetch(`api/api/orders/state/${orderId}`,{
-  //     method: 'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: newState,
-  //   });
-
-  //   // navigate(`/procurement`);
-  // }
+  const [commentBody , setCommentBody] = useState(null);
+  const [orderID , setOrderID] = useState(null);
+  const [filteredComments, setFilteredComments] = useState([]);
 
   const handleState = async (orderId , newState) =>{
     // console.log(orderId,newState);
@@ -33,12 +22,75 @@ const OrderComments= ({order}) => {
     });
     console.log(response)
     if(newState == "placed"){
-      navigate(`/procurement`);
+       navigate(`/procurement`);
     }else{
-      setShowForm(true); 
+      setOrderID(orderId);
+      console.log(orderID);
+      setShowForm(true);
     }
    
   }
+
+  const handleNewComments = async () =>{
+    console.log('add Comment');
+    console.log(orderID);
+    console.log(commentBody);
+
+    const comment = {
+      orderId :{"id": orderID},
+      text : commentBody,
+    }
+
+    const response = await fetch('/api/api/comments',{
+      method : 'POST',
+      headers :{
+        "Content-Type": "application/json"},
+      body :  JSON.stringify(comment),  
+    });
+
+    if (response.ok){
+      console.log('successful');
+      console.log(response);
+      window.location.reload()
+    }else{
+      console.error("Error adding comment:", response.status, response.statusText);
+      window.location.reload()
+    }
+  }
+
+  const fetchComments = async() =>{
+      console.log(order.id);
+
+      const response = await fetch('/api/api/comments',{
+        method:'GET',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok){
+        const allComments = await response.json();
+        console.log(allComments);
+        const commentsForOrder = allComments.filter(comment => comment.orderId.id === order.id);
+          // const isMatch = 
+          // comment.orderId.id === order.id;
+          // console.log('comment' ,comment);
+          // console.log('comment order.id',comment.orderId.id);
+          // console.log('order.id' ,order.id);
+          // if(!isMatch){
+          //   console.log('Filtered out', comment);
+          // }
+          // return isMatch;
+        // });
+        setFilteredComments(commentsForOrder);
+        console.log(filteredComments);
+      }
+  }
+  
+  useEffect(() => {
+    fetchComments();
+  }, []);
+  
 
   return (
     <div>
@@ -92,7 +144,11 @@ const OrderComments= ({order}) => {
         </div>
         <div>
           <p>
-            {order.comments}
+            {filteredComments.map((comment)=>(
+              <ul>
+                <li>{comment.text}</li>
+              </ul>
+            ))}
           </p>
         </div>
         <div className="mr-20">
@@ -147,7 +203,7 @@ const OrderComments= ({order}) => {
                 </button>
               </div>
 
-              <form >
+              {/* <form > */}
                 {/* onSubmit={handleSubmit}> */}
                 <div className="grid gap-4 mb-4 sm:grid-cols-2">
                   <div className="sm:col-span-2">
@@ -162,14 +218,15 @@ const OrderComments= ({order}) => {
                       rows="4"
                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Reason to decline.."
-                    //   value={description ?? ''}
-                    //   onChange={(e) => setDescription(e.target.value)}
+                      value={commentBody}
+                      onChange={(e) => setCommentBody(e.target.value)}
                     ></textarea>
                   </div>
                 </div>
                 <button
                   type="submit"
                   className="text-black inline-flex items-center bg-[#f4ca40] hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                  onClick={handleNewComments}
                 >
                   <svg
                     className="mr-1 -ml-1 w-6 h-6"
@@ -185,7 +242,7 @@ const OrderComments= ({order}) => {
                   </svg>
                   Add new Comment
                 </button>
-              </form>
+              {/* </form> */}
             </div>
           </div>
         </div>

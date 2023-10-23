@@ -51,7 +51,7 @@ public class CommentService {
         List<Comment> filteredComments = new ArrayList<>();
 
         for (Comment comment : allComments) {
-            if (comment.getOrderId() == orderId) {
+            if (comment.getOrderId().equals(orderId)) {
                 filteredComments.add(comment);
             }
         }
