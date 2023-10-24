@@ -161,7 +161,7 @@ const OrderComments= ({order}) => {
               onClick={() => handleState(order.id , 'placed')}>
               Approve
             </button>
-            <button class="bg-[#FF3333] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
+            <button className="bg-[#FF3333] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
              onClick= {() => handleState(order.id , 'declined')}
               >
                 Decline

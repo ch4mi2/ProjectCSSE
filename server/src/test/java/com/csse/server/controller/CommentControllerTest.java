@@ -37,12 +37,16 @@ public class CommentControllerTest {
     @Test
     void createComment_shouldReturnSuccessStatus() {
         Comment comment = new Comment(); // Create a sample Order object
+        comment.setText("Sample text");
 
         when(commentService.createComment(any(Comment.class))).thenReturn(comment);
 
         ResponseEntity<Comment> response = commentController.createComment(comment);
 
         assert response.getStatusCode() == HttpStatus.CREATED;
+        assert response != null;
+        assert response.hasBody() == true;
+
     }
 
     @Test
