@@ -10,6 +10,7 @@ const OrderComments= ({order}) => {
   const [commentBody , setCommentBody] = useState(null);
   const [orderID , setOrderID] = useState(null);
   const [filteredComments, setFilteredComments] = useState([]);
+  const [commentAdded , setCommentAdded] = useState(false);
 
   const handleState = async (orderId , newState) =>{
     // console.log(orderId,newState);
@@ -50,11 +51,12 @@ const OrderComments= ({order}) => {
 
     if (response.ok){
       console.log('successful');
-      console.log(response);
+      setCommentAdded(true);
+      // console.log(response);
       window.location.reload()
     }else{
       console.error("Error adding comment:", response.status, response.statusText);
-      window.location.reload()
+      // window.location.reload()
     }
   }
 
@@ -82,6 +84,7 @@ const OrderComments= ({order}) => {
           // }
           // return isMatch;
         // });
+        console.log(commentsForOrder);
         setFilteredComments(commentsForOrder);
         console.log(filteredComments);
       }
@@ -89,7 +92,7 @@ const OrderComments= ({order}) => {
   
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [commentAdded]);
   
 
   return (
@@ -158,7 +161,7 @@ const OrderComments= ({order}) => {
               onClick={() => handleState(order.id , 'placed')}>
               Approve
             </button>
-            <button class="bg-[#FF3333] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
+            <button className="bg-[#FF3333] text-black font-bold py-2 px-4 rounded-full mx-4 my-4" 
              onClick= {() => handleState(order.id , 'declined')}
               >
                 Decline

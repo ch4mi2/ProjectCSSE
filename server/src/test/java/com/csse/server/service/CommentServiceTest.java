@@ -30,11 +30,13 @@ public class CommentServiceTest {
     @Test
     void createdComment_shouldReturnCreatedComment() {
         Comment comment = new Comment();
+        comment.setText("Sample Text");
         when(commentRepository.insert((Comment) any())).thenReturn(comment);
 
         Comment result = commentService.createComment(comment);
 
         assert result != null;
+        assert result.getText() == "Sample Text";
         assert result == comment;
     }
 
@@ -46,6 +48,7 @@ public class CommentServiceTest {
         List<Comment> result = commentService.allComments();
 
         assert result != null;
+        assert result.size() == 0;
         assert result.equals(comments);
     }
 }

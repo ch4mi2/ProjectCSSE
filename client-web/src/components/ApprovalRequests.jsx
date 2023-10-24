@@ -14,7 +14,9 @@ const ApprovalRequests = () => {
       setLoading(true);
       const response = await fetch('/api/api/orders/');
       console.log(response);
-      const data = await response.json()
+      let data = await response.json()
+      data = data.filter(request => request.state !== 'draft');
+      data = data.filter(request => request.state !== 'delivering');
       console.log(data);
 
       if(response.ok){
